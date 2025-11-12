@@ -8,7 +8,7 @@ export default function RootLayout() {
       <Stack.Screen
       name ="login"
       options ={{
-        headerTitle: "Login",
+        headerTitle: "Welcome to Patterncat 🐱",
         animation:"none",
       }}
       />
