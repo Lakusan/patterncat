@@ -1,11 +1,13 @@
-import { Text, View } from "react-native";
+import { Button, Text, View } from "react-native";
  
-export default function App() {
+export default function LoginScreen() {
+
   return (
     <View className="flex-1 items-center justify-center bg-white">
       <Text className="text-9xl font-bold text-blue-500">
         Welcome to Patterncat 🐱
       </Text>
-    </View>
+      <Button title="LoginButton" onPress={() =>console.log("Pressed")}/>
+    </View> 
   );
 }
