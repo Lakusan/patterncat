@@ -1,4 +1,5 @@
 import SafeAreaContainer from "@/src/components/SafeAreaContainer";
+import { router } from "expo-router";
 import { Image, ScrollView, Text, TouchableOpacity, View } from "react-native";
 
 // Dummy Data 
@@ -58,31 +59,38 @@ export default function App() {
         </View>
       </View>
       <View className="flex-1 m-2 bg-teal-500 items-center justify-center">
-            <View className="flex-1 bg-gray-100 p-3">
-      <ScrollView showsVerticalScrollIndicator={false}>
-        <View className="flex-row flex-wrap justify-between">
-          {products.map((item, index) => {
-            // Pick a rotation class based on index
-            const rotationClass = rotations[index % rotations.length];
+        <View className="flex-1 bg-gray-100 p-3">
+          <ScrollView showsVerticalScrollIndicator={false}>
+            <View className="flex-row flex-wrap justify-between">
+              {products.map((item, index) => {
+                // Pick a rotation class based on index
+                const rotationClass = rotations[index % rotations.length];
 
-            return (
-              <TouchableOpacity
-                key={item.id}
-                className={`bg-white rounded-sm p-3 pb-6 mb-6 w-[48%] md:w-[30%] lg:w-[22%] shadow-lg ${rotationClass}`}
-              >
-                <Image
-                  source={{ uri: item.image }}
-                  className="w-full aspect-[4/3] rounded-sm mb-4"
-                  resizeMode="cover"
-                />
-                <Text className="text-center text-sm font-semibold">{item.name}</Text>
-                <Text className="text-center text-green-600 font-bold">{item.price}</Text>
-              </TouchableOpacity>
-            );
-          })}
+                return (
+                  <TouchableOpacity
+                    key={item.id}
+                    className={`bg-white rounded-sm p-3 pb-6 mb-6 w-[48%] md:w-[30%] lg:w-[22%] shadow-lg ${rotationClass}`}
+                    onPress={() => {
+                          router.push({
+          pathname: "/article/[id]",
+          params: { id: String(item.id), name: String(item.name) }, // ✅ convert to string
+        })
+                    }
+                  }
+                  >
+                    <Image
+                      source={{ uri: item.image }}
+                      className="w-full aspect-[4/3] rounded-sm mb-4"
+                      resizeMode="cover"
+                    />
+                    <Text className="text-center text-sm font-semibold">{item.name}</Text>
+                    <Text className="text-center text-green-600 font-bold">{item.price}</Text>
+                  </TouchableOpacity>
+                );
+              })}
+            </View>
+          </ScrollView>
         </View>
-      </ScrollView>
-    </View>
       </View>
     </SafeAreaContainer>
   );
