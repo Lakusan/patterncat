@@ -1,23 +1,19 @@
+import { Stack } from 'expo-router';
 import '../global.css';
 
-import { Drawer } from "expo-router/drawer";
 
 export default function RootLayout() {
-  // return <Stack/>;
   return (
-    <Drawer
+    <Stack
       screenOptions={{
-        drawerPosition: "right",
-        headerShown: true
-      }}>
-      <Drawer.Screen
-        name="index"
-        options={{ title: "Home" }}
-      ></Drawer.Screen>
-      <Drawer.Screen
-        name="userprofile"
-        options={{ title: "Profile" }}
-      ></Drawer.Screen>
-    </Drawer>
+        headerShown: true,
+        headerBackTitle: 'Back', // iOS text under arrow
+        headerBackVisible: true, // ensure it shows
+      }}
+    >
+      <Stack.Screen name="index" options={{ title: "Main Index" }} />
+      <Stack.Screen name="[dummy]" options={{ title: "Dummy Article" }} />
+    </Stack>
   );
+
 }

@@ -39,6 +39,8 @@ const products: Product[] = [
 export default function App() {
   // Define a set of rotation classes
   const rotations = ["rotate-1", "-rotate-1", "rotate-2", "-rotate-2", "rotate-3", "-rotate-3"];
+
+
   return (
 
     <SafeAreaContainer className="bg-red-500 flex-1">
@@ -60,7 +62,7 @@ export default function App() {
       </View>
       <View className="flex-1 m-2 bg-teal-500 items-center justify-center">
         <View className="flex-1 bg-gray-100 p-3">
-          <ScrollView showsVerticalScrollIndicator={false}>
+          <ScrollView showsVerticalScrollIndicator={true}>
             <View className="flex-row flex-wrap justify-between">
               {products.map((item, index) => {
                 // Pick a rotation class based on index
@@ -71,12 +73,13 @@ export default function App() {
                     key={item.id}
                     className={`bg-white rounded-sm p-3 pb-6 mb-6 w-[48%] md:w-[30%] lg:w-[22%] shadow-lg ${rotationClass}`}
                     onPress={() => {
-                          router.push({
-          pathname: "/article/[id]",
-          params: { id: String(item.id), name: String(item.name) }, // ✅ convert to string
-        })
+                      const dummy = item.id
+                      router.push({
+                        pathname: "/[dummy]",
+                        params: { dummy: String(item.id), name: String(item.name) }, 
+                      })
                     }
-                  }
+                    }
                   >
                     <Image
                       source={{ uri: item.image }}
