@@ -2,9 +2,14 @@ import { Stack } from 'expo-router';
 import '../global.css';
 
 
+import { GluestackUIProvider } from '@/components/ui/gluestack-ui-provider';
+
+
 export default function RootLayout() {
   return (
-    <Stack
+    
+    <GluestackUIProvider mode="dark">
+      <Stack
       screenOptions={{
         headerShown: true,
         headerBackTitle: 'Back', // iOS text under arrow
@@ -12,8 +17,10 @@ export default function RootLayout() {
       }}
     >
       <Stack.Screen name="index" options={{ title: "Main Index" }} />
-      <Stack.Screen name="[dummy]" options={{ title: "Dummy Article" }} />
+      <Stack.Screen name="[id]" options={{ title: "Dummy Article"}} />
     </Stack>
+    </GluestackUIProvider>
+  
   );
 
 }
