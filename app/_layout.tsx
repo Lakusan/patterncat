@@ -8,7 +8,7 @@ import { GluestackUIProvider } from '@/components/ui/gluestack-ui-provider';
 export default function RootLayout() {
   return (
     
-    <GluestackUIProvider mode="dark">
+    <GluestackUIProvider mode="light">
       <Stack
       screenOptions={{
         headerShown: true,

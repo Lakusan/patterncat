@@ -1,52 +1,53 @@
-import { Box } from '@/components/ui/box';
-import { Button, ButtonText } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Heading } from '@/components/ui/heading';
 import { Image } from '@/components/ui/image';
 import { Text } from '@/components/ui/text';
-import { VStack } from '@/components/ui/vstack';
+import { Product, products } from "@/src/constants/products";
+import { router } from "expo-router";
+import { FlatList, ScrollView, TouchableOpacity } from "react-native";
+
+function ListItem({ item }: { item: Product }) {
+  return (
+      <TouchableOpacity 
+      key={item.id}
+                    className={`bg-white rounded-sm p-3 pb-6 mb-6 w-[48%] md:w-[30%] lg:w-[22%] shadow-lg`}
+                    onPress={() => {
+                      router.push({
+                        pathname: "/[id]",
+                        params: { id: String(item.id), name: String(item.name),  price: String(item.price), image: String(item.image)}, 
+                      })
+                    }
+                    }>
+        <Card className="p-5 rounded-lg flex-1">
+          <Image
+            source={{
+              uri: item.image,
+            }}
+            className="mb-6 h-[240px] w-full rounded-md"
+            alt={`${item.name} image`}
+            resizeMode="contain"
+          />
+          <Text className="text-sm font-normal mb-2 text-typography-700">
+            {item.name}
+          </Text>
+          <Heading size="md" className="mb-4">
+            € {item.price}
+          </Heading>
+        </Card>
+        </TouchableOpacity>
+  );
+}
 
 export default function App() {
   return (
-    <>
-    <Box className="bg-primary-500 p-5">
-      <Text className="text-typography-0">This is the Box</Text>
-      <Button>BUTTON</Button>
-    </Box>
-    <Card className="p-5 rounded-lg max-w-[360px] m-3">
-      <Image
-        source={{
-          uri: 'https://gluestack.github.io/public-blog-video-assets/saree.png',
-        }}
-        className="mb-6 h-[240px] w-full rounded-md aspect-[4/3]"
-        alt="image"
-      />
-      <Text className="text-sm font-normal mb-2 text-typography-700">
-        Fashion Clothing
-      </Text>
-      <VStack className="mb-6">
-        <Heading size="md" className="mb-4">
-          Cotton Kurta
-        </Heading>
-        <Text size="sm">
-          Floral embroidered notch neck thread work cotton kurta in white and
-          black.
-        </Text>
-      </VStack>
-      <Box className="flex-col sm:flex-row">
-        <Button className="px-4 py-2 mr-0 mb-3 sm:mr-3 sm:mb-0 sm:flex-1">
-          <ButtonText size="sm">Add to cart</ButtonText>
-        </Button>
-        <Button
-          variant="outline"
-          className="px-4 py-2 border-outline-300 sm:flex-1"
-        >
-          <ButtonText size="sm" className="text-typography-600">
-            Wishlist
-          </ButtonText>
-        </Button>
-      </Box>
-    </Card>
-    </>
+       <ScrollView showsVerticalScrollIndicator={true}>
+
+        <FlatList
+          data={products}
+          keyExtractor={(item: Product) => item.id}
+          contentContainerClassName="gap-2 max-w-[960] mx-auto w-full"
+          renderItem={({ item }) => <ListItem item={item} />}
+        />
+      </ScrollView>
   );
 }
