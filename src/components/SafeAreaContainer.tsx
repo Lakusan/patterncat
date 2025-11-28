@@ -1,21 +1,20 @@
 // SafeAreaContainer.tsx
 import React from "react";
-import { ViewProps } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 
-type Props = {
+type SafeAreaContainerProps = {
   children: React.ReactNode;
-  className?: string;
-} & ViewProps;
+};
 
-export default function SafeAreaContainer({ children, className, ...props }: Props) {
+export default function SafeAreaContainer({ children }: SafeAreaContainerProps) {
   return (
-    <SafeAreaView
-      className={className}
-      edges={["top", "right", "bottom", "left"]}
-      {...props}
-    >
-      {children}
-    </SafeAreaView>
+    <SafeAreaProvider>
+      <SafeAreaView
+        className="flex-1"
+        edges={["top", "right", "bottom", "left"]} 
+      >
+        {children}
+      </SafeAreaView>
+    </SafeAreaProvider>
   );
 }
