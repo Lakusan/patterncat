@@ -11,10 +11,10 @@ type FilterButton = {
 // TODO: get Filternames from DB while App loads -> inMomory?
 
 const filterButtons: FilterButton[] = [
-  { id: "1", label: "Login", onPress: () => console.log("Login pressed"), variant: "solid" },
-  { id: "2", label: "Signup", onPress: () => console.log("Signup pressed"), variant: "outline" },
-  { id: "3", label: "Profile", onPress: () => console.log("Profile pressed"), variant: "solid" },
-  { id: "4", label: "Settings", onPress: () => console.log("Settings pressed"), variant: "outline" },
+  { id: "1", label: "Kleider", onPress: () => console.log("Login pressed"), variant: "solid" },
+  { id: "2", label: "Hosen", onPress: () => console.log("Signup pressed"), variant: "outline" },
+  { id: "3", label: "Oberteile", onPress: () => console.log("Profile pressed"), variant: "solid" },
+  { id: "4", label: "Jacken", onPress: () => console.log("Settings pressed"), variant: "outline" },
 ];
 
 export default function FilterBar() {

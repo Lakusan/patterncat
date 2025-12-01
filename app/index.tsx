@@ -1,4 +1,3 @@
-import HFilterBar from "@/src/components/HFilterBar";
 import PatternList from "@/src/components/PatternList";
 import SearchBarCustom from "@/src/components/SearchBarCustom";
 import { View } from "react-native";
@@ -11,7 +10,7 @@ export default function AnonHomeScreen() {
         isInvalid={false}
         isReadOnly={false}
       />
-      <HFilterBar></HFilterBar>
+      {/* <HFilterBar></HFilterBar> */}
       <PatternList></PatternList>
     </View>
   );
