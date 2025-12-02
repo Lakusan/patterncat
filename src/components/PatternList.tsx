@@ -2,7 +2,8 @@ import { Card } from '@/components/ui/card';
 import { Heading } from '@/components/ui/heading';
 import { Image } from '@/components/ui/image';
 import { Text } from '@/components/ui/text';
-import { FlatList, View } from "react-native";
+import { useState } from 'react';
+import { FlatList, Pressable, View } from "react-native";
 
 type Item = {
   id: string;
@@ -29,6 +30,14 @@ const items: Item[] = Array.from({ length: 20 }, (_, i) => ({
 
 
 export default function PatternList() {
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null)
+
+  // Filter Logic
+ const filteredItems =
+    selectedCategory === null
+      ? items
+      : items.filter((item) => item.category === selectedCategory);
+
   const renderItem = ({ item }: { item: Item }) => (
     <Card size="md" variant="ghost">
       <Image
@@ -46,9 +55,54 @@ export default function PatternList() {
   );
   return (
     <View className="flex-1 justify-center items-center">
+      {/* Category Chips */}
+      <View className="flex-row w-full h-[40px] m-1 items-center justify-center gap-2">
+        {/* "All" chip */}
+        <Pressable
+          onPress={() => setSelectedCategory(null)}
+          className={`h-[20px] w-[80px] rounded ${
+            selectedCategory === null
+              ? "bg-purple-800"
+              : "bg-gray-200"
+          }`}
+        >
+          <Text
+            className={`text-sm text-center ${
+              selectedCategory === null
+                ? "text-white font-semibold"
+                : "text-gray-700"
+            }`}
+          >
+            Alle
+          </Text>
+        </Pressable>
+
+        {/* Category chips */}
+        {categories.map((cat) => (
+          <Pressable
+            key={cat}
+            onPress={() => setSelectedCategory(cat)}
+            className={`h-[20px] w-[80px] rounded ${
+              selectedCategory === cat
+                ? "bg-purple-800"
+                : "bg-gray-200"
+            }`}
+          >
+            <Text
+              className={`text-sm text-center ${
+                selectedCategory === cat
+                  ? "text-white font-semibold"
+                  : "text-gray-700"
+              }`}
+            >
+              {cat}
+            </Text>
+          </Pressable>
+        ))}
+      </View>
       {items && items.length > 0 ? (
         <FlatList
-          data={items}
+          data={filteredItems}
           renderItem={renderItem}
           keyExtractor={(item) => item.id}
           showsVerticalScrollIndicator={false}
@@ -64,5 +118,3 @@ export default function PatternList() {
     </View>
   );
 }
-
-

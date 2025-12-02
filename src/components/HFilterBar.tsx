@@ -23,13 +23,14 @@ export default function FilterBar() {
       className="mx-2 flex-1 rounded-lg bg-purple-600"
       variant={item.variant}
       onPress={item.onPress}
+      size="xs"
     >
-      <ButtonText className="text-white font-bold">{item.label}</ButtonText>
+      <ButtonText className="text-white">{item.label}</ButtonText>
     </Button>
   );
 
   return (
-    <View className="w-full p-2 bg-red-500">
+    <View className="w-full p-2">
       <FlatList
         data={filterButtons}
         renderItem={renderItem}
