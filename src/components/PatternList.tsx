@@ -17,7 +17,6 @@ type Item = {
 const categories = ["Kleider", "Hosen", "Oberteile", "Jacken"];
 
 // DEV
-
 function getRandomCategory(): string {
   const index = Math.floor(Math.random() * categories.length);
   return categories[index];
@@ -108,7 +107,7 @@ export default function PatternList() {
           keyExtractor={(item) => item.id}
           showsVerticalScrollIndicator={false}
           numColumns={2}
-          className="flex-1 w-full items-center"
+          className="flex-1 w-full"
           contentContainerClassName="flex-1"
           onRefresh={() => console.log("refreshing")}
           refreshing={false}
