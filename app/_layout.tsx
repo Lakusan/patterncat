@@ -17,7 +17,6 @@ export default function RootLayout() {
             tabBarActiveTintColor: "purple",
             tabBarInactiveTintColor: "gray",
             headerShown: false
-
           }}>
           <Tabs.Screen
             name="index"
