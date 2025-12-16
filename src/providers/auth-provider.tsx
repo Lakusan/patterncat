@@ -1,5 +1,5 @@
-import { AuthContext } from '@/hooks/use-auth-context'
-import { supabase } from '@/lib/supabase'
+import { AuthContext } from '@/src/hooks/use-auth-context'
+import { supabase } from '@/src/lib/supabase'
 import type { Session } from '@supabase/supabase-js'
 import { PropsWithChildren, useEffect, useState } from 'react'
 
@@ -70,7 +70,7 @@ export default function AuthProvider({ children }: PropsWithChildren) {
         session,
         isLoading,
         profile,
-        isLoggedIn: session !== undefined,
+        isLoggedIn: session != undefined,
       }}
     >
       {children}

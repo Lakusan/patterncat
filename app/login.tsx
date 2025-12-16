@@ -1,25 +1,12 @@
-import {
-  Modal,
-  ModalBackdrop,
-  ModalBody,
-  ModalContent,
-  ModalFooter
-} from "@/components/ui/modal";
+import InputControlled from '@/src/components/Auth';
+import { Text } from 'react-native';
 
-import { Button, ButtonText } from "@/components/ui/button";
-import { Image } from '@/components/ui/image';
-import { VStack } from "@/components/ui/vstack";
-import { router } from "expo-router";
-import { Text } from "react-native";
-
-type AuthModalProps = {
-  isOpen: boolean;
-  onClose: () => void;
-};
-
-export default function AuthRequest({ isOpen, onClose }: AuthModalProps) {
+export default function Login() {
   return (
-    <Modal isOpen={isOpen} onClose={onClose}>
+    <>
+
+    <Text>Login</Text>
+        {/* <Modal isOpen={isOpen} onClose={onClose}>
       <ModalBackdrop />
       <ModalContent className="max-w-[375px]">
         <ModalBody>
@@ -28,7 +15,7 @@ export default function AuthRequest({ isOpen, onClose }: AuthModalProps) {
           </Text>
           <Text className="text-center">  </Text>
           <VStack space="lg" className="w-full">
-            <Button className="flex-1 bg-purple-500" onPress={() =>  router.replace("/(anon)/(auth)/login")}>
+            <Button className="flex-1 bg-purple-500">
               <ButtonText>Log In</ButtonText>
             </Button>
             <Button className="flex-1 bg-purple-500">
@@ -44,6 +31,8 @@ export default function AuthRequest({ isOpen, onClose }: AuthModalProps) {
         />
         </ModalFooter>
       </ModalContent>
-    </Modal>
+    </Modal> */}
+    <InputControlled></InputControlled>
+    </>
   );
 }

@@ -10,7 +10,6 @@ export default function AnonHomeScreen() {
         isInvalid={false}
         isReadOnly={false}
       />
-      {/* <HFilterBar></HFilterBar> */}
       <PatternList></PatternList>
     </View>
   );

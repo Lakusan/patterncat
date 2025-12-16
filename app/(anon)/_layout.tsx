@@ -7,7 +7,7 @@ import { useState } from 'react';
 
 
 
-export default function RootLayout() {
+export default function AnonLayout() {
   const [modalVisible, setModalVisible] = useState(false);
   return (
     <SafeAreaContainer>
