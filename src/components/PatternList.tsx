@@ -4,7 +4,7 @@ import { Image } from '@/components/ui/image';
 import { Text } from '@/components/ui/text';
 import { Link } from 'expo-router';
 import { useState } from 'react';
-import { FlatList, Pressable, View } from "react-native";
+import { FlatList, Platform, Pressable, View } from "react-native";
 
 type Item = {
   id: string;
@@ -13,27 +13,26 @@ type Item = {
   image: string;
   category: string;
 };
-// TODO: Beim Start der App dynamisch aus DB zeihen
-const categories = ["Kleider", "Hosen", "Oberteile", "Jacken"];
-
-// DEV
-function getRandomCategory(): string {
-  const index = Math.floor(Math.random() * categories.length);
-  return categories[index];
-}
-
-const items: Item[] = Array.from({ length: 20 }, (_, i) => ({
-  id: `${i + 1}`,
-  title: `Muster ${i + 1}`,
-  description: `Das ist eine Beschreibung für Muster ${i + 1}.`,
-  image: `https://picsum.photos/seed/pattern${i + 1}/300/200`,
-  category: getRandomCategory(),
-}));
-// ------
 
 export default function PatternList() {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null)
-
+  // TODO: Beim Start der App dynamisch aus DB zeihen
+  const categories = ["Kleider", "Hosen", "Oberteile", "Jacken"];
+  
+  // DEV
+  function getRandomCategory(): string {
+    const index = Math.floor(Math.random() * categories.length);
+    return categories[index];
+  }
+  
+  const items: Item[] = Array.from({ length: 20 }, (_, i) => ({
+    id: `${i + 1}`,
+    title: `Muster ${i + 1}`,
+    description: `Das ist eine Beschreibung für Muster ${i + 1}.`,
+    image: `https://picsum.photos/seed/pattern${i + 1}/300/200`,
+    category: getRandomCategory(),
+  }));
+  // ------
   // Filter Logic
   const filteredItems =
     selectedCategory === null
@@ -42,7 +41,7 @@ export default function PatternList() {
 
   const renderItem = ({ item }: { item: Item }) => (
     <Card size="md" variant="ghost">
-      <Link key={item.id} href={`/(auth)/details/${item.id}`}>
+          <Link href="/(anon)/details/[id]">
         <Image
           source={{ uri: item.image }}
           className="w-full h-[160px] rounded-md"
@@ -106,7 +105,9 @@ export default function PatternList() {
           renderItem={renderItem}
           keyExtractor={(item) => item.id}
           showsVerticalScrollIndicator={false}
-          numColumns={2}
+          numColumns={Platform.OS === "web"
+          ? 4
+          : 2 }
           className="flex-1 w-full"
           contentContainerClassName="flex-1"
           onRefresh={() => console.log("refreshing")}

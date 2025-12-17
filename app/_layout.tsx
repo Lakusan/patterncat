@@ -9,7 +9,6 @@ import { useAuthContext } from "@/src/hooks/use-auth-context";
 
 function RootNavigator() {
   const { isLoggedIn } = useAuthContext();
-
   return(
     <Stack >
       <Stack.Protected guard={isLoggedIn}>
@@ -23,9 +22,7 @@ function RootNavigator() {
 }
 
 export default function RootLayout() {
-  
   // Here Asset Loading -> Fonts, Stuff, Color Scheme -> App wide config. 
-
   return (
     <AuthProvider>
       <SplashScreenController/>
