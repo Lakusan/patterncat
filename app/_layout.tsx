@@ -1,32 +1,34 @@
-import { Stack } from "expo-router";
+import { Slot, useRouter } from "expo-router";
 import React from "react";
 import '../global.css';
 
+import SafeAreaContainer from "@/src/components/SafeAreaContainer";
 import { SplashScreenController } from "@/src/components/splash-screen-controller";
 import { AuthProvider } from "@/src/contexts/AuthContext";
 import { useAuthContext } from "@/src/hooks/use-auth-context";
 
 
 function RootNavigator() {
+  const router = useRouter();
   const { isLoggedIn } = useAuthContext();
-  return(
-    <Stack >
-      <Stack.Protected guard={isLoggedIn}>
-        <Stack.Screen name="(main)" options={{ headerShown: true }}></Stack.Screen>
-      </Stack.Protected>
-      <Stack.Protected guard={!isLoggedIn}>
-        <Stack.Screen name="(anon)" options={{ headerShown: true }}></Stack.Screen>
-      </Stack.Protected>
-    </Stack>
-  );
+
+  React.useEffect(() => {
+    if (isLoggedIn) {
+      router.replace("/(main)");
+    }
+  }, [isLoggedIn]);
+
+  return null;
 }
 
 export default function RootLayout() {
-  // Here Asset Loading -> Fonts, Stuff, Color Scheme -> App wide config. 
   return (
     <AuthProvider>
-      <SplashScreenController/>
-      <RootNavigator/>
+      <SafeAreaContainer>
+        <SplashScreenController />
+        <RootNavigator />
+        <Slot />
+      </SafeAreaContainer>
     </AuthProvider>
   );
 }

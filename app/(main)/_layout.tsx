@@ -1,10 +1,7 @@
-import { Stack } from 'expo-router';
+import { Slot } from "expo-router";
+import React from "react";
 
-
-export default function LayoutMain(){
-    return(
-        <Stack screenOptions={{headerShown: true}}>
-                
-        </Stack>
-    )
+export default function MainLayout() {
+    return <Slot></Slot>
 }
+
