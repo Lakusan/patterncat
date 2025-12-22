@@ -4,7 +4,7 @@ import { Image } from '@/components/ui/image';
 import { Text } from '@/components/ui/text';
 import { Link } from 'expo-router';
 import { useState } from 'react';
-import { FlatList, Pressable, View } from "react-native";
+import { FlatList, Platform, Pressable, View } from "react-native";
 
 // mobile 2 columns | web 4
 
@@ -28,16 +28,37 @@ interface PlatformConfig {
   view: ViewConfig
   flatlist: FlatListConfig
 }
+const UI_CONFIG: {
+  web: PlatformConfig;
+  mobile: PlatformConfig
+} = {
+  web: {
+    view: {
+      className: "bg-purple-500"
+    },
+    flatlist: {
+      numColumns: 5
+    }
+  },
+  mobile: {
+    view: {
+      className: "bg-white"
+    },
+    flatlist: {
+      numColumns: 2
+    }
+  }
+}
 
-
-export default function PatternList(sytling: string) {
+function useUIConfig() {
+    const isWeb = Platform.OS === "web"
+    return isWeb ? UI_CONFIG.web : UI_CONFIG.mobile
+  }
+export default function PatternList() {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null)
 
-  const UI_CONFIG: { 
-    web: PlatformConfig;
-    mobile: PlatformConfig } = { web: { view: { className: "max-w-4xl mx-auto p-10 bg-gray-100 rounded-xl" }, flatlist: { numColumns: 5 } }, mobile: { view: { className: "p-4 bg-white" }, flatlist: { numColumns: 2 } } }
-
-
+  const config = useUIConfig();
+  console.log(config)
   // TODO: Beim Start der App dynamisch aus DB zeihen
   const categories = ["Kleider", "Hosen", "Oberteile", "Jacken"];
   // DEV
@@ -54,18 +75,20 @@ export default function PatternList(sytling: string) {
     category: getRandomCategory(),
   }));
   // ------
+
   // Filter Logic
   const filteredItems =
     selectedCategory === null
       ? items
       : items.filter((item) => item.category === selectedCategory);
 
+  // Card/Item Rendering 
   const renderItem = ({ item }: { item: Item }) => (
-    <Card size="md" variant="ghost">
+    <Card size="sm" variant="ghost" className="bg-blue-500 m-1">
       <Link href="/details/[id]">
         <Image
           source={{ uri: item.image }}
-          className="w-full h-[160px] rounded-md"
+          className="w-full rounded-md"
           alt="image"
         />
         <Text className="text-xs font-normal mt-2 text-typography-700">
@@ -79,7 +102,7 @@ export default function PatternList(sytling: string) {
   );
   return (
     <View className="flex-1 justify-center items-center">
-      {/* Category Chips */}
+      {/* Category Chips - Filter */}
       <View className="flex-row w-full gap-4 p-2">
         {/* "All" chip */}
         <Pressable
@@ -126,8 +149,8 @@ export default function PatternList(sytling: string) {
           renderItem={renderItem}
           keyExtractor={(item) => item.id}
           showsVerticalScrollIndicator={false}
-          numColumns={5}
-          className="flex-1 w-full"
+          numColumns={config.flatlist.numColumns}
+          className="flex-1 w-full bg-red-500"
           contentContainerClassName="flex-1"
           onRefresh={() => console.log("refreshing")}
           refreshing={false}
