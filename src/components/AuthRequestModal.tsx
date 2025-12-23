@@ -9,7 +9,6 @@ import {
 import { Button, ButtonText } from "@/components/ui/button";
 import { Image } from '@/components/ui/image';
 import { VStack } from "@/components/ui/vstack";
-import { router } from "expo-router";
 import { Text } from "react-native";
 
 type AuthModalProps = {
@@ -17,7 +16,7 @@ type AuthModalProps = {
   onClose: () => void;
 };
 
-export default function AuthRequest({ isOpen, onClose }: AuthModalProps) {
+export default function AuthRequestModal({ isOpen, onClose }: AuthModalProps) {
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <ModalBackdrop />
@@ -28,7 +27,7 @@ export default function AuthRequest({ isOpen, onClose }: AuthModalProps) {
           </Text>
           <Text className="text-center">  </Text>
           <VStack space="lg" className="w-full">
-            <Button className="flex-1 bg-purple-500" onPress={() =>  router.replace("/(anon)/(auth)/login")}>
+            <Button className="flex-1 bg-purple-500" onPress={() => console.log("router.replace((anon)(auth)login")}>
               <ButtonText>Log In</ButtonText>
             </Button>
             <Button className="flex-1 bg-purple-500">

@@ -1,13 +1,10 @@
-import type { PlatformContextType } from "@/src/contexts/PlatformContext";
-import { PlatformContext } from "@/src/contexts/PlatformContext";
+import { PlatformContext } from "@/src/providers/platform-provider";
 import { useContext } from "react";
 
-export function usePlatform(): PlatformContextType {
+export const usePlatformInfo = () => {
   const ctx = useContext(PlatformContext);
-
   if (!ctx) {
-    throw new Error("usePlatform must be used inside a PlatformProvider");
+    throw new Error('usePlatformInfo must be used inside PlatformProvider');
   }
-
   return ctx;
 }
