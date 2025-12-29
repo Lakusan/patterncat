@@ -1,20 +1,20 @@
 import { Button, ButtonText } from '@/components/ui/button';
 import {
-    FormControl,
-    FormControlError,
-    FormControlErrorIcon,
-    FormControlErrorText,
-    FormControlHelper,
-    FormControlHelperText,
-    FormControlLabel,
-    FormControlLabelText,
+  FormControl,
+  FormControlError,
+  FormControlErrorIcon,
+  FormControlErrorText,
+  FormControlHelper,
+  FormControlHelperText,
+  FormControlLabel,
+  FormControlLabelText,
 } from '@/components/ui/form-control';
 import { AlertCircleIcon } from '@/components/ui/icon';
 import { Input, InputField } from '@/components/ui/input';
 import { VStack } from '@/components/ui/vstack';
 import React from 'react';
 
-export default function InputControlled() {
+export default function LoginForm() {
   const [isInvalid, setIsInvalid] = React.useState(false);
   const [inputValue, setInputValue] = React.useState('');
 

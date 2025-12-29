@@ -8,16 +8,19 @@ import { PlatformProvider } from "@/src/providers/platform-provider";
 import { Stack } from "expo-router";
 
 export default function RootLayout() {
+  const isLoggedIn = false;
   return (
     <GluestackUIProvider>
       <PlatformProvider>
         <SafeAreaContainer>
           <SplashScreenController />
           <Stack screenOptions={{ headerShown: false }}>
-            <Stack.Protected guard={false}>
+            <Stack.Protected guard={isLoggedIn}>
               <Stack.Screen name="(main)/index" options={{ title: "Protected" }} />
             </Stack.Protected>
-            <Stack.Screen name="(public)/index" options={{ title: "Public" }} />
+            <Stack.Protected guard={!isLoggedIn}>
+              <Stack.Screen name="(public)/index" options={{ title: "Public" }} />
+            </Stack.Protected>
           </Stack>
         </SafeAreaContainer>
       </PlatformProvider>
