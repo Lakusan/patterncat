@@ -5,8 +5,8 @@ SplashScreen.preventAutoHideAsync()
 
 export function SplashScreenController() {
   const { isLoading } = useAuthContext()
-
-  if (!isLoading) {
+  // if (!isloading) :> Hide Splash Screen until loading is done
+  if (isLoading) {
     SplashScreen.hideAsync()
   }
 

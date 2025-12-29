@@ -2,7 +2,6 @@ import { Card } from '@/components/ui/card';
 import { Heading } from '@/components/ui/heading';
 import { Image } from '@/components/ui/image';
 import { Text } from '@/components/ui/text';
-import { Link } from 'expo-router';
 import { useState } from 'react';
 import { FlatList, Pressable, View } from "react-native";
 
@@ -43,7 +42,7 @@ export default function PatternList() {
     // Card/Item Rendering 
     const renderItem = ({ item }: { item: Item }) => (
         <Card size="sm" variant="ghost" className="bg-blue-500 m-1">
-            <Link href="/(public)/[id]">
+            {/* <Link href="/(public)/[id]"> */}
                 <Image
                     source={{ uri: item.image }}
                     className="w-full rounded-md"
@@ -55,11 +54,12 @@ export default function PatternList() {
                 <Heading size="sm" className="mt-2">
                     {item.title}
                 </Heading>
-            </Link>
+            {/* </Link> */}
         </Card>
     );
     return (
         <View className="flex-1 justify-center items-center">
+            <Text>PatternList.web.tsx</Text>
             {/* Category Chips - Filter */}
             <View className="flex-row w-full gap-4 p-2">
                 {/* "All" chip */}
