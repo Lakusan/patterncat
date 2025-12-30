@@ -5,6 +5,7 @@ import { useState } from "react";
 
 export default function PublicLayout() {
     const [modalVisible, setModalVisible] = useState(false);
+      console.log(`=> PublicLayout native`);
     return (
         <>
             <AuthRequestModal
@@ -14,7 +15,7 @@ export default function PublicLayout() {
 
             <Tabs screenOptions={{ headerShown: false }}>
                 <Tabs.Screen
-                    name="main"
+                    name="public"
                     options={{
                         title: "Home",
                         tabBarIcon: ({ color }) => (

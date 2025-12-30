@@ -4,20 +4,25 @@ import React, { useState } from "react";
 
 export default function PublicLayout() {
     const [modalVisible, setModalVisible] = useState(false);
+    console.log(`=> PublicLayout Web`);
+
     return (
         <>
             <AuthRequestModal
                 isOpen={modalVisible}
                 onClose={() => setModalVisible(false)}
             />
+
             <Drawer screenOptions={{ drawerType: "slide" }}>
+
                 <Drawer.Screen
-                    name="public"
+                    name="index"
                     options={{
                         drawerLabel: 'Home',
-                        title: 'overview',
+                        title: 'Public Home',
                     }}
                 />
+
                 <Drawer.Screen
                     name="search"
                     options={{
@@ -31,6 +36,7 @@ export default function PublicLayout() {
                         },
                     }}
                 />
+
                 <Drawer.Screen
                     name="add"
                     options={{
@@ -44,6 +50,7 @@ export default function PublicLayout() {
                         },
                     }}
                 />
+
                 <Drawer.Screen
                     name="settings"
                     options={{
@@ -57,8 +64,9 @@ export default function PublicLayout() {
                         },
                     }}
                 />
+
                 <Drawer.Screen
-                    name='auth/login'
+                    name='login'
                     options={{ drawerItemStyle: { display: 'none' } }}
                 />
             </Drawer>

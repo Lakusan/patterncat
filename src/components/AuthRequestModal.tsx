@@ -31,7 +31,7 @@ export default function AuthRequestModal({ isOpen, onClose }: AuthModalProps) {
           <VStack space="lg" className="w-full">
             <Button className="flex-1 bg-purple-500" onPress={() => {
               onClose();
-              router.replace("/public/auth/login")
+              router.replace("/login")
               }
             }>
               <ButtonText>Log In</ButtonText>

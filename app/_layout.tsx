@@ -1,29 +1,35 @@
 import React from "react";
-import '../global.css';
+import "../global.css";
 
 import { GluestackUIProvider } from "@/components/ui/gluestack-ui-provider";
 import SafeAreaContainer from "@/src/components/SafeAreaContainer";
 import { SplashScreenController } from "@/src/components/splash-screen-controller";
-import { PlatformProvider } from "@/src/providers/platform-provider";
+import { useTestContext } from "@/src/hooks/use-test-context";
+import TestProvider from "@/src/providers/test-provider";
 import { Stack } from "expo-router";
 
 export default function RootLayout() {
-  const isLoggedIn = false;
+  return (
+    <TestProvider>
+      <InnerRootLayout />
+    </TestProvider>
+  );
+}
+
+function InnerRootLayout() {
+  const { isAuthenticated, setIsAuthenticated } = useTestContext();
+  console.log(`RootLayout: isAuthenticated: ${isAuthenticated}`)
   return (
     <GluestackUIProvider>
-      <PlatformProvider>
-        <SafeAreaContainer>
-          <SplashScreenController />
-          <Stack screenOptions={{ headerShown: false }}>
-            <Stack.Protected guard={isLoggedIn}>
-              <Stack.Screen name="(main)/index" options={{ title: "Protected" }} />
-            </Stack.Protected>
-            <Stack.Protected guard={!isLoggedIn}>
-              <Stack.Screen name="(public)/index" options={{ title: "Public" }} />
-            </Stack.Protected>
-          </Stack>
-        </SafeAreaContainer>
-      </PlatformProvider>
+      <SafeAreaContainer>
+        <SplashScreenController />
+        <Stack screenOptions={{ headerShown: false }}>
+          <Stack.Protected guard={isAuthenticated}>
+            <Stack.Screen name="(main)" />
+          </Stack.Protected>
+          <Stack.Screen name="(public)" />
+        </Stack>
+      </SafeAreaContainer>
     </GluestackUIProvider>
   );
 }

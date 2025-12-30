@@ -12,18 +12,26 @@ import {
 import { AlertCircleIcon } from '@/components/ui/icon';
 import { Input, InputField } from '@/components/ui/input';
 import { VStack } from '@/components/ui/vstack';
+import { router } from 'expo-router';
 import React from 'react';
+import { useTestContext } from '../hooks/use-test-context';
 
 export default function LoginForm() {
   const [isInvalid, setIsInvalid] = React.useState(false);
   const [inputValue, setInputValue] = React.useState('');
+  const { isAuthenticated, setIsAuthenticated } = useTestContext();
+
 
   const handleSubmit = () => {
-    if (inputValue.length < 6) {
-      setIsInvalid(true);
-    } else {
-      setIsInvalid(false);
-    }
+    // if (inputValue.length < 6) {
+    //   setIsInvalid(true);
+    // } else {
+    //   setIsInvalid(false);
+    // }
+    console.log("Pressed from LoginForm Component")
+    setIsAuthenticated(true)
+    console.log(`LoginForm Button Authentication triggered; isAuthenticated: ${isAuthenticated}`)
+    router.replace("/(main)/home")
   };
 
   return (
@@ -59,7 +67,7 @@ export default function LoginForm() {
         </FormControlError>
       </FormControl>
       <Button
-        className="w-fit self-end mt-4"
+        className="w-fit self-end mt-4 mr-2"
         size="sm"
         variant="outline"
         onPress={handleSubmit}
