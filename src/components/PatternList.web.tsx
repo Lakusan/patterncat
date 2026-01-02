@@ -58,7 +58,7 @@ export default function PatternList() {
         </Card>
     );
     return (
-        <View className="flex-1 justify-center items-center">
+        <View className="">
             <Text>PatternList.web.tsx</Text>
             {/* Category Chips - Filter */}
             <View className="flex-row w-full gap-4 p-2">
