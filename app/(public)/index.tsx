@@ -3,10 +3,10 @@ import { Card } from '@/components/ui/card';
 import { Heading } from '@/components/ui/heading';
 import { Image } from '@/components/ui/image';
 import { Text } from '@/components/ui/text';
+import SafeAreaContainer from '@/src/components/SafeAreaContainer';
 import { useTestContext } from '@/src/hooks/use-test-context';
 import { useState } from 'react';
-import { Pressable, View } from 'react-native';
-import { FlatList } from 'react-native-gesture-handler';
+import { FlatList, Pressable, View } from 'react-native';
 
 type Item = {
   id: string;
@@ -38,7 +38,7 @@ export default function PublicHome() {
     return categories[index];
   }
 
-  const items: Item[] = Array.from({ length: 10 }, (_, i) => ({
+  const items: Item[] = Array.from({ length: 500 }, (_, i) => ({
     id: `${i + 1}`,
     title: `Muster ${i + 1}`,
     description: `Das ist eine Beschreibung für Muster ${i + 1}.`,
@@ -68,7 +68,6 @@ export default function PublicHome() {
       sm:w-1/3
       md:w-1/4 
       lg:w-1/5 
-      min-w-[90px]
       max-w-[3600px]
       h-[360px]
       flex flex-col
@@ -98,10 +97,10 @@ export default function PublicHome() {
   );
 
   return (
-    <View className='justify-center items-center'>
-      <View className='bg-blue-200 m-2 h-screen basis-1/2 border overflow-hidden'>
-        <View className="flex-row flex-wrap justify-center gap-3 px-4 py-2 bg-green-500">
-          {/* Category chips */}
+    <SafeAreaContainer>
+      <View className="flex-1 bg-green-500 items-center">
+      <View className="flex-row bg-blue-500 lg:w-1/2 w-full">
+        {/* Category chips */}
           {categories.map((cat) => (
             <Pressable
               key={cat}
@@ -109,7 +108,7 @@ export default function PublicHome() {
               setSelectedCategory(cat === "Alle" ? null : cat);
               }
               }
-              className={`flex-1 h-full rounded ${selectedCategory === cat
+              className={`p-2 m-2 flex-1 rounded ${selectedCategory === cat
                 ? "bg-purple-800"
                 : "bg-gray-200"
                 }`}
@@ -125,21 +124,24 @@ export default function PublicHome() {
               </Text>
             </Pressable>
           ))}
-        </View>
-        {items && items.length > 0 ? (
-          <FlatList
-            data={filteredItems}
-            renderItem={renderItem}
-            keyExtractor={(item) => item.id}
-            showsVerticalScrollIndicator={false}
-            numColumns={5}
-            onRefresh={() => console.log("refreshing")}
-            refreshing={false}
-          />
-        ) : (
-          <Text className="bg-red-500 text-center mt-4"> Keine Schnittmuster gefunden 😢</Text>
-        )}
       </View>
-    </View>
+        
+        <View className="flex-1 bg-pink-500 lg:w-1/2 w-full">
+          {items && items.length > 0 ? (
+            <FlatList
+              data={filteredItems}
+              renderItem={renderItem}
+              keyExtractor={(item) => item.id}
+              showsVerticalScrollIndicator={false}
+              numColumns={5}
+              onRefresh={() => console.log("refreshing")}
+              refreshing={false}
+            />
+          ) : (
+            <Text className="bg-red-500 text-center mt-4"> Keine Schnittmuster gefunden 😢</Text>
+          )}
+        </View>
+      </View>
+    </SafeAreaContainer>
   );
 }

@@ -9,8 +9,8 @@ export default function Home() {
     return (
         <View>
             <Text>Main Home: home.tsx</Text>
-            <PatternList></PatternList>
             <Button onPress={() => setIsAuthenticated(false)}></Button>
+            <PatternList></PatternList>
         </View>
     );
 }

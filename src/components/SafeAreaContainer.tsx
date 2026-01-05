@@ -10,7 +10,7 @@ export default function SafeAreaContainer({ children }: SafeAreaContainerProps) 
   return (
     <SafeAreaProvider>
       <SafeAreaView
-        className="flex-1"
+        className="flex-1 bg-red-500"
         edges={["top", "right", "bottom", "left"]} 
       >
         {children}
