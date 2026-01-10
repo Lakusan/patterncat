@@ -5,7 +5,7 @@ import { useState } from "react";
 
 export default function PublicLayout() {
     const [modalVisible, setModalVisible] = useState(false);
-      console.log(`=> PublicLayout native`);
+    console.log(`=> PublicLayout native`);
     return (
         <>
             <AuthRequestModal
@@ -15,7 +15,7 @@ export default function PublicLayout() {
 
             <Tabs screenOptions={{ headerShown: false }}>
                 <Tabs.Screen
-                    name="public"
+                    name="index"
                     options={{
                         title: "Home",
                         tabBarIcon: ({ color }) => (
@@ -77,6 +77,18 @@ export default function PublicLayout() {
                         },
                     }}
                 />
+                <Tabs.Screen
+                    name="login"
+                    options={{
+                        tabBarItemStyle: { display: "none" },
+                    }}>
+                </Tabs.Screen>
+                <Tabs.Screen
+                    name="[id]"
+                    options={{
+                        tabBarItemStyle: { display: "none" },
+                    }}>
+                </Tabs.Screen>
             </Tabs>
         </>
     );

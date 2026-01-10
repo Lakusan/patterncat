@@ -3,9 +3,8 @@ import { Heading } from '@/components/ui/heading';
 import { Image } from '@/components/ui/image';
 import { Text } from '@/components/ui/text';
 import SafeAreaContainer from '@/src/components/SafeAreaContainer';
-import { useTestContext } from '@/src/hooks/use-test-context';
-import { useState } from 'react';
-import { FlatList, Pressable, useWindowDimensions, View } from 'react-native';
+import { useMemo, useState } from 'react';
+import { FlatList, Platform, Pressable, useWindowDimensions, View } from 'react-native';
 
 type Item = {
   id: string;
@@ -15,108 +14,117 @@ type Item = {
   category: string;
 };
 
-const MIN_CARD_WIDTH = 150;
-const GAP = 5;
+const MIN_CARD_WIDTH = 500;
+const MIN_CARD_WIDTH_WEB = 150;
+const GAP = 10;
+const MIN_COLUMNS = 2;
+const MAX_COLUMNS = 6;
 
+const categories = ["Alle", "Kleider", "Hosen", "Oberteile", "Jacken"];
+
+function getRandomCategory(): string {
+  const index = Math.floor(Math.random() * categories.length);
+  return categories[index];
+}
+const items: Item[] = Array.from({ length: 100 }, (_, i) => ({
+  id: `${i + 1}`,
+  title: `Muster ${i + 1}`,
+  description: `Das ist eine Beschreibung für Muster ${i + 1}.`,
+  image: `https://picsum.photos/seed/pattern${i + 1}/300/200`,
+  category: getRandomCategory(),
+}));
 export default function PublicHome() {
-  const { isAuthenticated, setIsAuthenticated } = useTestContext();
+  // const { isAuthenticated, setIsAuthenticated } = useTestContext();
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
 
   const { width } = useWindowDimensions();
+  const minWidth = Platform.select({
+    native: () => MIN_CARD_WIDTH,
+    default: () => MIN_CARD_WIDTH_WEB,
+  })();
 
-  // Content container is 70% of screen width
-  const contentWidth = width * 0.7;
+  const contentWidth = width * (Platform.OS === "web" ? 0.7 : 1);
+  
+  const numColumns = Math.min(
+    MAX_COLUMNS,
+    Math.max(MIN_COLUMNS, Math.floor(contentWidth / (minWidth + GAP)))
+  );
+  
+  const usableWidth = contentWidth - GAP * 2; 
+  const cardWidth = usableWidth / numColumns - GAP;
 
-  // Calculate number of columns based on available content width
-const numColumns = Math.min( 10, Math.max(1, Math.floor(contentWidth / (MIN_CARD_WIDTH + GAP))) );
-  // Calculate fixed card width
-  const cardWidth = contentWidth / numColumns - GAP;
 
-  const categories = ["Alle", "Kleider", "Hosen", "Oberteile", "Jacken"];
 
-  function getRandomCategory(): string {
-    const index = Math.floor(Math.random() * categories.length);
-    return categories[index];
-  }
-
-  const items: Item[] = Array.from({ length: 50 }, (_, i) => ({
-    id: `${i + 1}`,
-    title: `Muster ${i + 1}`,
-    description: `Das ist eine Beschreibung für Muster ${i + 1}.`,
-    image: `https://picsum.photos/seed/pattern${i + 1}/300/200`,
-    category: getRandomCategory(),
-  }));
-
-  const filteredItems =
-    selectedCategory === null
-      ? items
-      : items.filter((item) => item.category === selectedCategory);
+  // ⭐ useMemo: Filter wird nur neu berechnet, wenn selectedCategory sich ändert
+  const filteredItems = useMemo(() => {
+    if (!selectedCategory) return items;
+    return items.filter((item) => item.category === selectedCategory);
+  }, [selectedCategory]);
 
   const testRender = ({ item }: { item: Item }) => (
     <View style={{ width: cardWidth }}>
-      <Card
-        size="sm"
-        variant="outline"
-        className="bg-green-500"
-      >
+      <Card size="sm" variant="ghost" className="p-0 md:h-[300px] h-[300px]">
         <Image
           source={{ uri: item.image }}
-          resizeMode='cover'
-          className="w-full h-32 rounded-t-lg"
+          resizeMode="cover"
+          className="w-full min-h-[70%] rounded-lg"
           alt={item.title}
         />
-        <Heading className="mt-1 bg-blue-500">{item.title}</Heading>
-        <Text className="text-gray-600 bg-red-500">{item.description}</Text>
+        <Heading className="mt-1">{item.title}</Heading>
+        <Text className="text-gray-600">{item.description}</Text>
       </Card>
     </View>
   );
 
   return (
     <SafeAreaContainer>
-      <View className="flex-1 bg-neutral-300 items-center">
-        <View className="flex-1 w-[70%] h-full shadow-lg elevated">
+      <View className="flex-1 items-center">
+        <View className="flex-1 lg:w-[70%] w-full h-full shadow-lg">
 
-          {/* Filterbar */}
-          <View className="flex-row justify-around h-[3%]">
-            {categories.map((cat) => (
-              <Pressable
-                key={cat}
-                onPress={() => setSelectedCategory(cat === "Alle" ? null : cat)}
-                className={`flex-1 flex-shrink justify-center items-center rounded m-1 ${
-                  selectedCategory === cat ? "bg-purple-800" : "bg-gray-200"
-                }`}
-              >
-                <Text
-                  adjustsFontSizeToFit
-                  className={`text-md ${
-                    selectedCategory === cat
-                      ? "text-white font-semibold"
-                      : "text-gray-700"
-                  }`}
-                  numberOfLines={3}
+          {/* ⭐ Filterbar */}
+          <View className="flex-row justify-around lg:p-0 p-2 lg:h-[3%] h-[10%]">
+            {categories.map((cat) => {
+              const isActive = selectedCategory === cat || (cat === "Alle" && selectedCategory === null);
+
+              return (
+                <Pressable
+                  key={cat}
+                  onPress={() =>
+                    setSelectedCategory(cat === "Alle" ? null : cat)
+                  }
+                  className={`
+                    flex-1 flex-shrink justify-center items-center rounded m-1
+                    ${isActive ? "bg-purple-800" : "bg-gray-200"}
+                  `}
                 >
-                  {cat}
-                </Text>
-              </Pressable>
-            ))}
+                  <Text
+                    adjustsFontSizeToFit
+                    className={`text-md ${isActive ? "text-white font-semibold" : "text-gray-700"
+                      }`}
+                  >
+                    {cat}
+                  </Text>
+                </Pressable>
+              );
+            })}
           </View>
 
           {/* Grid */}
-          {items.length > 0 ? (
+          {filteredItems.length > 0 ? (
             <FlatList
               data={filteredItems}
               renderItem={testRender}
               keyExtractor={(item) => item.id}
               showsVerticalScrollIndicator={false}
-              key={numColumns} // re-render when columns change
+              key={numColumns}
               numColumns={numColumns}
               columnWrapperStyle={{
                 gap: GAP,
-                justifyContent: "flex-start",
-                marginTop: GAP // prevents stretching last row
+                marginTop: GAP,
               }}
               contentContainerStyle={{
                 padding: GAP,
+                margin: 5,
               }}
             />
           ) : (

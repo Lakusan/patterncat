@@ -69,6 +69,10 @@ export default function PublicLayout() {
                     name='login'
                     options={{ drawerItemStyle: { display: 'none' } }}
                 />
+                       <Drawer.Screen
+                    name='[id]'
+                    options={{ drawerItemStyle: { display: 'none' } }}
+                />
             </Drawer>
         </>
     );
