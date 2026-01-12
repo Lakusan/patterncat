@@ -3,6 +3,7 @@ import { Heading } from '@/components/ui/heading';
 import { Image } from '@/components/ui/image';
 import { Text } from '@/components/ui/text';
 import SafeAreaContainer from '@/src/components/SafeAreaContainer';
+import { router } from 'expo-router';
 import { useMemo, useState } from 'react';
 import { FlatList, Platform, Pressable, useWindowDimensions, View } from 'react-native';
 
@@ -44,13 +45,13 @@ export default function PublicHome() {
   })();
 
   const contentWidth = width * (Platform.OS === "web" ? 0.7 : 1);
-  
+
   const numColumns = Math.min(
     MAX_COLUMNS,
     Math.max(MIN_COLUMNS, Math.floor(contentWidth / (minWidth + GAP)))
   );
-  
-  const usableWidth = contentWidth - GAP * 2; 
+
+  const usableWidth = contentWidth - GAP * 2;
   const cardWidth = usableWidth / numColumns - GAP;
 
 
@@ -63,16 +64,27 @@ export default function PublicHome() {
 
   const testRender = ({ item }: { item: Item }) => (
     <View style={{ width: cardWidth }}>
-      <Card size="sm" variant="ghost" className="p-0 md:h-[300px] h-[300px]">
-        <Image
-          source={{ uri: item.image }}
-          resizeMode="cover"
-          className="w-full min-h-[70%] rounded-lg"
-          alt={item.title}
-        />
-        <Heading className="mt-1">{item.title}</Heading>
-        <Text className="text-gray-600">{item.description}</Text>
-      </Card>
+      <Pressable onPress={() =>
+        router.push({
+          pathname: "/[id]",
+          params: {
+            id: item.id,
+            item: JSON.stringify(item), // send whole item
+          },
+        })
+      }
+      >
+        <Card size="sm" variant="ghost" className="p-0">
+          <Image
+            source={{ uri: item.image }}
+            resizeMode="cover"
+            className="w-full h-40 rounded-lg"
+            alt={item.title}
+          />
+          <Heading className="mt-1">{item.title}</Heading>
+          <Text className="text-gray-600">{item.description}</Text>
+        </Card>
+      </Pressable>
     </View>
   );
 
