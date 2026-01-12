@@ -16,7 +16,7 @@ type Item = {
 
 const MIN_CARD_WIDTH = 500;
 const MIN_CARD_WIDTH_WEB = 150;
-const GAP = 10;
+const GAP = 15;
 const MIN_COLUMNS = 2;
 const MAX_COLUMNS = 6;
 
@@ -55,7 +55,7 @@ export default function PublicHome() {
 
 
 
-  // ⭐ useMemo: Filter wird nur neu berechnet, wenn selectedCategory sich ändert
+  // useMemo: Filter wird nur neu berechnet, wenn selectedCategory sich ändert
   const filteredItems = useMemo(() => {
     if (!selectedCategory) return items;
     return items.filter((item) => item.category === selectedCategory);
@@ -78,11 +78,13 @@ export default function PublicHome() {
 
   return (
     <SafeAreaContainer>
+      {/* Main Content Container */}
       <View className="flex-1 items-center">
+        {/* Horziontal Centralized Content Container */}
         <View className="flex-1 lg:w-[70%] w-full h-full shadow-lg">
 
-          {/* ⭐ Filterbar */}
-          <View className="flex-row justify-around lg:p-0 p-2 lg:h-[3%] h-[10%]">
+          {/* Filterbar */}
+          <View className="flex-row justify-around lg:p-0 p-2 lg:h-[3%] h-[5%]">
             {categories.map((cat) => {
               const isActive = selectedCategory === cat || (cat === "Alle" && selectedCategory === null);
 
@@ -98,7 +100,6 @@ export default function PublicHome() {
                   `}
                 >
                   <Text
-                    adjustsFontSizeToFit
                     className={`text-md ${isActive ? "text-white font-semibold" : "text-gray-700"
                       }`}
                   >
@@ -120,11 +121,11 @@ export default function PublicHome() {
               numColumns={numColumns}
               columnWrapperStyle={{
                 gap: GAP,
-                marginTop: GAP,
+                justifyContent: "center",
+                paddingBottom: 20,
               }}
               contentContainerStyle={{
                 padding: GAP,
-                margin: 5,
               }}
             />
           ) : (
