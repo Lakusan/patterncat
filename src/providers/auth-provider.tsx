@@ -1,79 +1,143 @@
-import { AuthContext } from '@/src/hooks/use-auth-context'
-import { supabase } from '@/src/lib/supabase'
-import type { Session } from '@supabase/supabase-js'
-import { PropsWithChildren, useEffect, useState } from 'react'
+import { AuthContext } from "@/src/hooks/use-auth-context";
+import { supabase } from "@/src/lib/supabase";
+import type { Session } from "@supabase/supabase-js";
+import { PropsWithChildren, useEffect, useState } from "react";
 
 export default function AuthProvider({ children }: PropsWithChildren) {
-  const [session, setSession] = useState<Session | undefined | null>()
-  const [profile, setProfile] = useState<any>()
-  const [isLoading, setIsLoading] = useState<boolean>(true)
+  const [session, setSession] = useState<Session | null>(null);
+  const [profile, setProfile] = useState<any>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
-  // Fetch the session once, and subscribe to auth state changes
+  //
+  // 1. Load session on app start + subscribe to changes
+  //
   useEffect(() => {
-    const fetchSession = async () => {
-      setIsLoading(true)
+    let mounted = true;
 
-      const {
-        data: { session },
-        error,
-      } = await supabase.auth.getSession()
+    const loadSession = async () => {
+      setIsLoading(true);
+
+      const { data, error } = await supabase.auth.getSession();
+
+      if (!mounted) return;
 
       if (error) {
-        console.error('Error fetching session:', error)
+        console.error("Error fetching session:", error);
       }
 
-      setSession(session)
-      setIsLoading(false)
-    }
+      setSession(data.session ?? null);
+      setIsLoading(false);
+    };
 
-    fetchSession()
+    loadSession();
 
-    const {
-      data: { subscription },
-    } = supabase.auth.onAuthStateChange((_event, session) => {
-      console.log('Auth state changed:', { event: _event, session })
-      setSession(session)
-    })
+    const { data: listener } = supabase.auth.onAuthStateChange(
+      (_event, newSession) => {
+        console.log("Auth state changed:", { event: _event, session: newSession });
+        setSession(newSession);
+      }
+    );
 
-    // Cleanup subscription on unmount
     return () => {
-      subscription.unsubscribe()
+      mounted = false;
+      listener.subscription.unsubscribe();
+    };
+  }, []);
+
+  //
+  // 2. Fetch profile when session changes
+  //
+  // useEffect(() => {
+  //   const loadProfile = async () => {
+  //     setIsLoading(true);
+
+  //     if (session?.user?.id) {
+  //       const { data, error } = await supabase
+  //         .from("profiles")
+  //         .select("*")
+  //         .eq("id", session.user.id)
+  //         .single();
+
+  //       if (error) {
+  //         console.error("Error loading profile:", error);
+  //       }
+
+  //       setProfile(data ?? null);
+  //     } else {
+  //       setProfile(null);
+  //     }
+
+  //     setIsLoading(false);
+  //   };
+
+  //   loadProfile();
+  // }, [session]);
+
+  //
+  // 3. Auth actions
+  //
+  const signIn = async ({ email, password }: { email: string; password: string }) => {
+    const { error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
+
+    if (error) {
+      console.error("Login error:", error.message);
+      throw error;
     }
-  }, [])
+  };
 
-  // Fetch the profile when the session changes
-  useEffect(() => {
-    const fetchProfile = async () => {
-      setIsLoading(true)
+  const signUp = async ({ email, password }: { email: string; password: string }) => {
+    const { error } = await supabase.auth.signUp({
+      email,
+      password,
+    });
 
-      if (session) {
-        const { data } = await supabase
-          .from('profiles')
-          .select('*')
-          .eq('id', session.user.id)
-          .single()
-
-        setProfile(data)
-      } else {
-        setProfile(null)
-      }
-
-      setIsLoading(false)
+    if (error) {
+      console.error("Signup error:", error.message);
+      throw error;
     }
+  };
 
-    fetchProfile()
-  }, [session])
+  const signOut = async () => {
+    const { error } = await supabase.auth.signOut();
+    if (error) {
+      console.error("Logout error:", error.message);
+      throw error;
+    }
+  };
 
+  const resetPassword = async (email: string) => {
+    const { error } = await supabase.auth.resetPasswordForEmail(email, {
+      redirectTo: "/(public)",
+    });
+
+    if (error) {
+      console.error("Password reset error:", error.message);
+      throw error;
+    }
+  };
+
+  //
+  // 4. Provide everything to the app
+  //
   return (
     <AuthContext.Provider
       value={{
         session,
-        isLoading,
         profile,
-        isLoggedIn: session != undefined,
+        isLoading,
+        isLoggedIn: session !== null,
+
+        // actions
+        signIn,
+        signUp,
+        signOut,
+        resetPassword,
       }}
     >
       {children}
     </AuthContext.Provider>
-  )
+  );
 }

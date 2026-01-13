@@ -18,6 +18,8 @@ export default function PublicLayout() {
       <AuthRequestModal
         isOpen={modalVisible}
         onClose={() => setModalVisible(false)}
+        onRegister={() => console.log("On Register")}
+        onLogin={() => console.log("On Login")}
       />
 
       <Tabs screenOptions={{ headerShown: false }}>
@@ -87,12 +89,6 @@ export default function PublicLayout() {
 
         <Tabs.Screen
           name="[id]"
-          options={{
-            tabBarItemStyle: { display: "none" },
-          }}
-        />
-           <Tabs.Screen
-          name="login"
           options={{
             tabBarItemStyle: { display: "none" },
           }}

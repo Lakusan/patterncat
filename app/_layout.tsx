@@ -3,30 +3,36 @@ import "../global.css";
 
 import { GluestackUIProvider } from "@/components/ui/gluestack-ui-provider";
 import { SplashScreenController } from "@/src/components/splash-screen-controller";
-import { useTestContext } from "@/src/hooks/use-test-context";
-import TestProvider from "@/src/providers/test-provider";
+
+import { useAuthContext } from "@/src/hooks/use-auth-context";
+import AuthProvider from "@/src/providers/auth-provider";
+
 import { Stack } from "expo-router";
 
 export default function RootLayout() {
   return (
-    <TestProvider>
+    <AuthProvider>
       <InnerRootLayout />
-    </TestProvider>
+    </AuthProvider>
   );
 }
 
 function InnerRootLayout() {
-  const { isAuthenticated, setIsAuthenticated } = useTestContext();
-  console.log(`RootLayout: isAuthenticated: ${isAuthenticated}`)
+  const { isLoggedIn, isLoading } = useAuthContext();
+
   return (
     <GluestackUIProvider>
-        <SplashScreenController />
-        <Stack screenOptions={{ headerShown: false }}>
-          <Stack.Protected guard={isAuthenticated}>
-            <Stack.Screen name="(main)" />
-          </Stack.Protected>
-          <Stack.Screen name="(public)" />
-        </Stack>
+      <SplashScreenController />
+
+      <Stack screenOptions={{ headerShown: false }}>
+        {/* Protected routes → only visible when logged in */}
+        <Stack.Protected guard={isLoggedIn}>
+          <Stack.Screen name="(main)" />
+        </Stack.Protected>
+
+        {/* Public routes → login, register, landing page */}
+        <Stack.Screen name="(public)" />
+      </Stack>
     </GluestackUIProvider>
   );
 }

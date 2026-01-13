@@ -5,11 +5,12 @@ import { Modal, ModalBackdrop, ModalBody, ModalContent, ModalFooter, ModalHeader
 import { Text } from '@/components/ui/text';
 import React from "react";
 
-
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 
+import { useAuthContext } from "@/src/hooks/use-auth-context";
 import { registerSchema, RegisterSchema } from "@/src/validation/registerSchema";
+import { router } from 'expo-router';
 
 type RegisterModalProps = {
   isOpen: boolean;
@@ -22,6 +23,9 @@ export default function RegisterModal({
   onClose,
   onBack,
 }: RegisterModalProps) {
+
+  const { signUp } = useAuthContext(); 
+
   const {
     setValue,
     handleSubmit,
@@ -31,8 +35,16 @@ export default function RegisterModal({
   });
 
   const onSubmit = async (data: RegisterSchema) => {
-    console.log("Register data:", data);
-    onClose();
+    try {
+      await signUp({
+        email: data.email,
+        password: data.password,
+      });
+      onClose();
+      router.replace("/(main)/home");
+    } catch (err) {
+      console.log("Registration failed:", err);
+    }
   };
 
   return (
@@ -45,7 +57,7 @@ export default function RegisterModal({
         </ModalHeader>
 
         <ModalBody className="gap-4">
-          {/* UserName */}
+          {/* USERNAME */}
           <Input className="border border-gray-300 rounded-lg">
             <InputField
               placeholder="Username"
@@ -105,4 +117,3 @@ export default function RegisterModal({
     </Modal>
   );
 }
-

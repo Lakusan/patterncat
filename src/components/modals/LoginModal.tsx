@@ -8,7 +8,9 @@ import React from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 
+import { useAuthContext } from "@/src/hooks/use-auth-context";
 import { loginSchema, LoginSchema } from "@/src/validation/loginSchema";
+import { router } from 'expo-router';
 
 type LoginModalProps = {
   isOpen: boolean;
@@ -21,8 +23,10 @@ export default function LoginModal({
   onClose,
   onBack,
 }: LoginModalProps) {
+
+  const { signIn } = useAuthContext();   // <-- use your real auth
+
   const {
-    register,
     setValue,
     handleSubmit,
     formState: { errors, isSubmitting },
@@ -31,8 +35,23 @@ export default function LoginModal({
   });
 
   const onSubmit = async (data: LoginSchema) => {
-    console.log("Login data:", data);
-    onClose();
+    try {
+      // 1. Try to log in
+      await signIn({
+        email: data.email,
+        password: data.password,
+      });
+
+      // 2. Close modal
+      onClose();
+
+      // 3. Redirect to protected page
+      router.replace("/(main)/home");
+
+    } catch (err) {
+      console.log("Login failed:", err);
+      // You can show an error message here if you want
+    }
   };
 
   return (
