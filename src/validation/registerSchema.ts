@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { validationData } from "../constants/validation";
 
 export const registerSchema = z.object({
   username: z.string(),
@@ -6,8 +7,8 @@ export const registerSchema = z.object({
 
   password: z
     .string()
-    .min(12, "Password must be at least 12 characters (BSI recommendation)")
-    .max(128, "Password must be shorter than 128 characters")
+    .min(validationData.PASSWORD_MIN_LENGTH, `Password must be at least ${validationData.PASSWORD_MIN_LENGTH} characters (BSI recommendation)`)
+    .max(validationData.PASSWORD_MAX_LENGTH, `Password must be shorter than ${validationData.PASSWORD_MAX_LENGTH} characters`)
     .refine((val) => !/\s/.test(val), {
       message: "Password must not contain spaces",
     })
