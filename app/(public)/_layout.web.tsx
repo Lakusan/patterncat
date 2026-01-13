@@ -1,15 +1,55 @@
 import AuthRequestModal from '@/src/components/AuthRequestModal';
+import LoginModal from '@/src/components/LoginModal';
+import RegisterModal from '@/src/components/RegisterModal';
 import { Drawer } from 'expo-router/drawer';
 import React, { useState } from "react";
 
 export default function PublicLayout() {
-  const [modalVisible, setModalVisible] = useState(false);
+  const [authModal, setAuthModal] = useState(false);
+  const [loginModal, setLoginModal] = useState(false);
+  const [registerModal, setRegisterModal] = useState(false);
+
+  // Helper: open auth modal from drawer
+  const openAuthFlow = () => {
+    setAuthModal(true);
+    setLoginModal(false);
+    setRegisterModal(false);
+  };
 
   return (
     <>
+      {/* AUTH REQUEST MODAL */}
       <AuthRequestModal
-        isOpen={modalVisible}
-        onClose={() => setModalVisible(false)}
+        isOpen={authModal}
+        onClose={() => setAuthModal(false)}
+        onLogin={() => {
+          setAuthModal(false);
+          setLoginModal(true);
+        }}
+        onRegister={() => {
+          setAuthModal(false);
+          setRegisterModal(true);
+        }}
+      />
+
+      {/* LOGIN MODAL */}
+      <LoginModal
+        isOpen={loginModal}
+        onClose={() => setLoginModal(false)}
+        onBack={() => {
+          setLoginModal(false);
+          setAuthModal(true);
+        }}
+      />
+
+      {/* REGISTER MODAL */}
+      <RegisterModal
+        isOpen={registerModal}
+        onClose={() => setRegisterModal(false)}
+        onBack={() => {
+          setRegisterModal(false);
+          setAuthModal(true);
+        }}
       />
 
       <Drawer screenOptions={{ drawerType: "slide" }}>
@@ -30,8 +70,8 @@ export default function PublicLayout() {
           }}
           listeners={{
             drawerItemPress: (e) => {
-              e.preventDefault();       // stop drawer navigation
-              setModalVisible(true);    // show login modal
+              e.preventDefault();
+              openAuthFlow();
             },
           }}
         />
@@ -45,7 +85,7 @@ export default function PublicLayout() {
           listeners={{
             drawerItemPress: (e) => {
               e.preventDefault();
-              setModalVisible(true);
+              openAuthFlow();
             },
           }}
         />
@@ -59,7 +99,7 @@ export default function PublicLayout() {
           listeners={{
             drawerItemPress: (e) => {
               e.preventDefault();
-              setModalVisible(true);
+              openAuthFlow();
             },
           }}
         />
@@ -69,6 +109,7 @@ export default function PublicLayout() {
           name='[id]'
           options={{ drawerItemStyle: { display: 'none' } }}
         />
+
         <Drawer.Screen
           name='login'
           options={{ drawerItemStyle: { display: 'none' } }}
