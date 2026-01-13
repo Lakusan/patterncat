@@ -16,6 +16,12 @@ import { router } from 'expo-router';
 import React from 'react';
 import { useTestContext } from '../hooks/use-test-context';
 
+// Passwordreqirements as constants
+// Input Validation
+// User Feedback: Something went wrong
+
+
+
 export default function LoginForm() {
   const [isInvalid, setIsInvalid] = React.useState(false);
   const [inputValue, setInputValue] = React.useState('');
@@ -23,12 +29,6 @@ export default function LoginForm() {
 
 
   const handleSubmit = () => {
-    // if (inputValue.length < 6) {
-    //   setIsInvalid(true);
-    // } else {
-    //   setIsInvalid(false);
-    // }
-    console.log("Pressed from LoginForm Component")
     setIsAuthenticated(true)
     console.log(`LoginForm Button Authentication triggered; isAuthenticated: ${isAuthenticated}`)
     router.replace("/(main)/home")

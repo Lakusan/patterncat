@@ -1,4 +1,4 @@
-import AuthRequestModal from "@/src/components/AuthRequestModal";
+import AuthRequestModal from "@/src/components/modals/AuthRequestModal";
 import Feather from "@expo/vector-icons/Feather";
 import { Tabs } from "expo-router";
 import { useState } from "react";

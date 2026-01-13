@@ -1,6 +1,6 @@
-import AuthRequestModal from '@/src/components/AuthRequestModal';
-import LoginModal from '@/src/components/LoginModal';
-import RegisterModal from '@/src/components/RegisterModal';
+import AuthRequestModal from '@/src/components/modals/AuthRequestModal';
+import LoginModal from '@/src/components/modals/LoginModal';
+import RegisterModal from '@/src/components/modals/RegisterModal';
 import { Drawer } from 'expo-router/drawer';
 import React, { useState } from "react";
 

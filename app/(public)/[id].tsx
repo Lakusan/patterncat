@@ -1,4 +1,4 @@
-import PatternDetail from "@/src/components/PatternDetails";
+import PatternDetail from "@/src/components/screens/PatternDetails";
 import { useLocalSearchParams } from "expo-router";
 
 
