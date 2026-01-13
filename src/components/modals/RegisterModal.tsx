@@ -5,6 +5,12 @@ import { Modal, ModalBackdrop, ModalBody, ModalContent, ModalFooter, ModalHeader
 import { Text } from '@/components/ui/text';
 import React from "react";
 
+
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+
+import { registerSchema, RegisterSchema } from "@/src/validation/registerSchema";
+
 type RegisterModalProps = {
   isOpen: boolean;
   onClose: () => void;
@@ -16,6 +22,19 @@ export default function RegisterModal({
   onClose,
   onBack,
 }: RegisterModalProps) {
+  const {
+    setValue,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm<RegisterSchema>({
+    resolver: zodResolver(registerSchema),
+  });
+
+  const onSubmit = async (data: RegisterSchema) => {
+    console.log("Register data:", data);
+    onClose();
+  };
+
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <ModalBackdrop />
@@ -26,21 +45,42 @@ export default function RegisterModal({
         </ModalHeader>
 
         <ModalBody className="gap-4">
-          <Text className="text-gray-600">
-            Fill in your details to create a new account.
-          </Text>
-
+          {/* UserName */}
           <Input className="border border-gray-300 rounded-lg">
-            <InputField placeholder="Full Name" />
+            <InputField
+              placeholder="Username"
+              onChangeText={(text) => setValue("username", text)}
+            />
           </Input>
+          {errors.username && (
+            <Text className="text-red-500 text-sm">{errors.username.message}</Text>
+          )}
 
+          {/* EMAIL */}
           <Input className="border border-gray-300 rounded-lg">
-            <InputField placeholder="Email" keyboardType="email-address" />
+            <InputField
+              placeholder="Email"
+              keyboardType="email-address"
+              onChangeText={(text) => setValue("email", text)}
+            />
           </Input>
+          {errors.email && (
+            <Text className="text-red-500 text-sm">{errors.email.message}</Text>
+          )}
 
+          {/* PASSWORD */}
           <Input className="border border-gray-300 rounded-lg">
-            <InputField placeholder="Password" secureTextEntry />
+            <InputField
+              placeholder="Password"
+              secureTextEntry
+              onChangeText={(text) => setValue("password", text)}
+            />
           </Input>
+          {errors.password && (
+            <Text className="text-red-500 text-sm">
+              {errors.password.message}
+            </Text>
+          )}
         </ModalBody>
 
         <ModalFooter className="flex-row justify-between mt-4">
@@ -53,11 +93,16 @@ export default function RegisterModal({
             <ButtonText>Back</ButtonText>
           </Button>
 
-          <Button action="primary" onPress={onClose}>
-            <ButtonText>Register</ButtonText>
+          <Button
+            action="primary"
+            onPress={handleSubmit(onSubmit)}
+            isDisabled={isSubmitting}
+          >
+            <ButtonText>{isSubmitting ? "..." : "Register"}</ButtonText>
           </Button>
         </ModalFooter>
       </ModalContent>
     </Modal>
   );
 }
+

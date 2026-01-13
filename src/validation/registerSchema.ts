@@ -1,0 +1,47 @@
+import { z } from "zod";
+
+export const registerSchema = z.object({
+  username: z.string(),
+  email: z.string().email("Please enter a valid email"),
+
+  password: z
+    .string()
+    .min(12, "Password must be at least 12 characters (BSI recommendation)")
+    .max(128, "Password must be shorter than 128 characters")
+    .refine((val) => !/\s/.test(val), {
+      message: "Password must not contain spaces",
+    })
+    .refine(
+      (val) =>
+        [/[a-z]/, /[A-Z]/, /[0-9]/, /[^A-Za-z0-9]/].filter((r) =>
+          r.test(val)
+        ).length >= 3,
+      {
+        message:
+          "Password must include at least 3 of the following: lowercase, uppercase, number, special character",
+      }
+    )
+    .refine(
+      (val) =>
+        ![
+          "123456",
+          "123456789",
+          "password",
+          "qwerty",
+          "letmein",
+          "abc123",
+          "111111",
+        ].includes(val.toLowerCase()),
+      {
+        message: "Password is too common and insecure",
+      }
+    )
+    .refine(
+      (val) => !/(1234|abcd|qwerty|password)/i.test(val),
+      {
+        message: "Password contains insecure patterns",
+      }
+    ),
+});
+
+export type RegisterSchema = z.infer<typeof registerSchema>;
