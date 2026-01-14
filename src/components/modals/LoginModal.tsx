@@ -24,7 +24,7 @@ export default function LoginModal({
   onBack,
 }: LoginModalProps) {
 
-  const { signIn } = useAuthContext();   // <-- use your real auth
+  const { signIn } = useAuthContext();
 
   const {
     setValue,
@@ -36,21 +36,15 @@ export default function LoginModal({
 
   const onSubmit = async (data: LoginSchema) => {
     try {
-      // 1. Try to log in
       await signIn({
         email: data.email,
         password: data.password,
       });
-
-      // 2. Close modal
       onClose();
-
-      // 3. Redirect to protected page
       router.replace("/(main)/home");
 
     } catch (err) {
       console.log("Login failed:", err);
-      // You can show an error message here if you want
     }
   };
 

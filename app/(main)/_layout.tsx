@@ -1,18 +1,18 @@
-import { useTestContext } from "@/src/hooks/use-test-context";
+import { useAuthContext } from "@/src/hooks/use-auth-context";
 import Feather from "@expo/vector-icons/Feather";
 import { router, Tabs } from "expo-router";
 import { useState } from "react";
 
 export default function PublicLayout() {
     const [modalVisible, setModalVisible] = useState(false);
-    const { isAuthenticated } = useTestContext();
-    if (!isAuthenticated) {
+    const { isLoggedIn } = useAuthContext();
+    if (!isLoggedIn) {
         router.replace("/(public)")
     }
     return (
         <>
             <Tabs screenOptions={{ headerShown: false }}>
-                <Tabs.Protected guard={isAuthenticated}>
+                <Tabs.Protected guard={isLoggedIn}>
 
                     <Tabs.Screen
                         name="main"

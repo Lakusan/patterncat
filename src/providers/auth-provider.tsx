@@ -6,27 +6,23 @@ import { PropsWithChildren, useEffect, useState } from "react";
 export default function AuthProvider({ children }: PropsWithChildren) {
   const [session, setSession] = useState<Session | null>(null);
   const [profile, setProfile] = useState<any>(null);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+
+  const [isSessionLoading, setIsSessionLoading ] = useState(true);
+  const [isProfileLoading, setIsProfileLoading] = useState(true);
+
+  const isLoading = isSessionLoading || isProfileLoading;
 
   //
   // 1. Load session on app start + subscribe to changes
   //
   useEffect(() => {
-    let mounted = true;
-
     const loadSession = async () => {
-      setIsLoading(true);
-
       const { data, error } = await supabase.auth.getSession();
-
-      if (!mounted) return;
-
+      setSession(data.session ?? null);
       if (error) {
         console.error("Error fetching session:", error);
       }
-
-      setSession(data.session ?? null);
-      setIsLoading(false);
+      setIsSessionLoading(false);
     };
 
     loadSession();
@@ -38,40 +34,33 @@ export default function AuthProvider({ children }: PropsWithChildren) {
       }
     );
 
-    return () => {
-      mounted = false;
-      listener.subscription.unsubscribe();
-    };
+    return () => listener.subscription.unsubscribe();
   }, []);
 
   //
   // 2. Fetch profile when session changes
   //
-  // useEffect(() => {
-  //   const loadProfile = async () => {
-  //     setIsLoading(true);
+  useEffect(() => {
+    const loadProfile = async () => {
+      setIsProfileLoading(true);
 
-  //     if (session?.user?.id) {
-  //       const { data, error } = await supabase
-  //         .from("profiles")
-  //         .select("*")
-  //         .eq("id", session.user.id)
-  //         .single();
+      if (session?.user?.id) {
+        setProfile(null);
+        setIsProfileLoading(false);
+        return;
+      }
+      const { data } = await supabase
+      .from("profiles")
+      .select("*")
+      .eq("id", session?.user.id)
+      .single();
 
-  //       if (error) {
-  //         console.error("Error loading profile:", error);
-  //       }
+      setProfile(data ?? null);
+      setIsProfileLoading(false)
+    };
 
-  //       setProfile(data ?? null);
-  //     } else {
-  //       setProfile(null);
-  //     }
-
-  //     setIsLoading(false);
-  //   };
-
-  //   loadProfile();
-  // }, [session]);
+    loadProfile();
+  }, [session]);
 
   //
   // 3. Auth actions
@@ -81,7 +70,6 @@ export default function AuthProvider({ children }: PropsWithChildren) {
       email,
       password,
     });
-
     if (error) {
       console.error("Login error:", error.message);
       throw error;
@@ -128,7 +116,7 @@ export default function AuthProvider({ children }: PropsWithChildren) {
         session,
         profile,
         isLoading,
-        isLoggedIn: session !== null,
+        isLoggedIn: !!session,
 
         // actions
         signIn,

@@ -3,36 +3,55 @@ import { Heading } from '@/components/ui/heading';
 import { Input, InputField } from '@/components/ui/input';
 import { Modal, ModalBackdrop, ModalBody, ModalContent, ModalFooter, ModalHeader } from "@/components/ui/modal";
 import { Text } from '@/components/ui/text';
-import React from "react";
+import React, { useState } from "react";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 
+import CustomAlertDialog from '@/src/components/alterts/CustomAlertDialog';
 import { useAuthContext } from "@/src/hooks/use-auth-context";
+import { supabase } from "@/src/lib/supabase";
 import { registerSchema, RegisterSchema } from "@/src/validation/registerSchema";
-import { router } from 'expo-router';
 
 type RegisterModalProps = {
   isOpen: boolean;
   onClose: () => void;
   onBack: () => void;
+  onSuccess: () => void;
 };
 
 export default function RegisterModal({
   isOpen,
   onClose,
   onBack,
+  onSuccess,
 }: RegisterModalProps) {
 
-  const { signUp } = useAuthContext(); 
+  const [eMailAlertModal, setEMailAlertModal] = useState(false);
+  const [emailForAlert, setEmailForAlert] = useState("");
+
+  const { signUp } = useAuthContext();
 
   const {
     setValue,
     handleSubmit,
-    formState: { errors, isSubmitting },
+    formState: { errors, isSubmitting, isValid },
   } = useForm<RegisterSchema>({
     resolver: zodResolver(registerSchema),
+    mode: "onChange",
   });
+
+  const resendConfirmation = async (email: string) => {
+    try {
+      await supabase.auth.resend({
+        type: "signup",
+        email,
+      });
+      console.log("Confirmation email resent");
+    } catch (err) {
+      console.log("Resend failed:", err);
+    }
+  };
 
   const onSubmit = async (data: RegisterSchema) => {
     try {
@@ -40,80 +59,97 @@ export default function RegisterModal({
         email: data.email,
         password: data.password,
       });
-      onClose();
-      router.replace("/(main)/home");
+
+      // E-Mail speichern → Alert öffnen
+      setEmailForAlert(data.email);
+      setEMailAlertModal(true);
+
+      // NICHT direkt onSuccess(), erst nach Alert
     } catch (err) {
       console.log("Registration failed:", err);
     }
   };
 
+  const update = (field: keyof RegisterSchema, value: string) =>
+    setValue(field, value, { shouldValidate: true, shouldDirty: true });
+
   return (
-    <Modal isOpen={isOpen} onClose={onClose}>
-      <ModalBackdrop />
+    <>
+      <CustomAlertDialog
+        isOpen={eMailAlertModal}
+        onClose={() => setEMailAlertModal(false)}
+        onBack={() => onClose()}
+        email={emailForAlert}
+        onResend={resendConfirmation}
+      />
 
-      <ModalContent className="bg-white rounded-2xl p-4 w-[90%] self-center">
-        <ModalHeader>
-          <Heading className="text-xl font-bold">Create Account</Heading>
-        </ModalHeader>
+      <Modal isOpen={isOpen} onClose={onClose}>
+        <ModalBackdrop />
 
-        <ModalBody className="gap-4">
-          {/* USERNAME */}
-          <Input className="border border-gray-300 rounded-lg">
-            <InputField
-              placeholder="Username"
-              onChangeText={(text) => setValue("username", text)}
-            />
-          </Input>
-          {errors.username && (
-            <Text className="text-red-500 text-sm">{errors.username.message}</Text>
-          )}
+        <ModalContent className="bg-white rounded-2xl p-4 w-[90%] self-center">
+          <ModalHeader>
+            <Heading className="text-xl font-bold">Create Account</Heading>
+          </ModalHeader>
 
-          {/* EMAIL */}
-          <Input className="border border-gray-300 rounded-lg">
-            <InputField
-              placeholder="Email"
-              keyboardType="email-address"
-              onChangeText={(text) => setValue("email", text)}
-            />
-          </Input>
-          {errors.email && (
-            <Text className="text-red-500 text-sm">{errors.email.message}</Text>
-          )}
+          <ModalBody className="gap-4">
 
-          {/* PASSWORD */}
-          <Input className="border border-gray-300 rounded-lg">
-            <InputField
-              placeholder="Password"
-              secureTextEntry
-              onChangeText={(text) => setValue("password", text)}
-            />
-          </Input>
-          {errors.password && (
-            <Text className="text-red-500 text-sm">
-              {errors.password.message}
-            </Text>
-          )}
-        </ModalBody>
+            {/* EMAIL */}
+            <Input className="border border-gray-300 rounded-lg">
+              <InputField
+                placeholder="Email"
+                keyboardType="email-address"
+                onChangeText={(text) => update("email", text)}
+              />
+            </Input>
+            {errors.email && (
+              <Text className="text-red-500 text-sm">{errors.email.message}</Text>
+            )}
 
-        <ModalFooter className="flex-row justify-between mt-4">
-          <Button
-            variant="outline"
-            action="secondary"
-            onPress={onBack}
-            className="border-gray-400"
-          >
-            <ButtonText>Back</ButtonText>
-          </Button>
+            {/* PASSWORD */}
+            <Input className="border border-gray-300 rounded-lg">
+              <InputField
+                placeholder="Password"
+                secureTextEntry
+                onChangeText={(text) => update("password", text)}
+              />
+            </Input>
+            {errors.password && (
+              <Text className="text-red-500 text-sm">{errors.password.message}</Text>
+            )}
 
-          <Button
-            action="primary"
-            onPress={handleSubmit(onSubmit)}
-            isDisabled={isSubmitting}
-          >
-            <ButtonText>{isSubmitting ? "..." : "Register"}</ButtonText>
-          </Button>
-        </ModalFooter>
-      </ModalContent>
-    </Modal>
+            {/* CONFIRM PASSWORD */}
+            <Input className="border border-gray-300 rounded-lg">
+              <InputField
+                placeholder="Confirm Password"
+                secureTextEntry
+                onChangeText={(text) => update("confirmPassword", text)}
+              />
+            </Input>
+            {errors.confirmPassword && (
+              <Text className="text-red-500 text-sm">{errors.confirmPassword.message}</Text>
+            )}
+          </ModalBody>
+
+          <ModalFooter className="flex-row justify-between mt-4">
+            <Button
+              variant="outline"
+              action="secondary"
+              onPress={onBack}
+              className="border-gray-400"
+            >
+              <ButtonText>Back</ButtonText>
+            </Button>
+
+            <Button
+              action="primary"
+              onPress={handleSubmit(onSubmit)}
+              isDisabled={!isValid || isSubmitting}
+            >
+              <ButtonText>{isSubmitting ? "..." : "Register"}</ButtonText>
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
+    </>
   );
 }

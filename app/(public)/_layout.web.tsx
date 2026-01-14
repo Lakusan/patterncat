@@ -50,6 +50,10 @@ export default function PublicLayout() {
           setRegisterModal(false);
           setAuthModal(true);
         }}
+        onSuccess={() => {
+          setRegisterModal(false);
+          setLoginModal(true);
+        }}
       />
 
       <Drawer screenOptions={{ drawerType: "slide" }}>

@@ -1,4 +1,3 @@
-import AuthRequestModal from "@/src/components/modals/AuthRequestModal";
 import Feather from "@expo/vector-icons/Feather";
 import { Tabs } from "expo-router";
 import { useState } from "react";
@@ -15,12 +14,7 @@ export default function PublicLayout() {
 
   return (
     <>
-      <AuthRequestModal
-        isOpen={modalVisible}
-        onClose={() => setModalVisible(false)}
-        onRegister={() => console.log("On Register")}
-        onLogin={() => console.log("On Login")}
-      />
+      
 
       <Tabs screenOptions={{ headerShown: false }}>
         <Tabs.Screen
