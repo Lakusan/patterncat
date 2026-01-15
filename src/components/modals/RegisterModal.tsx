@@ -45,7 +45,7 @@ export default function RegisterModal({
     try {
       await supabase.auth.resend({
         type: "signup",
-        email,
+        email: email,
       });
       console.log("Confirmation email resent");
     } catch (err) {

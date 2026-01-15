@@ -7,7 +7,7 @@ export default function AuthProvider({ children }: PropsWithChildren) {
   const [session, setSession] = useState<Session | null>(null);
   const [profile, setProfile] = useState<any>(null);
 
-  const [isSessionLoading, setIsSessionLoading ] = useState(true);
+  const [isSessionLoading, setIsSessionLoading] = useState(true);
   const [isProfileLoading, setIsProfileLoading] = useState(true);
 
   const isLoading = isSessionLoading || isProfileLoading;
@@ -41,20 +41,23 @@ export default function AuthProvider({ children }: PropsWithChildren) {
   // 2. Fetch profile when session changes
   //
   useEffect(() => {
+    // No Session no Profile Fetch
     const loadProfile = async () => {
       setIsProfileLoading(true);
-
-      if (session?.user?.id) {
+      if (!session?.user?.id) {
         setProfile(null);
         setIsProfileLoading(false);
         return;
-      }
-      const { data } = await supabase
+     }
+    // If session -> Fetch
+    const { data, error } = await supabase
       .from("profiles")
       .select("*")
       .eq("id", session?.user.id)
       .single();
-
+     if(error) {
+      console.error("Patterncat: Error loading profile");
+     }
       setProfile(data ?? null);
       setIsProfileLoading(false)
     };
