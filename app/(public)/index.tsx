@@ -75,7 +75,7 @@ export default function PublicHome() {
   }, [selectedCategory]);
 
   const renderCard = ({ item: pattern }: { item: Pattern }) => (
-    <View style={{ width: cardWidth }}>
+      <View style={{ width: cardWidth }}>
       <Pressable
         onPress={() =>
           router.push({

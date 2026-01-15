@@ -1,17 +1,11 @@
+import { Pattern } from '@/src/types/pattern';
 import React, { useState } from "react";
 import { Dimensions, Pressable, ScrollView, Text, View } from "react-native";
 
 const { width } = Dimensions.get("window");
 
-type Item = {
-  id: string;
-  title: string;
-  description: string;
-  image: string;
-  category: string;
-};
 
-export default function PatternDetail({ item }: { item: Item }) {
+export default function PatternDetail({ item }: { item: Pattern }) {
   const [expanded, setExpanded] = useState(false);
 
   if (!item) {
