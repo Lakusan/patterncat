@@ -1,6 +1,8 @@
 import { createClient } from "@supabase/supabase-js";
 import { Platform } from "react-native";
-import { secureStorage } from "./storage";
+import { secureStorage } from "./SecureStorage";
+
+console.log(">>> supabase.js LOADED");
 
 export const supabase = createClient(
   process.env.EXPO_PUBLIC_SUPABASE_URL!,

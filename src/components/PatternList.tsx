@@ -1,120 +1,115 @@
 // src/components/PatternList.tsx
-import { Card } from '@/components/ui/card';
-import { Heading } from '@/components/ui/heading';
-import { Image } from '@/components/ui/image';
-import { Text } from '@/components/ui/text';
-import { useState } from 'react';
-import { FlatList, Pressable, View } from "react-native";
 
 type Item = {
   id: string;
   title: string;
   description: string;
-  image: string;
+  image: string[];
   category: string;
 };
 
 export default function PatternList() {
-  const [selectedCategory, setSelectedCategory] = useState<string | null>(null)
+  // const [selectedCategory, setSelectedCategory] = useState<string | null>(null)
 
-  // TODO: Beim Start der App dynamisch aus DB zeihen
-  const categories = ["Kleider", "Hosen", "Oberteile", "Jacken"];
-  // DEV
-  function getRandomCategory(): string {
-    const index = Math.floor(Math.random() * categories.length);
-    return categories[index];
-  }
+  // // TODO: Beim Start der App dynamisch aus DB zeihen
+  // const categories = ["Kleider", "Hosen", "Oberteile", "Jacken"];
+  // // DEV
+  // function getRandomCategory(): string {
+  //   const index = Math.floor(Math.random() * categories.length);
+  //   return categories[index];
+  // }
 
-  const items: Item[] = Array.from({ length: 200 }, (_, i) => ({
-    id: `${i + 1}`,
-    title: `Muster ${i + 1}`,
-    description: `Das ist eine Beschreibung für Muster ${i + 1}.`,
-    image: `https://picsum.photos/seed/pattern${i + 1}/300/200`,
-    category: getRandomCategory(),
-  }));
-  // ------
+  // const items: Item[] = Array.from({ length: 200 }, (_, i) => ({
+  //   id: `${i + 1}`,
+  //   title: `Muster ${i + 1}`,
+  //   description: `Das ist eine Beschreibung für Muster ${i + 1}.`,
+  //   image: `https://picsum.photos/seed/pattern${i + 1}/300/200`,
+  //   category: getRandomCategory(),
+  // }));
+  // // ------
 
-  // Filter Logic
-  const filteredItems =
-    selectedCategory === null
-      ? items
-      : items.filter((item) => item.category === selectedCategory);
+  // // Filter Logic
+  // const filteredItems =
+  //   selectedCategory === null
+  //     ? items
+  //     : items.filter((item) => item.category === selectedCategory);
 
-  // Card/Item Rendering 
-  const renderItem = ({ item }: { item: Item }) => (
-    <Card size="sm" variant="ghost" className="flex-1">
-      {/* <Link href="/details/[id]"> */}
-      <Image
-        source={{ uri: item.image }}
-        className="rounded-md"
-        alt="image"
-      />
-      <Text className="text-xs font-normal mt-2 text-typography-700">
-        {item.description}
-      </Text>
-      <Heading size="sm" className="mt-2">
-        {item.title}
-      </Heading>
-      {/* </Link> */}
-    </Card>
-  );
+  // // Card/Item Rendering 
+  // const renderItem = ({ item }: { item: Item }) => (
+  //   <Card size="sm" variant="ghost" className="flex-1">
+  //     {/* <Link href="/details/[id]"> */}
+  //     <Image
+  //       source={{ uri: item.image }}
+  //       className="rounded-md"
+  //       alt="image"
+  //     />
+  //     <Text className="text-xs font-normal mt-2 text-typography-700">
+  //       {item.description}
+  //     </Text>
+  //     <Heading size="sm" className="mt-2">
+  //       {item.title}
+  //     </Heading>
+  //     {/* </Link> */}
+  //   </Card>
+  //);
 
   return (
-    <View className="flex-1 justify-center items-center m-1 bg-green-500">
-      {/* Category Chips - Filter */}
-      <View className="flex-row w-full gap-4 p-2 bg-orange-500">
-        <Pressable
-          onPress={() => setSelectedCategory(null)}
-          className={`flex-1 rounded ${selectedCategory === null
-            ? "bg-purple-800"
-            : "bg-gray-200"
-            }`}
-        >
-          <Text
-            className={`text-sm text-center ${selectedCategory === null
-              ? "text-white font-semibold"
-              : "text-gray-700"
-              }`}
-          >
-            Alle
-          </Text>
-        </Pressable>
+    <></>
+    // <View className="flex-1 justify-center items-center m-1 bg-green-500">
+    //   {/* Category Chips - Filter */}
+    //   <View className="flex-row w-full gap-4 p-2 bg-orange-500">
+    //     <Pressable
+    //       onPress={() => setSelectedCategory(null)}
+    //       className={`flex-1 rounded ${selectedCategory === null
+    //         ? "bg-purple-800"
+    //         : "bg-gray-200"
+    //         }`}
+    //     >
+    //       <Text
+    //         className={`text-sm text-center ${selectedCategory === null
+    //           ? "text-white font-semibold"
+    //           : "text-gray-700"
+    //           }`}
+    //       >
+    //         Alle
+    //       </Text>
+    //     </Pressable>
 
-        {/* Category chips */}
-        {categories.map((cat) => (
-          <Pressable
-            key={cat}
-            onPress={() => setSelectedCategory(cat)}
-            className={`flex-1 rounded ${selectedCategory === cat
-              ? "bg-purple-800"
-              : "bg-gray-200"
-              }`}
-          >
-            <Text
-              className={`text-sm text-center ${selectedCategory === cat
-                ? "text-white font-semibold"
-                : "text-gray-700"
-                }`}
-            >
-              {cat}
-            </Text>
-          </Pressable>
-        ))}
-      </View>
-      {items && items.length > 0 ? (
-        <FlatList
-          data={filteredItems}
-          renderItem={renderItem}
-          keyExtractor={(item) => item.id}
-          showsVerticalScrollIndicator={false}
-          numColumns={2}
-          contentContainerClassName="bg-blue-500 m-1"
-          onRefresh={() => console.log("refreshing")}
-          refreshing={false}
-        />
-      ) : (
-        <Text className="text-center mt-4"> Keine Schnittmuster gefunden 😢</Text>
-      )}
-    </View>
+    //     {/* Category chips */}
+    //     {categories.map((cat) => (
+    //       <Pressable
+    //         key={cat}
+    //         onPress={() => setSelectedCategory(cat)}
+    //         className={`flex-1 rounded ${selectedCategory === cat
+    //           ? "bg-purple-800"
+    //           : "bg-gray-200"
+    //           }`}
+    //       >
+    //         <Text
+    //           className={`text-sm text-center ${selectedCategory === cat
+    //             ? "text-white font-semibold"
+    //             : "text-gray-700"
+    //             }`}
+    //         >
+    //           {cat}
+    //         </Text>
+    //       </Pressable>
+    //     ))}
+    //   </View>
+    //   {items && items.length > 0 ? (
+    //     <FlatList
+    //       data={filteredItems}
+    //       renderItem={renderItem}
+    //       keyExtractor={(item) => item.id}
+    //       showsVerticalScrollIndicator={false}
+    //       numColumns={2}
+    //       contentContainerClassName="bg-blue-500 m-1"
+    //       onRefresh={() => console.log("refreshing")}
+    //       refreshing={false}
+    //     />
+    //   ) : (
+    //     <Text className="text-center mt-4"> Keine Schnittmuster gefunden 😢</Text>
+    //   )}
+    // </View>
   );
 }

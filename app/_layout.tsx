@@ -10,6 +10,7 @@ import AuthProvider from "@/src/providers/auth-provider";
 import { Stack } from "expo-router";
 
 export default function RootLayout() {
+  console.log(">>> RootLayout LOADED");
   return (
     <AuthProvider>
       <InnerRootLayout />
@@ -18,6 +19,7 @@ export default function RootLayout() {
 }
 
 function InnerRootLayout() {
+  console.log(">>> InnerRootLayout LOADED");
   const { isLoggedIn, isLoading } = useAuthContext();
 
   return (

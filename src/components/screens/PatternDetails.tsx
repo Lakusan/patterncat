@@ -1,4 +1,3 @@
-import { Image } from "expo-image";
 import React, { useState } from "react";
 import { Dimensions, Pressable, ScrollView, Text, View } from "react-native";
 
@@ -24,15 +23,9 @@ export default function PatternDetail({ item }: { item: Item }) {
   }
 
   return (
-    <ScrollView className="flex-1">
-      {/* Header Image */}
-      <View style={{ width, height: 300 }}>
-        <Image
-          source={{ uri: item.image }}
-          className="w-full h-full"
-          contentFit="cover"
-        />
-      </View>
+    <ScrollView className="flex-1 bg-white">
+      {/* PRODUCT IMAGE GALLERY */}
+      {/* <PatternImageGalery images={images}/> */}
 
       {/* Title */}
       <Text className="text-3xl font-bold mt-4 mx-4">{item.title}</Text>
