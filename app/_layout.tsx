@@ -7,10 +7,16 @@ import { SplashScreenController } from "@/src/components/splash-screen-controlle
 import { useAuthContext } from "@/src/hooks/use-auth-context";
 import AuthProvider from "@/src/providers/auth-provider";
 
+import { debugClearPatternStore } from "@/src/debug/clearPatternStore";
+import { useInitializeMetadata } from "@/src/hooks/useInitializeMetadata";
+import { useInitializePatterns } from "@/src/hooks/useInitializePatterns";
 import { Stack } from "expo-router";
 
 export default function RootLayout() {
   console.log(">>> RootLayout LOADED");
+if (__DEV__) { debugClearPatternStore(); }
+  useInitializePatterns();
+  useInitializeMetadata();
   return (
     <AuthProvider>
       <InnerRootLayout />
@@ -21,7 +27,6 @@ export default function RootLayout() {
 function InnerRootLayout() {
   console.log(">>> InnerRootLayout LOADED");
   const { isLoggedIn, isLoading } = useAuthContext();
-
   return (
     <GluestackUIProvider>
       <SplashScreenController />

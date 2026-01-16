@@ -6,15 +6,41 @@ export type Pattern = {
   image: string
   gallery: string[];
   category: string;
+  updatedAt: number;
 };
+
 
 export type PatternItemState = {
-    patterns: Pattern[];
-    setPatterns: (patterns: Pattern[]) => void;
+  // --- DATA ---
+  patterns: Pattern[];
+  selectedPattern: Pattern | null;
 
-    selectedPattern: Pattern | null;
-    setSelectedPattern: (patterns: Pattern | null ) => void;
+  // --- SETTERS ---
+  setPatterns: (patterns: Pattern[]) => void;
+  setSelectedPattern: (pattern: Pattern | null) => void;
 
-    cachedPatterns: Record<string, Pattern>;
-    cachePattern: (pattern: Pattern) => void; 
+  // --- CACHE ---
+  cachedPatterns: Record<string, Pattern>;
+  cachePattern: (pattern: Pattern) => void;
+
+  // --- DIRTY (unsynced) PATTERNS ---
+  dirtyPatterns: Record<string, Pattern>;
+  markDirty: (pattern: Pattern) => void;
+
+  // --- SYNC TIMESTAMP ---
+  lastSyncedAt: number | null;
+  setLastSyncedAt: (ts: number) => void;
+
+  // --- MERGING ---
+  mergeRemotePatterns: (remote: Pattern[]) => void;
+
+  // --- SYNC ---
+  syncWithServer: () => Promise<void>;
+
+  // --- INITIALIZATION ---
+  initializeStore: () => Promise<void>;
+
+  // --- CLEAR PERSISTENCE ---
+  clearPersistance: () => Promise<void>;
 };
+

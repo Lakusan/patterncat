@@ -17,6 +17,7 @@ export default function AuthProvider({ children }: PropsWithChildren) {
   //
   useEffect(() => {
     const loadSession = async () => {
+       console.log(">>> AuthProvider loadSession");
       const { data, error } = await supabase.auth.getSession();
       setSession(data.session ?? null);
       if (error) {
@@ -47,17 +48,19 @@ export default function AuthProvider({ children }: PropsWithChildren) {
       if (!session?.user?.id) {
         setProfile(null);
         setIsProfileLoading(false);
+        console.log(`>>> AuthProvider: Profile: NO PROFILE FOUND; Profile is: ${profile}`);
         return;
-     }
-    // If session -> Fetch
-    const { data, error } = await supabase
+      }
+      // If session -> Fetch
+      const { data, error } = await supabase
       .from("profiles")
       .select("*")
       .eq("id", session?.user.id)
       .single();
-     if(error) {
-      console.error("Patterncat: Error loading profile");
-     }
+      if(error) {
+        console.error("Patterncat: Error loading profile");
+      }
+      console.log(`>>> AuthProvider: Profile ${data}`);
       setProfile(data ?? null);
       setIsProfileLoading(false)
     };

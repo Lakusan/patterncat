@@ -48,3 +48,10 @@ Join our community of developers creating universal apps.
 
 - [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
 - [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+
+
+
+## Patterncat Feature-Set
+
+- Local‑First Sync or Offline‑First Data Synchronization for Patterns (Zustand + Secure Store) 
+- - Zustand Single Source of Truth > LocalStorage > SupabaseSQL
