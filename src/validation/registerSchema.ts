@@ -45,11 +45,18 @@ export const registerSchema = z
       ),
 
     confirmPassword: z.string(),
+    agreed: z
+  .boolean()
+  .refine((val) => val === true, {
+    message: "Bitte AGB und Datenschutz bestätigen",
+  }),
+
   })
 
   .refine((data) => data.password === data.confirmPassword, {
     message: "Passwords do not match",
     path: ["confirmPassword"],
-  });
+  }
+);
 
   export type RegisterSchema = z.infer<typeof registerSchema>;

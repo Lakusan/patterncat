@@ -8,6 +8,7 @@ import React from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 
+import { Divider } from '@/components/ui/divider';
 import { useAuthContext } from "@/src/hooks/use-auth-context";
 import { loginSchema, LoginSchema } from "@/src/validation/loginSchema";
 import { router } from 'expo-router';
@@ -52,14 +53,15 @@ export default function LoginModal({
     <Modal isOpen={isOpen} onClose={onClose}>
       <ModalBackdrop />
 
-      <ModalContent className="bg-white rounded-2xl p-4 w-[90%] self-center">
+      <ModalContent className="max-w-[375px]">
         <ModalHeader>
           <Heading className="text-xl font-bold">Login</Heading>
         </ModalHeader>
-
+          <Text className='text-center m-2'>Log In or Create a user account to feel the magic of PATTERN CAT</Text>
+          <Divider></Divider>
         <ModalBody className="gap-4">
           {/* EMAIL */}
-          <Input className="border border-gray-300 rounded-lg">
+          <Input className="border border-gray-300 rounded-lg m-2">
             <InputField
               placeholder="Email"
               keyboardType="email-address"
@@ -67,11 +69,11 @@ export default function LoginModal({
             />
           </Input>
           {errors.email && (
-            <Text className="text-red-500 text-sm">{errors.email.message}</Text>
+            <Text className="text-red-500 text-small text-center">{errors.email.message}</Text>
           )}
 
           {/* PASSWORD */}
-          <Input className="border border-gray-300 rounded-lg">
+          <Input className="border border-gray-300 rounded-lg m-2">
             <InputField
               placeholder="Password"
               secureTextEntry
@@ -79,7 +81,7 @@ export default function LoginModal({
             />
           </Input>
           {errors.password && (
-            <Text className="text-red-500 text-sm">
+            <Text className="text-red-500 text-sm text-center">
               {errors.password.message}
             </Text>
           )}
