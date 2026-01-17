@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/modal";
 import { Text } from "@/components/ui/text";
 import React, { useEffect, useState } from "react";
-import { Pressable, ScrollView, View } from "react-native";
+import { Pressable, View } from "react-native";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -19,10 +19,13 @@ import { useForm } from "react-hook-form";
 import { Checkbox, CheckboxIcon, CheckboxIndicator } from "@/components/ui/checkbox";
 import { CheckIcon } from '@/components/ui/icon';
 import CustomAlertDialog from "@/src/components/alterts/CustomAlertDialog";
+import { LegalModal } from "@/src/components/modals/LegalModal";
+import AGB from "@/src/components/regulations/AGB";
+import DSGVO from "@/src/components/regulations/DSGVO";
 import { useAuthContext } from "@/src/hooks/use-auth-context";
 import { supabase } from "@/src/lib/supabase";
 import { registerSchema, RegisterSchema } from "@/src/validation/registerSchema";
-import AGB from "../regulations/AGB";
+
 
 /* -------------------------------------------------------
    PROPS
@@ -140,150 +143,31 @@ export default function RegisterModal({
       {/* -------------------------------------------------------
           AGB MODAL
       ------------------------------------------------------- */}
-      <Modal isOpen={showAGB} onClose={() => setShowAGB(false)}>
-        <ModalBackdrop />
-        <ModalContent className="bg-white rounded-2xl p-4 w-[90%] self-center">
 
-          <ModalHeader>
-            <Heading className="text-xl font-bold">AGB</Heading>
-          </ModalHeader>
-
-          <ModalBody>
-            <View className="max-h-[400px]">
-              <ScrollView
-                contentContainerStyle={{ paddingBottom: 40 }}
-                onScroll={(e) => {
-                  const { layoutMeasurement, contentOffset, contentSize } = e.nativeEvent;
-                  const isBottom =
-                    layoutMeasurement.height + contentOffset.y >= contentSize.height - 40;
-
-                  if (isBottom) {
-                    setHasReadAGB(true);
-                    console.log("AGB komplett gelesen");
-                  }
-                }}
-                scrollEventThrottle={16}
-              >
-                <AGB />
-              </ScrollView>
-            </View>
-
-            {/* Feedback unter dem Scrollbereich */}
-            <View className="h-6 mt-2">
-              {hasReadAGB && (
-                <Text className="text-green-600 text-center font-medium">
-                  ✓ AGB vollständig gelesen
-                </Text>
-              )}
-            </View>
-          </ModalBody>
-
-          <ModalFooter className="flex-col gap-3">
-
-            {/* Weiter-Button mit Aktivierungs-Animation */}
-            <Button
-              isDisabled={!hasReadAGB}
-              className={`
-          w-full py-3 rounded-xl
-          transition-all duration-300
-          ${hasReadAGB ? "bg-blue-600 opacity-100" : "bg-gray-300 opacity-60"}
-        `}
-              onPress={() => {
-                setShowAGB(false);
-              }}
-            >
-              <ButtonText className="text-white font-semibold">
-                Weiter
-              </ButtonText>
-            </Button>
-
-            {/* Schließen-Button */}
-            <Button
-              variant="outline"
-              onPress={() => setShowAGB(false)}
-              className="w-full border-gray-300"
-            >
-              <ButtonText className="text-gray-700">Schließen</ButtonText>
-            </Button>
-
-          </ModalFooter>
-
-        </ModalContent>
-      </Modal>
-
+      <LegalModal
+        visible={showAGB}
+        title="AGB"
+        hasRead={hasReadAGB}
+        onClose={() => setShowAGB(false)}
+        onReadComplete={() => setHasReadAGB(true)}
+      >
+        <AGB />
+      </LegalModal>
 
       {/* -------------------------------------------------------
           DSGVO MODAL
       ------------------------------------------------------- */}
-      <Modal isOpen={showDSGVO} onClose={() => setShowDSGVO(false)}>
-        <ModalBackdrop />
-        <ModalContent className="bg-white rounded-2xl p-4 w-[90%] self-center">
 
-          <ModalHeader>
-            <Heading className="text-xl font-bold">DSGVO</Heading>
-          </ModalHeader>
+      <LegalModal
+        visible={showDSGVO}
+        title="Datenschutz"
+        hasRead={hasReadDSGVO}
+        onClose={() => setShowDSGVO(false)}
+        onReadComplete={() => setHasReadDSGVO(true)}
+      >
+        <DSGVO />
+      </LegalModal>
 
-          <ModalBody>
-            <View className="max-h-[400px]">
-              <ScrollView
-                contentContainerStyle={{ paddingBottom: 40 }}
-                onScroll={(e) => {
-                  const { layoutMeasurement, contentOffset, contentSize } = e.nativeEvent;
-                  const isBottom =
-                    layoutMeasurement.height + contentOffset.y >= contentSize.height - 40;
-
-                  if (isBottom) {
-                    setHasReadDSGVO(true);
-                  }
-                }}
-                scrollEventThrottle={16}
-              >
-                <AGB />
-              </ScrollView>
-            </View>
-
-            {/* Feedback unter dem Scrollbereich */}
-            <View className="h-6 mt-2">
-              {hasReadDSGVO && (
-                <Text className="text-green-600 text-center font-medium">
-                  ✓ DSGVO vollständig gelesen
-                </Text>
-              )}
-            </View>
-          </ModalBody>
-
-          <ModalFooter className="flex-col gap-3">
-
-            {/* Weiter-Button mit Aktivierungs-Animation */}
-            <Button
-              isDisabled={!hasReadDSGVO}
-              className={`
-          w-full py-3 rounded-xl
-          transition-all duration-300
-          ${hasReadDSGVO ? "bg-blue-600 opacity-100" : "bg-gray-300 opacity-60"}
-        `}
-              onPress={() => {
-                setShowDSGVO(false);
-              }}
-            >
-              <ButtonText className="text-white font-semibold">
-                Weiter
-              </ButtonText>
-            </Button>
-
-            {/* Schließen-Button */}
-            <Button
-              variant="outline"
-              onPress={() => setShowDSGVO(false)}
-              className="w-full border-gray-300"
-            >
-              <ButtonText className="text-gray-700">Schließen</ButtonText>
-            </Button>
-
-          </ModalFooter>
-
-        </ModalContent>
-      </Modal>
 
       {/* -------------------------------------------------------
           REGISTER MODAL
