@@ -17,15 +17,19 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 
 import { Checkbox, CheckboxIcon, CheckboxIndicator } from "@/components/ui/checkbox";
-import { CheckIcon } from '@/components/ui/icon';
+import { CheckIcon } from "@/components/ui/icon";
+
 import CustomAlertDialog from "@/src/components/alterts/CustomAlertDialog";
 import { LegalModal } from "@/src/components/modals/LegalModal";
 import AGB from "@/src/components/regulations/AGB";
 import DSGVO from "@/src/components/regulations/DSGVO";
+
 import { useAuthContext } from "@/src/hooks/use-auth-context";
 import { supabase } from "@/src/lib/supabase";
-import { registerSchema, RegisterSchema } from "@/src/validation/registerSchema";
 
+import { PASSWORD_LIMITS } from "@/src/constants/validation/limits";
+import { checkPasswordRules } from "@/src/validation/CheckPasswords";
+import { registerSchema, RegisterSchema } from "@/src/validation/registerSchema";
 
 /* -------------------------------------------------------
    PROPS
@@ -57,24 +61,6 @@ export default function RegisterModal({
 
   const { signUp } = useAuthContext();
 
-  useEffect(() => {
-    if (!isOpen) {
-      // Reset aller lokalen States
-      setShowAGB(false);
-      setShowDSGVO(false);
-      setHasReadAGB(false);
-      setHasReadDSGVO(false);
-      setEMailAlertModal(false);
-      setEmailForAlert("");
-
-      // Reset des Formulars
-      setValue("email", "");
-      setValue("password", "");
-      setValue("confirmPassword", "");
-      setValue("agreed", false);
-    }
-  }, [isOpen]);
-
   const {
     setValue,
     handleSubmit,
@@ -88,8 +74,26 @@ export default function RegisterModal({
   const password = watch("password") ?? "";
   const agreed = watch("agreed") ?? false;
 
+  const rules = checkPasswordRules(password);
+
   const update = (field: keyof RegisterSchema, value: any) =>
     setValue(field, value, { shouldValidate: true, shouldDirty: true });
+
+  useEffect(() => {
+    if (!isOpen) {
+      setShowAGB(false);
+      setShowDSGVO(false);
+      setHasReadAGB(false);
+      setHasReadDSGVO(false);
+      setEMailAlertModal(false);
+      setEmailForAlert("");
+
+      setValue("email", "");
+      setValue("password", "");
+      setValue("confirmPassword", "");
+      setValue("agreed", false);
+    }
+  }, [isOpen]);
 
   const resendConfirmation = async (email: string) => {
     try {
@@ -116,17 +120,6 @@ export default function RegisterModal({
     }
   };
 
-  /* -------------------------------------------------------
-     PASSWORT CHECKLISTE UI-only
-  ------------------------------------------------------- */
-  const pwChecks = [
-    { label: "Mindestens 8 Zeichen", valid: password.length >= 8 },
-    { label: "Kleinbuchstaben enthalten", valid: /[a-z]/.test(password) },
-    { label: "Großbuchstaben enthalten", valid: /[A-Z]/.test(password) },
-    { label: "Mindestens eine Zahl", valid: /[0-9]/.test(password) },
-    { label: "Sonderzeichen enthalten", valid: /[^A-Za-z0-9]/.test(password) },
-  ];
-
   return (
     <>
       {/* -------------------------------------------------------
@@ -143,7 +136,6 @@ export default function RegisterModal({
       {/* -------------------------------------------------------
           AGB MODAL
       ------------------------------------------------------- */}
-
       <LegalModal
         visible={showAGB}
         title="AGB"
@@ -157,7 +149,6 @@ export default function RegisterModal({
       {/* -------------------------------------------------------
           DSGVO MODAL
       ------------------------------------------------------- */}
-
       <LegalModal
         visible={showDSGVO}
         title="Datenschutz"
@@ -167,7 +158,6 @@ export default function RegisterModal({
       >
         <DSGVO />
       </LegalModal>
-
 
       {/* -------------------------------------------------------
           REGISTER MODAL
@@ -203,27 +193,27 @@ export default function RegisterModal({
               />
             </Input>
 
-            {/* Passwort Checkliste */}
-            <View style={{ marginTop: 8 }}>
-              {pwChecks.map((c, i) => (
-                <View
-                  key={i}
-                  style={{
-                    flexDirection: "row",
-                    alignItems: "center",
-                    marginBottom: 4,
-                  }}
-                >
-                  <Text className={c.valid ? "text-green-600" : "text-red-500"}>
-                    {c.valid ? "✓" : "✗"}
-                  </Text>
-                  <Text
-                    className={c.valid ? "text-green-600 ml-2" : "text-red-500 ml-2"}
-                  >
-                    {c.label}
-                  </Text>
-                </View>
-              ))}
+            {/* Passwort Checkliste (NEU, korrekt, synchron mit Zod) */}
+            <View className="mt-2">
+              <Text className={rules.length ? "text-green-600" : "text-red-500"}>
+                {rules.length ? "✓" : "✗"} Mindestens {PASSWORD_LIMITS.MIN_LENGTH} Zeichen
+              </Text>
+
+              <Text className={rules.lower ? "text-green-600" : "text-red-500"}>
+                {rules.lower ? "✓" : "✗"} Kleinbuchstaben enthalten
+              </Text>
+
+              <Text className={rules.upper ? "text-green-600" : "text-red-500"}>
+                {rules.upper ? "✓" : "✗"} Großbuchstaben enthalten
+              </Text>
+
+              <Text className={rules.number ? "text-green-600" : "text-red-500"}>
+                {rules.number ? "✓" : "✗"} Mindestens eine Zahl
+              </Text>
+
+              <Text className={rules.special ? "text-green-600" : "text-red-500"}>
+                {rules.special ? "✓" : "✗"} Sonderzeichen enthalten
+              </Text>
             </View>
 
             {errors.password && (
@@ -278,15 +268,10 @@ export default function RegisterModal({
 
             </View>
 
-
             {errors.agreed && (
               <Text className="text-red-500 text-sm">{errors.agreed.message}</Text>
             )}
 
-
-            {errors.agreed && (
-              <Text className="text-red-500 text-sm">{errors.agreed.message}</Text>
-            )}
           </ModalBody>
 
           <ModalFooter className="flex-row justify-between mt-4">

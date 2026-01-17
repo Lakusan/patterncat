@@ -1,62 +1,55 @@
+// validation/registerSchema.ts
+import { PASSWORD_LIMITS } from "@/src/constants/validation/limits";
+import { checkPasswordRules } from "@/src/validation/CheckPasswords";
 import { z } from "zod";
-import { validationData } from "../constants/validation";
-
 export const registerSchema = z
   .object({
-    email: z.string().email("Please enter a valid email"),
+    email: z
+      .string()
+      .email("Bitte eine gültige E‑Mail-Adresse eingeben."),
 
     password: z
       .string()
-      .min(validationData.PASSWORD_MIN_LENGTH, `Password must be at least ${validationData.PASSWORD_MIN_LENGTH} characters (BSI recommendation)`)
-      .max(validationData.PASSWORD_MAX_LENGTH, `Password must be shorter than ${validationData.PASSWORD_MAX_LENGTH} characters`)
-      .refine((val) => !/\s/.test(val), {
-        message: "Password must not contain spaces",
+      .refine((val) => checkPasswordRules(val).length, {
+        message: `Das Passwort muss mindestens ${PASSWORD_LIMITS.MIN_LENGTH} Zeichen lang sein.`,
       })
-      .refine(
-        (val) =>
-          [/[a-z]/, /[A-Z]/, /[0-9]/, /[^A-Za-z0-9]/].filter((r) =>
-            r.test(val)
-          ).length >= 3,
-        {
-          message:
-            "Password must include at least 3 of the following: lowercase, uppercase, number, special character",
-        }
-      )
-      .refine(
-        (val) =>
-          ![
-            "123456",
-            "123456789",
-            "password",
-            "qwerty",
-            "letmein",
-            "abc123",
-            "111111",
-          ].includes(val.toLowerCase()),
-        {
-          message: "Password is too common and insecure",
-        }
-      )
-      .refine(
-        (val) => !/(1234|abcd|qwerty|password)/i.test(val),
-        {
-          message: "Password contains insecure patterns",
-        }
-      ),
+      .refine((val) => checkPasswordRules(val).maxLength, {
+        message: `Das Passwort darf höchstens ${PASSWORD_LIMITS.MAX_LENGTH} Zeichen lang sein.`,
+      })
+      .refine((val) => checkPasswordRules(val).lower, {
+        message: "Mindestens ein Kleinbuchstabe erforderlich.",
+      })
+      .refine((val) => checkPasswordRules(val).upper, {
+        message: "Mindestens ein Großbuchstabe erforderlich.",
+      })
+      .refine((val) => checkPasswordRules(val).number, {
+        message: "Mindestens eine Zahl erforderlich.",
+      })
+      .refine((val) => checkPasswordRules(val).special, {
+        message: "Mindestens ein Sonderzeichen erforderlich.",
+      })
+      .refine((val) => checkPasswordRules(val).complexity, {
+        message:
+          "Das Passwort muss 3 der folgenden enthalten: Kleinbuchstaben, Großbuchstaben, Zahl, Sonderzeichen.",
+      })
+      .refine((val) => checkPasswordRules(val).common, {
+        message: "Dieses Passwort ist unsicher und wird häufig verwendet.",
+      })
+      .refine((val) => checkPasswordRules(val).pattern, {
+        message: "Das Passwort enthält unsichere Muster.",
+      }),
 
     confirmPassword: z.string(),
+
     agreed: z
-  .boolean()
-  .refine((val) => val === true, {
-    message: "Bitte AGB und Datenschutz bestätigen",
-  }),
-
+      .boolean()
+      .refine((val) => val === true, {
+        message: "Bitte AGB und Datenschutz bestätigen.",
+      }),
   })
-
   .refine((data) => data.password === data.confirmPassword, {
-    message: "Passwords do not match",
+    message: "Die Passwörter stimmen nicht überein.",
     path: ["confirmPassword"],
-  }
-);
+  });
 
-  export type RegisterSchema = z.infer<typeof registerSchema>;
+export type RegisterSchema = z.infer<typeof registerSchema>;

@@ -1,6 +1,6 @@
+import { secureStorage } from "@/src/store/SecureStorage";
 import { createClient } from "@supabase/supabase-js";
 import { Platform } from "react-native";
-import { secureStorage } from "./SecureStorage";
 
 console.log(">>> supabase.js LOADED");
 
