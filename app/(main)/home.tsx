@@ -10,8 +10,10 @@ export default function Home() {
         <View>
             <Text>Main Home: home.tsx</Text>
             <Button onPress={() => {
-                signOut()
-                console.log("Sign out pressed from HOME screen")
+                if (isLoggedIn) {
+                    signOut()
+                    console.log("Sign out pressed from HOME screen")
+                }
             }}
                 ></Button>
 

@@ -7,6 +7,7 @@ import {
 } from "@/components/ui/modal";
 
 import { Button, ButtonText } from "@/components/ui/button";
+import { Divider } from "@/components/ui/divider";
 import { Image } from "@/components/ui/image";
 import { VStack } from "@/components/ui/vstack";
 import { Text } from "react-native";
@@ -36,8 +37,10 @@ export default function AuthRequestModal({
 
           <VStack space="lg" className="w-full mt-4">
             {/* LOGIN BUTTON */}
+            <Divider className="" />
             <Button
-              className="flex-1 bg-purple-500"
+              className="flex-1"
+              variant="link"
               onPress={() => {
                 onClose();
                 onLogin();
@@ -45,10 +48,11 @@ export default function AuthRequestModal({
             >
               <ButtonText>Log In</ButtonText>
             </Button>
-
             {/* REGISTER BUTTON */}
+            <Divider className="" />
             <Button
-              className="flex-1 bg-purple-500"
+              className="flex-1"
+              variant="link"
               onPress={() => {
                 onClose();
                 onRegister();
@@ -61,9 +65,10 @@ export default function AuthRequestModal({
 
         <ModalFooter>
           <Image
-            source={require("@/assets/images/icon.png")}
+            source={require("@/assets/images/patterncat_logo.png")}
             alt="image"
             className="h-[185px] w-full rounded"
+            resizeMode="contain"
           />
         </ModalFooter>
       </ModalContent>
