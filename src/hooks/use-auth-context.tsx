@@ -1,18 +1,6 @@
-import { Session } from "@supabase/supabase-js";
+import { AuthData } from "@/src/types/authTypes";
 import { createContext, useContext } from "react";
 
-export type AuthData = {
-  session: Session | null;
-  profile: any | null;
-  isLoading: boolean;
-  isLoggedIn: boolean;
-
-  // Auth actions
-  signIn: (payload: { email: string; password: string }) => Promise<void>;
-  signUp: (payload: { email: string; password: string }) => Promise<void>;
-  signOut: () => Promise<void>;
-  resetPassword: (email: string) => Promise<void>;
-};
 
 export const AuthContext = createContext<AuthData>({
   session: null,

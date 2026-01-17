@@ -1,4 +1,4 @@
-import { Pattern } from '@/src/types/pattern';
+import { Pattern } from '@/src/types/patternTypes';
 import React, { useState } from "react";
 import { Dimensions, Pressable, ScrollView, Text, View } from "react-native";
 

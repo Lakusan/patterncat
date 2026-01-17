@@ -1,20 +1,15 @@
-import { useTestContext } from '@/src/hooks/use-test-context';
-import { router } from 'expo-router';
+import { useAuthContext } from '@/src/hooks/use-auth-context';
 import { Drawer } from 'expo-router/drawer';
 import React, { useState } from "react";
 
 export default function PublicLayout() {
     const [modalVisible, setModalVisible] = useState(false);
-    const { isAuthenticated } = useTestContext();
-    if (!isAuthenticated) {
-        console.log(`(main)/_layout.web.tsx: Redirect to Public, because of AuthState =>  ${isAuthenticated }`);
-        router.replace("/(public)")
-    }
+    const { isLoggedIn } = useAuthContext();
     return (
         <>
             <Drawer screenOptions={{ drawerType: "slide" }}>
 
-                <Drawer.Protected guard={isAuthenticated}>
+                <Drawer.Protected guard={isLoggedIn}>
                     <Drawer.Screen
                         name="home"
                         options={{
@@ -24,7 +19,7 @@ export default function PublicLayout() {
                     />
                 </Drawer.Protected>
 
-                <Drawer.Protected guard={isAuthenticated}>
+                <Drawer.Protected guard={isLoggedIn}>
 
                     <Drawer.Screen
                         name="search"
@@ -35,7 +30,7 @@ export default function PublicLayout() {
                     />
                 </Drawer.Protected>
 
-                <Drawer.Protected guard={isAuthenticated}>
+                <Drawer.Protected guard={isLoggedIn}>
 
                     <Drawer.Screen
                         name="add"
@@ -46,7 +41,7 @@ export default function PublicLayout() {
                     />
                 </Drawer.Protected>
 
-                <Drawer.Protected guard={isAuthenticated}>
+                <Drawer.Protected guard={isLoggedIn}>
 
                     <Drawer.Screen
                         name="settings"
@@ -56,6 +51,10 @@ export default function PublicLayout() {
                         }}
                     />
                 </Drawer.Protected>
+                <Drawer.Screen
+                    name='[id]]'
+                    options={{ drawerItemStyle: { display: 'none' } }}
+                />
 
             </Drawer>
         </>

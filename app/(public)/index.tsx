@@ -5,7 +5,7 @@ import { Text } from '@/components/ui/text';
 import SafeAreaContainer from '@/src/components/SafeAreaContainer';
 import { useMetadataStore } from '@/src/store/metaDataStore';
 import { usePatternStore } from '@/src/store/patternStore';
-import { Pattern } from '@/src/types/pattern';
+import { Pattern } from '@/src/types/patternTypes';
 import { router } from 'expo-router';
 import { useMemo, useState } from 'react';
 import { FlatList, Platform, Pressable, useWindowDimensions, View } from 'react-native';

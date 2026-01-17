@@ -27,6 +27,10 @@ if (__DEV__) { debugClearPatternStore(); }
 function InnerRootLayout() {
   console.log(">>> InnerRootLayout LOADED");
   const { isLoggedIn, isLoading } = useAuthContext();
+<<<<<<< HEAD
+=======
+  console.log("Auth Status:", { isLoggedIn });
+>>>>>>> 9ef07a3 (added prototype to auth flow redirect to main)
   return (
     <GluestackUIProvider>
       <SplashScreenController />
@@ -38,7 +42,9 @@ function InnerRootLayout() {
         </Stack.Protected>
 
         {/* Public routes → login, register, landing page */}
-        <Stack.Screen name="(public)" />
+        <Stack.Protected guard={!isLoggedIn}>
+          <Stack.Screen name="(public)" />
+        </Stack.Protected>
       </Stack>
     </GluestackUIProvider>
   );

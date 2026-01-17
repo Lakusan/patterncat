@@ -14,7 +14,7 @@ import { Input, InputField } from '@/components/ui/input';
 import { VStack } from '@/components/ui/vstack';
 import { router } from 'expo-router';
 import React from 'react';
-import { useTestContext } from '../hooks/use-test-context';
+import { useAuthContext } from '../hooks/use-auth-context';
 
 // Passwordreqirements as constants
 // Input Validation
@@ -25,12 +25,11 @@ import { useTestContext } from '../hooks/use-test-context';
 export default function LoginForm() {
   const [isInvalid, setIsInvalid] = React.useState(false);
   const [inputValue, setInputValue] = React.useState('');
-  const { isAuthenticated, setIsAuthenticated } = useTestContext();
+  const { isLoggedIn } = useAuthContext();
 
 
   const handleSubmit = () => {
-    setIsAuthenticated(true)
-    console.log(`LoginForm Button Authentication triggered; isAuthenticated: ${isAuthenticated}`)
+    console.log(`LoginForm Button Authentication triggered; isAuthenticated: ${isLoggedIn}`)
     router.replace("/(main)/home")
   };
 
