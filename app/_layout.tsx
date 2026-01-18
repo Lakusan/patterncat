@@ -14,7 +14,9 @@ import { Stack } from "expo-router";
 
 export default function RootLayout() {
   console.log(">>> RootLayout LOADED");
-if (__DEV__) { debugClearPatternStore(); }
+  if (__DEV__) {
+    debugClearPatternStore();
+  }
   useInitializePatterns();
   useInitializeMetadata();
   return (
@@ -27,10 +29,7 @@ if (__DEV__) { debugClearPatternStore(); }
 function InnerRootLayout() {
   console.log(">>> InnerRootLayout LOADED");
   const { isLoggedIn, isLoading } = useAuthContext();
-<<<<<<< HEAD
-=======
   console.log("Auth Status:", { isLoggedIn });
->>>>>>> 9ef07a3 (added prototype to auth flow redirect to main)
   return (
     <GluestackUIProvider>
       <SplashScreenController />
