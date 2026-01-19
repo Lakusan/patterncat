@@ -1,6 +1,6 @@
+import { CATEGORIES, NUM_TESTOBJECTS } from '@/src/constants/dev';
 import { supabase } from '@/src/lib/supabase';
-import { Pattern } from '@/src/types/pattern';
-import { CATEGORIES, NUM_TESTOBJECTS } from '../constants/dev';
+import { Pattern } from '@/src/types/patternTypes';
 
 
 
@@ -34,10 +34,7 @@ export const patternRepository = {
   // pattern loading: DEV: Generator; PROD: supabase
   async getAll(ownerId?: string): Promise<Pattern[]> {
     if (__DEV__) {
-      console.log("DEV MODE - Generate Patterns")
-      if(NUM_TESTOBJECTS == 0) {
-        console.log("TEST OBJECTS 0 - WOULD ASK SUPABASE FOR DATA")
-      }
+      console.log(`DEV MODE - Generate ${NUM_TESTOBJECTS} Patterns`)
       return generateTestPatterns(NUM_TESTOBJECTS, ownerId ?? "test-user");
     }
 

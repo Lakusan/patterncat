@@ -1,5 +1,5 @@
+import "@/global.css";
 import React from "react";
-import "../global.css";
 
 import { GluestackUIProvider } from "@/components/ui/gluestack-ui-provider";
 import { SplashScreenController } from "@/src/components/splash-screen-controller";

@@ -1,6 +1,6 @@
 import { patternRepository } from "@/src/repositories/patternRepository";
 import { zustandStorage } from "@/src/store/storage";
-import { PatternItemState } from "@/src/types/pattern";
+import { PatternItemState } from "@/src/types/patternTypes";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
@@ -72,7 +72,7 @@ export const usePatternStore = create<PatternItemState>()(
       initializeStore: async () => {
         const current = get().patterns;
 
-        if (!current || current.length === 0) {
+        if (!current || current.length === 0 || __DEV__) {
           const remote = await patternRepository.getAll();
           set({ patterns: remote });
         }
