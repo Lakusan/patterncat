@@ -19,12 +19,12 @@ import { useForm } from "react-hook-form";
 import { Checkbox, CheckboxIcon, CheckboxIndicator } from "@/components/ui/checkbox";
 import { CheckIcon } from "@/components/ui/icon";
 
-import CustomAlertDialog from "@/src/components/alterts/CustomAlertDialog";
+import EMailResentAltertDialog from "@/src/components/alerts/EMailResentAltertDialog";
 import { LegalModal } from "@/src/components/modals/LegalModal";
 import AGB from "@/src/components/regulations/AGB";
 import DSGVO from "@/src/components/regulations/DSGVO";
 
-import { useAuthContext } from "@/src/hooks/use-auth-context";
+import { useAuthContext } from "@/src/contexts/use-auth-context";
 import { supabase } from "@/src/lib/supabase";
 
 import { PASSWORD_LIMITS } from "@/src/constants/validation/limits";
@@ -125,7 +125,7 @@ export default function RegisterModal({
       {/* -------------------------------------------------------
           E-MAIL BESTÄTIGUNGSMODAL
       ------------------------------------------------------- */}
-      <CustomAlertDialog
+      <EMailResentAltertDialog
         isOpen={eMailAlertModal}
         onClose={() => setEMailAlertModal(false)}
         onBack={onClose}

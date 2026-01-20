@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import PatternList from "@/src/components/PatternList";
-import { useAuthContext } from "@/src/hooks/use-auth-context";
+import { useAuthContext } from "@/src/contexts/use-auth-context";
 import { Text, View } from "react-native";
 
 export default function Home() {

@@ -12,7 +12,7 @@ import { Text } from '@/components/ui/text';
 import React, { useState } from 'react';
 import { ActivityIndicator, Pressable } from 'react-native';
 
-type CustomAlertDialogProps = {
+type EMailResentAltertDialogType = {
   isOpen: boolean;
   onClose: () => void;
   onBack: () => void;
@@ -20,13 +20,13 @@ type CustomAlertDialogProps = {
   onResend: (email: string) => Promise<void>;
 };
 
-export default function CustomAlertDialog({
+export default function EMailResentAltertDialog({
   isOpen,
   onClose,
   onBack,
   email,
   onResend,
-}: CustomAlertDialogProps) {
+}: EMailResentAltertDialogType) {
 
   const [isResending, setIsResending] = useState(false);
 

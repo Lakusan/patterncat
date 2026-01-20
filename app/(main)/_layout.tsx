@@ -1,4 +1,4 @@
-import { useAuthContext } from "@/src/hooks/use-auth-context";
+import { useAuthContext } from "@/src/contexts/use-auth-context";
 import Feather from "@expo/vector-icons/Feather";
 import { router, Tabs } from "expo-router";
 import { useState } from "react";

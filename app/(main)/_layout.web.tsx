@@ -1,4 +1,4 @@
-import { useAuthContext } from '@/src/hooks/use-auth-context';
+import { useAuthContext } from '@/src/contexts/use-auth-context';
 import { Drawer } from 'expo-router/drawer';
 import React, { useState } from "react";
 

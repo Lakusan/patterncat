@@ -9,7 +9,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 
 import { Divider } from '@/components/ui/divider';
-import { useAuthContext } from "@/src/hooks/use-auth-context";
+import { useAuthContext } from "@/src/contexts/use-auth-context";
 import { loginSchema, LoginSchema } from "@/src/validation/loginSchema";
 import { router } from 'expo-router';
 

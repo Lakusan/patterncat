@@ -14,7 +14,7 @@ import { Input, InputField } from '@/components/ui/input';
 import { VStack } from '@/components/ui/vstack';
 import { router } from 'expo-router';
 import React from 'react';
-import { useAuthContext } from '../hooks/use-auth-context';
+import { useAuthContext } from '../contexts/use-auth-context';
 
 // Passwordreqirements as constants
 // Input Validation
