@@ -10,6 +10,7 @@ import { useForm } from "react-hook-form";
 
 import { Divider } from '@/components/ui/divider';
 import { useAuthContext } from "@/src/contexts/use-auth-context";
+import { useAlert } from '@/src/hooks/useAlert';
 import { loginSchema, LoginSchema } from "@/src/validation/loginSchema";
 import { router } from 'expo-router';
 
@@ -26,11 +27,12 @@ export default function LoginModal({
 }: LoginModalProps) {
 
   const { signIn } = useAuthContext();
-
+  const alert = useAlert();
   const {
     setValue,
     handleSubmit,
     formState: { errors, isSubmitting },
+    clearErrors
   } = useForm<LoginSchema>({
     resolver: zodResolver(loginSchema),
   });
@@ -45,6 +47,7 @@ export default function LoginModal({
       router.replace("/(main)/home");
 
     } catch (err) {
+      alert.info("error")
       console.log("Login failed:", err);
     }
   };
@@ -57,7 +60,7 @@ export default function LoginModal({
         <ModalHeader>
           <Heading className="text-xl font-bold">Login</Heading>
         </ModalHeader>
-          <Text className='text-center m-2'>Log In or Create a user account to feel the magic of PATTERN CAT</Text>
+          <Text className='text-center m-2'>Log In to feel the magic of PATTERN CAT</Text>
           <Divider></Divider>
         <ModalBody className="gap-4">
           {/* EMAIL */}
@@ -65,6 +68,7 @@ export default function LoginModal({
             <InputField
               placeholder="Email"
               keyboardType="email-address"
+              onFocus={() => clearErrors()}
               onChangeText={(text) => setValue("email", text)}
             />
           </Input>
@@ -77,6 +81,7 @@ export default function LoginModal({
             <InputField
               placeholder="Password"
               secureTextEntry
+              onFocus={clearErrors()}
               onChangeText={(text) => setValue("password", text)}
             />
           </Input>
