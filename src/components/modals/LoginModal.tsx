@@ -46,10 +46,20 @@ export default function LoginModal({
       onClose();
       router.replace("/(main)/home");
 
-    } catch (err) {
-      alert.info("error")
-      console.log("Login failed:", err);
+    } catch (err: any) {
+      if (err?.status === 400 && err?.message === "Invalid login credentials") {
+        alert.warning("E-Mail oder Passwort ist falsch.", alert.hide);
+        return;
+      }
+
+      if (err?.status === 429) {
+        alert.warning("Zu viele Versuche. Bitte warte einen Moment.", alert.hide);
+        return;
+      }
+
+      alert.warning("Ein unbekannter Fehler ist aufgetreten.", alert.hide);
     }
+
   };
 
   return (
@@ -60,8 +70,8 @@ export default function LoginModal({
         <ModalHeader>
           <Heading className="text-xl font-bold">Login</Heading>
         </ModalHeader>
-          <Text className='text-center m-2'>Log In to feel the magic of PATTERN CAT</Text>
-          <Divider></Divider>
+        <Text className='text-center m-2'>Log In to feel the magic of PATTERN CAT</Text>
+        <Divider></Divider>
         <ModalBody className="gap-4">
           {/* EMAIL */}
           <Input className="border border-gray-300 rounded-lg m-2">
