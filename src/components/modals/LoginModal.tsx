@@ -1,6 +1,6 @@
 import { Button, ButtonText } from '@/components/ui/button';
 import { Heading } from '@/components/ui/heading';
-import { Input, InputField } from '@/components/ui/input';
+import { Input, InputField, InputIcon, InputSlot } from '@/components/ui/input';
 import { Modal, ModalBackdrop, ModalBody, ModalContent, ModalFooter, ModalHeader } from "@/components/ui/modal";
 import { Text } from '@/components/ui/text';
 import React from "react";
@@ -9,10 +9,12 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 
 import { Divider } from '@/components/ui/divider';
+import { EyeIcon, EyeOffIcon } from '@/components/ui/icon';
 import { useAuthContext } from "@/src/contexts/use-auth-context";
 import { useAlert } from '@/src/hooks/useAlert';
 import { loginSchema, LoginSchema } from "@/src/validation/loginSchema";
 import { router } from 'expo-router';
+
 
 type LoginModalProps = {
   isOpen: boolean;
@@ -27,6 +29,14 @@ export default function LoginModal({
 }: LoginModalProps) {
 
   const { signIn } = useAuthContext();
+
+  const [showPassword, setShowPassword] = React.useState(false);
+  const handlePasswordShowState = () => {
+    setShowPassword((showState) => {
+      return !showState;
+    });
+  };
+
   const alert = useAlert();
   const {
     setValue,
@@ -73,6 +83,7 @@ export default function LoginModal({
         <Text className='text-center m-2'>Log In to feel the magic of PATTERN CAT</Text>
         <Divider></Divider>
         <ModalBody className="gap-4">
+          {/* <VStack space="xs"></VStack> */}
           {/* EMAIL */}
           <Input className="border border-gray-300 rounded-lg m-2">
             <InputField
@@ -90,10 +101,12 @@ export default function LoginModal({
           <Input className="border border-gray-300 rounded-lg m-2">
             <InputField
               placeholder="Password"
-              secureTextEntry
               onFocus={clearErrors()}
               onChangeText={(text) => setValue("password", text)}
-            />
+              type={showPassword ? 'text' : 'password'} />
+            <InputSlot onPress={handlePasswordShowState}>
+              <InputIcon as={showPassword ? EyeIcon : EyeOffIcon} ></InputIcon>
+            </InputSlot>
           </Input>
           {errors.password && (
             <Text className="text-red-500 text-sm text-center">
