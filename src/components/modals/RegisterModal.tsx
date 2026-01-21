@@ -1,6 +1,6 @@
 import { Button, ButtonText } from "@/components/ui/button";
 import { Heading } from "@/components/ui/heading";
-import { Input, InputField } from "@/components/ui/input";
+import { Input, InputField, InputIcon, InputSlot } from "@/components/ui/input";
 import {
   Modal,
   ModalBackdrop,
@@ -17,7 +17,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 
 import { Checkbox, CheckboxIcon, CheckboxIndicator } from "@/components/ui/checkbox";
-import { CheckIcon } from "@/components/ui/icon";
+import { CheckIcon, EyeIcon, EyeOffIcon } from "@/components/ui/icon";
 
 import EMailResentAltertDialog from "@/src/components/alerts/EMailResentAltertDialog";
 import { LegalModal } from "@/src/components/modals/LegalModal";
@@ -119,6 +119,18 @@ export default function RegisterModal({
       console.log("Registration failed:", err);
     }
   };
+  const [showPassword, setShowPassword] = React.useState(false);
+  const handlePasswordShowState = () => {
+    setShowPassword((showState) => {
+      return !showState;
+    });
+  };
+  const [showPasswordConfirm, setShowPasswordConfirm] = React.useState(false);
+  const handlePasswordConfirmShowState = () => {
+    setShowPasswordConfirm((showState) => {
+      return !showState;
+    });
+  };
 
   return (
     <>
@@ -188,9 +200,12 @@ export default function RegisterModal({
             <Input className="border border-gray-300 rounded-lg">
               <InputField
                 placeholder="Password"
-                secureTextEntry
                 onChangeText={(text) => update("password", text)}
+                type={showPassword ? 'text' : 'password'}
               />
+              <InputSlot onPress={handlePasswordShowState}>
+                <InputIcon as={showPassword ? EyeIcon : EyeOffIcon} ></InputIcon>
+              </InputSlot>
             </Input>
 
             {/* Passwort Checkliste (NEU, korrekt, synchron mit Zod) */}
@@ -224,9 +239,11 @@ export default function RegisterModal({
             <Input className="border border-gray-300 rounded-lg">
               <InputField
                 placeholder="Confirm Password"
-                secureTextEntry
-                onChangeText={(text) => update("confirmPassword", text)}
+                type={showPasswordConfirm ? 'text' : 'password'}
               />
+              <InputSlot onPress={handlePasswordConfirmShowState}>
+                <InputIcon as={showPasswordConfirm ? EyeIcon : EyeOffIcon} ></InputIcon>
+              </InputSlot>
             </Input>
             {errors.confirmPassword && (
               <Text className="text-red-500 text-sm">
