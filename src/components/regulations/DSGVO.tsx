@@ -1,10 +1,8 @@
 import { Text } from '@/components/ui/text';
-import React from "react";
-import { ScrollView } from "react-native";
 
 export default function DSGVO() {
     return (
-        <ScrollView style={{ maxHeight: 400 }}>
+        <>
             <Text>
 
                 {/* Titel */}
@@ -215,6 +213,6 @@ export default function DSGVO() {
                 </Text>
 
             </Text>
-        </ScrollView>
+        </>
     );
 }

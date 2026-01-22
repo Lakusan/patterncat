@@ -1,9 +1,8 @@
 import { Text } from "@/components/ui/text";
-import { ScrollView } from "react-native";
 
 export default function AGB() {
     return (
-        <ScrollView style={{ maxHeight: 400 }}>
+        <>
             <Text>
 
                 {/* Titel */}
@@ -236,6 +235,6 @@ export default function AGB() {
                 </Text>
 
             </Text>
-        </ScrollView>
+        </>
     );
 }
