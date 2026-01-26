@@ -12,25 +12,27 @@ export default function AuthProvider({ children }: PropsWithChildren) {
 
   const isLoading = isSessionLoading || isProfileLoading;
 
-  //
-  // 1. Load session on app start + subscribe to changes
-  //
+  // try to fetch session once while component loads -> []
+  // if supabase doesnt return ression -> public route only 
   useEffect(() => {
     const loadSession = async () => {
-       console.log(">>> AuthProvider loadSession");
       const { data, error } = await supabase.auth.getSession();
       setSession(data.session ?? null);
       if (error) {
         console.error("Error fetching session:", error);
       }
+      
+      console.log(`>>> Auth-Provider: loadSession -> SessionData: ${JSON.stringify(data)}`);
       setIsSessionLoading(false);
     };
 
     loadSession();
-
+    // creates state listener for session with supabase -> if backend session state changes -> local session state changes
     const { data: listener } = supabase.auth.onAuthStateChange(
       (_event, newSession) => {
+
         console.log("Auth state changed:", { event: _event, session: newSession });
+        // only app state changes -> storage ?
         setSession(newSession);
       }
     );
@@ -38,9 +40,6 @@ export default function AuthProvider({ children }: PropsWithChildren) {
     return () => listener.subscription.unsubscribe();
   }, []);
 
-  //
-  // 2. Fetch profile when session changes
-  //
   useEffect(() => {
     // No Session no Profile Fetch
     const loadProfile = async () => {
@@ -51,7 +50,7 @@ export default function AuthProvider({ children }: PropsWithChildren) {
         console.log(`>>> AuthProvider: Profile: NO PROFILE FOUND; Profile is: ${profile}`);
         return;
       }
-      // If session -> Fetch
+      // If session -> Fetch from profiles table
       const { data, error } = await supabase
       .from("profiles")
       .select("*")
@@ -68,9 +67,6 @@ export default function AuthProvider({ children }: PropsWithChildren) {
     loadProfile();
   }, [session]);
 
-  //
-  // 3. Auth actions
-  //
   const signIn = async ({ email, password }: { email: string; password: string }) => {
     const { error } = await supabase.auth.signInWithPassword({
       email,
@@ -113,9 +109,6 @@ export default function AuthProvider({ children }: PropsWithChildren) {
     }
   };
 
-  //
-  // 4. Provide everything to the app
-  //
   return (
     <AuthContext.Provider
       value={{
@@ -123,8 +116,6 @@ export default function AuthProvider({ children }: PropsWithChildren) {
         profile,
         isLoading,
         isLoggedIn: !!session,
-
-        // actions
         signIn,
         signUp,
         signOut,

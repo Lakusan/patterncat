@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/button";
+import { Button, ButtonText } from "@/components/ui/button";
 import PatternList from "@/src/components/PatternList";
 import { useAuthContext } from "@/src/contexts/use-auth-context";
 import { Text, View } from "react-native";
@@ -12,10 +12,16 @@ export default function Home() {
             <Button onPress={() => {
                 if (isLoggedIn) {
                     signOut()
-                    console.log("Sign out pressed from HOME screen")
                 }
+            }
+            }
+            >
+                <ButtonText>SignOut</ButtonText>
+            </Button>
+            <Button onPress={() => {
+                <ButtonText></ButtonText>
             }}
-                ></Button>
+            ></Button>
 
             <PatternList></PatternList>
         </View >
