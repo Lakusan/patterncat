@@ -47,7 +47,7 @@ export default function AuthProvider({ children }: PropsWithChildren) {
       if (!session?.user?.id) {
         setProfile(null);
         setIsProfileLoading(false);
-        console.log(`>>> AuthProvider: Profile: NO PROFILE FOUND; Profile is: ${profile}`);
+        console.log(`>>> AuthProvider: Profile: NO PROFILE FOUND; Profile is: ${JSON.stringify(profile)}`);
         return;
       }
       // If session -> Fetch from profiles table
@@ -59,7 +59,7 @@ export default function AuthProvider({ children }: PropsWithChildren) {
       if(error) {
         console.error("Patterncat: Error loading profile");
       }
-      console.log(`>>> AuthProvider: Profile ${data}`);
+      console.log(`>>> AuthProvider: Profile ${JSON.stringify(data)}`);
       setProfile(data ?? null);
       setIsProfileLoading(false)
     };

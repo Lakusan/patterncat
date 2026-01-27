@@ -52,7 +52,7 @@ export default function PublicLayout() {
                     />
                 </Drawer.Protected>
                 <Drawer.Screen
-                    name='[id]]'
+                    name='[id]'
                     options={{ drawerItemStyle: { display: 'none' } }}
                 />
 
