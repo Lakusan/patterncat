@@ -8,13 +8,11 @@ import { Platform, Pressable, ScrollView, Text, View } from "react-native";
 // Storage Helpers (Web + Native)
 // -------------------------------
 
-async function getAllStorageKeys(): Promise<string[]> {
+async function getAllStorageKeys(): Promise<readonly string[]> {
   if (Platform.OS === "web") {
     return Object.keys(localStorage);
   }
-
-  const asyncKeys = await AsyncStorage.getAllKeys();
-  return asyncKeys;
+  return await AsyncStorage.getAllKeys();
 }
 
 async function getStorageValue(key: string): Promise<string | null> {

@@ -81,7 +81,13 @@ const warning = (
       message,
       confirmText: "OK",
       cancelText: "Abbrechen",
-      onConfirm,
+      onConfirm: async () => {
+        try {
+          await onConfirm();
+        } finally {
+          hide();
+        }
+      },
       onCancel: hide,
     });
   return (

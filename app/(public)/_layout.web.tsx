@@ -1,124 +1,71 @@
-import AuthRequestModal from '@/src/components/modals/AuthRequestModal';
-import LoginModal from '@/src/components/modals/LoginModal';
-import RegisterModal from '@/src/components/modals/RegisterModal';
+import { useAuthFlow } from '@/src/contexts/use-auth-flow-context';
 import { Drawer } from 'expo-router/drawer';
-import React, { useState } from "react";
+import React from "react";
 
 export default function PublicLayout() {
-  const [authModal, setAuthModal] = useState(false);
-  const [loginModal, setLoginModal] = useState(false);
-  const [registerModal, setRegisterModal] = useState(false);
-
-  // Helper: open auth modal from drawer
-  const openAuthFlow = () => {
-    setAuthModal(true);
-    setLoginModal(false);
-    setRegisterModal(false);
-  };
+  const authFlow = useAuthFlow();
 
   return (
-    <>
-      {/* AUTH REQUEST MODAL */}
-      <AuthRequestModal
-        isOpen={authModal}
-        onClose={() => setAuthModal(false)}
-        onLogin={() => {
-          setAuthModal(false);
-          setLoginModal(true);
-        }}
-        onRegister={() => {
-          setAuthModal(false);
-          setRegisterModal(true);
+    <Drawer screenOptions={{ drawerType: "slide" }}>
+      <Drawer.Screen
+        name="index"
+        options={{
+          drawerLabel: 'Home',
+          title: 'Public Home',
         }}
       />
 
-      {/* LOGIN MODAL */}
-      <LoginModal
-        isOpen={loginModal}
-        onClose={() => setLoginModal(false)}
-        onBack={() => {
-          setLoginModal(false);
-          setAuthModal(true);
+      <Drawer.Screen
+        name="search"
+        options={{
+          drawerLabel: 'Search',
+          title: 'Search',
+        }}
+        listeners={{
+          drawerItemPress: (e) => {
+            e.preventDefault();
+            authFlow.openAuth();
+          },
         }}
       />
 
-      {/* REGISTER MODAL */}
-      <RegisterModal
-        isOpen={registerModal}
-        onClose={() => setRegisterModal(false)}
-        onBack={() => {
-          setRegisterModal(false);
-          setAuthModal(true);
+      <Drawer.Screen
+        name="add"
+        options={{
+          drawerLabel: 'Add',
+          title: 'Add',
         }}
-        onSuccess={() => {
-          setRegisterModal(false);
-          setLoginModal(true);
+        listeners={{
+          drawerItemPress: (e) => {
+            e.preventDefault();
+            authFlow.openAuth();
+          },
         }}
       />
 
-      <Drawer screenOptions={{ drawerType: "slide" }}>
+      <Drawer.Screen
+        name="settings"
+        options={{
+          drawerLabel: 'Settings',
+          title: 'Settings',
+        }}
+        listeners={{
+          drawerItemPress: (e) => {
+            e.preventDefault();
+            authFlow.openAuth();
+          },
+        }}
+      />
 
-        <Drawer.Screen
-          name="index"
-          options={{
-            drawerLabel: 'Home',
-            title: 'Public Home',
-          }}
-        />
+      <Drawer.Screen
+        name='[id]'
+        options={{ drawerItemStyle: { display: 'none' } }}
+      />
 
-        <Drawer.Screen
-          name="search"
-          options={{
-            drawerLabel: 'Search',
-            title: 'Search',
-          }}
-          listeners={{
-            drawerItemPress: (e) => {
-              e.preventDefault();
-              openAuthFlow();
-            },
-          }}
-        />
-
-        <Drawer.Screen
-          name="add"
-          options={{
-            drawerLabel: 'Add',
-            title: 'Add',
-          }}
-          listeners={{
-            drawerItemPress: (e) => {
-              e.preventDefault();
-              openAuthFlow();
-            },
-          }}
-        />
-
-        <Drawer.Screen
-          name="settings"
-          options={{
-            drawerLabel: 'Settings',
-            title: 'Settings',
-          }}
-          listeners={{
-            drawerItemPress: (e) => {
-              e.preventDefault();
-              openAuthFlow();
-            },
-          }}
-        />
-
-        {/* Hidden dynamic route */}
-        <Drawer.Screen
-          name='[id]'
-          options={{ drawerItemStyle: { display: 'none' } }}
-        />
-
-        <Drawer.Screen
-          name='login'
-          options={{ drawerItemStyle: { display: 'none' } }}
-        />
-      </Drawer>
-    </>
+      <Drawer.Screen
+        name='login'
+        options={{ drawerItemStyle: { display: 'none' } }}
+      />
+    </Drawer>
   );
 }

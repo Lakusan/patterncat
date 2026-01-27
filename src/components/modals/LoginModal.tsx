@@ -113,6 +113,16 @@ export default function LoginModal({
               {errors.password.message}
             </Text>
           )}
+          <Button variant='link' className='justify-start p-4' onPress={() => 
+            {
+              alert.confirm("Are you sure you want to reset your password?", 
+                () => {
+                                      
+                }
+              )
+            }}>
+            <ButtonText size='sm'>Forgot Password?</ButtonText>
+          </Button>
         </ModalBody>
 
         <ModalFooter className="flex-row justify-between mt-4">

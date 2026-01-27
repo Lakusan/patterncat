@@ -13,9 +13,7 @@ export default function Home() {
                 if (isLoggedIn) {
                     signOut()
                 }
-            }
-            }
-            >
+            }}>
                 <ButtonText>SignOut</ButtonText>
             </Button>
             <PatternList></PatternList>

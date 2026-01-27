@@ -10,6 +10,7 @@ import AuthProvider from "@/src/providers/auth-provider";
 import { useInitializeMetadata } from "@/src/hooks/useInitializeMetadata";
 import { useInitializePatterns } from "@/src/hooks/useInitializePatterns";
 import { AlertProvider } from "@/src/providers/alert-provider";
+import { AuthFlowProvider } from "@/src/providers/auth-flow-provider";
 import { Stack } from "expo-router";
 
 export default function RootLayout() {
@@ -23,7 +24,9 @@ export default function RootLayout() {
       <GluestackUIProvider>
         <AlertProvider>
           <SplashScreenController />
-          <InnerRootLayout />
+          <AuthFlowProvider>
+            <InnerRootLayout />
+          </AuthFlowProvider>
         </AlertProvider>
       </GluestackUIProvider>
     </AuthProvider>

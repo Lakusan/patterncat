@@ -1,16 +1,9 @@
-import {
-  Modal,
-  ModalBackdrop,
-  ModalBody,
-  ModalContent,
-  ModalFooter
-} from "@/components/ui/modal";
-
 import { Button, ButtonText } from "@/components/ui/button";
 import { Divider } from "@/components/ui/divider";
 import { Image } from "@/components/ui/image";
 import { VStack } from "@/components/ui/vstack";
 import { Text } from "react-native";
+import BaseModal from "./BaseModal";
 
 export type AuthModalProps = {
   isOpen: boolean;
@@ -26,52 +19,49 @@ export default function AuthRequestModal({
   onRegister
 }: AuthModalProps) {
   return (
-    <Modal isOpen={isOpen} onClose={onClose}>
-      <ModalBackdrop />
+    <BaseModal
+      isOpen={isOpen}
+      onClose={onClose}
+      footer={
+        <Image
+          source={require("@/assets/images/patterncat_logo.png")}
+          alt="image"
+          className="h-[185px] w-full rounded"
+          resizeMode="contain"
+        />
+      }
+    >
+      <Text className="text-center">
+        Log In or Create a user account to feel the magic of PATTERN CAT
+      </Text>
 
-      <ModalContent className="max-w-[375px]">
-        <ModalBody>
-          <Text className="text-center">
-            Log In or Create a user account to feel the magic of PATTERN CAT
-          </Text>
+      <VStack space="lg" className="w-full mt-4">
+        <Divider />
 
-          <VStack space="lg" className="w-full mt-4">
-            {/* LOGIN BUTTON */}
-            <Divider className="" />
-            <Button
-              className="flex-1"
-              variant="link"
-              onPress={() => {
-                onClose();
-                onLogin();
-              }}
-            >
-              <ButtonText>Log In</ButtonText>
-            </Button>
-            {/* REGISTER BUTTON */}
-            <Divider className="" />
-            <Button
-              className="flex-1"
-              variant="link"
-              onPress={() => {
-                onClose();
-                onRegister();
-              }}
-            >
-              <ButtonText>Register</ButtonText>
-            </Button>
-          </VStack>
-        </ModalBody>
+        <Button
+          className="flex-1"
+          variant="link"
+          onPress={() => {
+            onClose();
+            onLogin();
+          }}
+        >
+          <ButtonText>Log In</ButtonText>
+        </Button>
 
-        <ModalFooter>
-          <Image
-            source={require("@/assets/images/patterncat_logo.png")}
-            alt="image"
-            className="h-[185px] w-full rounded"
-            resizeMode="contain"
-          />
-        </ModalFooter>
-      </ModalContent>
-    </Modal>
+        <Divider />
+
+        <Button
+          className="flex-1"
+          variant="link"
+          onPress={() => {
+            onClose();
+            onRegister();
+          }}
+        >
+          <ButtonText>Register</ButtonText>
+        </Button>
+      </VStack>
+    </BaseModal>
   );
 }
