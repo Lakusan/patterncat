@@ -31,9 +31,6 @@ import { PASSWORD_LIMITS } from "@/src/constants/validation/limits";
 import { checkPasswordRules } from "@/src/validation/CheckPasswords";
 import { registerSchema, RegisterSchema } from "@/src/validation/registerSchema";
 
-/* -------------------------------------------------------
-   PROPS
-------------------------------------------------------- */
 type RegisterModalProps = {
   isOpen: boolean;
   onClose: () => void;
@@ -41,9 +38,6 @@ type RegisterModalProps = {
   onSuccess: () => void;
 };
 
-/* -------------------------------------------------------
-   REGISTER MODAL
-------------------------------------------------------- */
 export default function RegisterModal({
   isOpen,
   onClose,
@@ -208,7 +202,7 @@ export default function RegisterModal({
               </InputSlot>
             </Input>
 
-            {/* Passwort Checkliste (NEU, korrekt, synchron mit Zod) */}
+            {/* Passwort Checkliste  */}
             <View className="mt-2">
               <Text className={rules.length ? "text-green-600" : "text-red-500"}>
                 {rules.length ? "✓" : "✗"} Mindestens {PASSWORD_LIMITS.MIN_LENGTH} Zeichen

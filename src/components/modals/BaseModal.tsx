@@ -1,9 +1,9 @@
 import {
-    Modal,
-    ModalBackdrop,
-    ModalBody,
-    ModalContent,
-    ModalFooter
+  Modal,
+  ModalBackdrop,
+  ModalBody,
+  ModalContent,
+  ModalFooter
 } from "@/components/ui/modal";
 import { ReactNode } from "react";
 
@@ -29,7 +29,7 @@ export default function BaseModal({
       <ModalContent className={`max-w-[375px] ${className ?? ""}`}>
         <ModalBody>{children}</ModalBody>
 
-        {footer && <ModalFooter>{footer}</ModalFooter>}
+        {footer && <ModalFooter className="flex-row justify-between mt-4">{footer}</ModalFooter>}
       </ModalContent>
     </Modal>
   );

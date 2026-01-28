@@ -47,7 +47,7 @@ async function getFullStorageDump(): Promise<Record<string, string | null>> {
 // -------------------------------
 
 export default function StorageDebug() {
-  const [keys, setKeys] = useState<string[]>([]);
+  const [keys, setKeys] = useState<readonly string[]>([]);
   const [selectedKey, setSelectedKey] = useState<string | null>(null);
   const [selectedValue, setSelectedValue] = useState<string | null>(null);
   const [fullDump, setFullDump] = useState<Record<string, string | null> | null>(null);
@@ -57,7 +57,7 @@ export default function StorageDebug() {
   }, []);
 
   const loadKeys = async () => {
-    const k = await getAllStorageKeys();
+    const k: readonly string[]  = await getAllStorageKeys();
     setKeys(k);
     console.log("Storage Keys:", k);
   };

@@ -2,8 +2,8 @@ import { Button, ButtonText } from "@/components/ui/button";
 import { Divider } from "@/components/ui/divider";
 import { Image } from "@/components/ui/image";
 import { VStack } from "@/components/ui/vstack";
+import BaseModal from "@/src/components/modals/BaseModal";
 import { Text } from "react-native";
-import BaseModal from "./BaseModal";
 
 export type AuthModalProps = {
   isOpen: boolean;

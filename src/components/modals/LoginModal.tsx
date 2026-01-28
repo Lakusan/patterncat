@@ -20,12 +20,14 @@ type LoginModalProps = {
   isOpen: boolean;
   onClose: () => void;
   onBack: () => void;
+  onPasswordReset: () => void;
 };
 
 export default function LoginModal({
   isOpen,
   onClose,
   onBack,
+  onPasswordReset
 }: LoginModalProps) {
 
   const { signIn } = useAuthContext();
@@ -115,10 +117,8 @@ export default function LoginModal({
           )}
           <Button variant='link' className='justify-start p-4' onPress={() => 
             {
-              alert.confirm("Are you sure you want to reset your password?", 
-                () => {
-                                      
-                }
+              alert.confirm("Are you sure you want to reset your password?",
+                onPasswordReset
               )
             }}>
             <ButtonText size='sm'>Forgot Password?</ButtonText>

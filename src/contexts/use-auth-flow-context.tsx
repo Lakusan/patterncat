@@ -4,13 +4,15 @@ export type AuthFlowState =
     | "closed"
     | "auth"
     | "login"
-    | "register";
+    | "register"
+    | "reset";
 
 export interface AuthFlowContextValue {
     state: AuthFlowState;
     openAuth: () => void;
     openLogin: () => void;
     openRegister: () => void;
+    openPasswordReset: () => void;
     close: () => void;
 }
 
