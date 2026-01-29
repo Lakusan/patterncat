@@ -40,7 +40,7 @@ export default function PasswordResetModal({
 
           <Button
             action="primary"
-            disabled={!isValid}
+            isDisabled={!isValid}
             onPress={handleSubmit(({ email }) => onConfirm(email))}
           >
             <ButtonText>OK</ButtonText>
@@ -58,7 +58,7 @@ export default function PasswordResetModal({
             <InputField
               placeholder="Email"
               keyboardType="email-address"
-              value={value}
+              value={value ?? ""}
               onChangeText={onChange}
             />
           </Input>
