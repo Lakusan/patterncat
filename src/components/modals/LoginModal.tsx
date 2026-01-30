@@ -15,7 +15,7 @@ import { useAlert } from '@/src/hooks/useAlert';
 import { loginSchema, LoginSchema } from "@/src/validation/loginSchema";
 import { router } from 'expo-router';
 
-
+// vlt type -> Interface on basemdal und dann infer und add functions?
 type LoginModalProps = {
   isOpen: boolean;
   onClose: () => void;
