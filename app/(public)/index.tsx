@@ -3,13 +3,11 @@ import { Heading } from '@/components/ui/heading';
 import { Image } from '@/components/ui/image';
 import { Text } from '@/components/ui/text';
 import SafeAreaContainer from '@/src/components/SafeAreaContainer';
-import { useMetadataStore } from '@/src/store/metaDataStore';
-import { usePatternStore } from '@/src/store/patternStore';
+import { CATEGORIES, NUM_TESTOBJECTS } from '@/src/constants/dev';
 import { Pattern } from '@/src/types/patternTypes';
 import { router } from 'expo-router';
 import { useMemo, useState } from 'react';
 import { FlatList, Platform, Pressable, useWindowDimensions, View } from 'react-native';
-
 
 const MIN_CARD_WIDTH = 500;
 const MIN_CARD_WIDTH_WEB = 150;
@@ -17,13 +15,30 @@ const GAP = 15;
 const MIN_COLUMNS = 2;
 const MAX_COLUMNS = 6;
 
-export default function PublicHome() {
-  console.log(">>> PublicHome LOADED");
-  const patterns = usePatternStore((s) => s.patterns);
-  console.log(patterns)
-  const categories = useMetadataStore((s) => s.categories);
-  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+function getRandomCategory(): string {
+  const index = Math.floor(Math.random() * CATEGORIES.length);
+  return CATEGORIES[index];
+}
 
+function generateTestPatterns(count: number, ownerId = "test-user"): Pattern[] {
+  const now = Date.now();
+  return Array.from({ length: count }, (_, i) => ({
+    id: `${i + 1}`,
+    ownerId,
+    title: `Muster ${i + 1}`,
+    description: `Dies ist eine Beschreibung für Muster ${i + 1}.`,
+    image: `https://picsum.photos/seed/pattern-${i + 1}/300/200`,
+    gallery: Array.from({ length: 5 }, (_, j) =>
+      `https://picsum.photos/seed/pattern-${i + 1}-${j + 1}/300/200`
+    ),
+    category: getRandomCategory(),
+    updatedAt: now,
+  }));
+}
+
+export default function PublicHome() {
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  var patterns = generateTestPatterns( NUM_TESTOBJECTS)
   const { width } = useWindowDimensions();
   const minWidth = Platform.select({
     native: () => MIN_CARD_WIDTH,
@@ -76,7 +91,7 @@ export default function PublicHome() {
 
           {/* Filterbar */}
           <View className="flex-row justify-around lg:p-0 p-2 lg:h-[3%] h-[5%]">
-            {categories.map((cat) => {
+            {CATEGORIES.map((cat) => {
               const isActive = selectedCategory === cat || (cat === "Alle" && selectedCategory === null);
 
               return (

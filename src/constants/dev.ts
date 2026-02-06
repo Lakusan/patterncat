@@ -1,2 +1,2 @@
-export const NUM_TESTOBJECTS = 10000;
+export const NUM_TESTOBJECTS = 100;
 export const CATEGORIES = ["Alle", "Kleider", "Hosen", "Oberteile", "Jacken"];

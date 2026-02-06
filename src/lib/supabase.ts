@@ -1,4 +1,3 @@
-import { secureStorage } from "@/src/store/SecureStorage";
 import { createClient } from "@supabase/supabase-js";
 import { Platform } from "react-native";
 
@@ -7,7 +6,7 @@ export const supabase = createClient(
   process.env.EXPO_PUBLIC_SUPABASE_KEY!,
   {
     auth: {
-      storage: Platform.OS === "web" ? undefined : secureStorage,
+      storage: Platform.OS === "web" ? undefined : undefined,
       flowType: "pkce",
       persistSession: true,
       autoRefreshToken: true,

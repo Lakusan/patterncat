@@ -5,20 +5,19 @@ import { GluestackUIProvider } from "@/components/ui/gluestack-ui-provider";
 import { SplashScreenController } from "@/src/components/splash-screen-controller";
 
 import { useAuthContext } from "@/src/contexts/use-auth-context";
-import AuthProvider from "@/src/providers/auth-provider";
 
-import { useInitializeMetadata } from "@/src/hooks/useInitializeMetadata";
-import { useInitializePatterns } from "@/src/hooks/useInitializePatterns";
+
 import { AlertProvider } from "@/src/providers/alert-provider";
 import { AuthFlowProvider } from "@/src/providers/auth-flow-provider";
+import AuthProvider from "@/src/providers/auth-provider";
 import { Stack } from "expo-router";
 
 export default function RootLayout() {
   if (__DEV__) {
     // debugClearPatternStore();
   }
-  useInitializePatterns();
-  useInitializeMetadata();
+  // useInitializePatterns();
+  // useInitializeMetadata();
   return (
     <AuthProvider>
       <GluestackUIProvider>
