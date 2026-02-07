@@ -51,10 +51,10 @@ export default function LoginModal({
 
   const onSubmit = async (data: LoginSchema) => {
     try {
-      await signIn({
-        email: data.email,
-        password: data.password,
-      });
+      await signIn(
+         data.email,
+          data.password,
+      );
       onClose();
       router.replace("/(main)/home");
 
