@@ -38,7 +38,7 @@ function generateTestPatterns(count: number, ownerId = "test-user"): Pattern[] {
 
 export default function PublicHome() {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
-  var patterns = generateTestPatterns( NUM_TESTOBJECTS)
+  const patterns = useMemo(() => generateTestPatterns(NUM_TESTOBJECTS), []);
   const { width } = useWindowDimensions();
   const minWidth = Platform.select({
     native: () => MIN_CARD_WIDTH,

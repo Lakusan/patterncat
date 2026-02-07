@@ -1,93 +1,95 @@
-import Feather from "@expo/vector-icons/Feather";
+import { BREAKPOINTS } from "@/src/constants/ui/breakpoints";
+import { useAuthFlow } from '@/src/contexts/use-auth-flow-context';
 import { Tabs } from "expo-router";
-import { useState } from "react";
+import { Drawer } from "expo-router/drawer";
+import { Platform, useWindowDimensions } from "react-native";
 
 export default function PublicLayout() {
-  const [modalVisible, setModalVisible] = useState(false);
+ const authFlow = useAuthFlow();
 
-  const openModalSmooth = () => {
-    // Let the tab press animation finish (Android needs this)
-    setTimeout(() => {
-      setModalVisible(true);
-    }, 120); // 100–150ms is the sweet spot
-  };
+  const { width } = useWindowDimensions(); 
 
+  const isWeb = Platform.OS === "web";
+  const isDesktop = isWeb && width >= BREAKPOINTS.DESKTOP;
+  const isTablet = !isWeb && width >= BREAKPOINTS.TABLET;
+  // WEB / DESKTOP → Drawer
+  if (isDesktop) {
+    console.log("Rendering Drawer Navigation (Desktop/Web)");
+    return (
+  <Drawer screenOptions={{ drawerType: "slide" }}>
+      <Drawer.Screen
+        name="index"
+        options={{
+          drawerLabel: 'Home',
+          title: 'Public Home',
+        }}
+      />
+
+      <Drawer.Screen
+        name="search"
+        options={{
+          drawerLabel: 'Search',
+          title: 'Search',
+        }}
+        listeners={{
+          drawerItemPress: (e) => {
+            e.preventDefault();
+            authFlow.openAuth();
+          },
+        }}
+      />
+
+      <Drawer.Screen
+        name="add"
+        options={{
+          drawerLabel: 'Add',
+          title: 'Add',
+        }}
+        listeners={{
+          drawerItemPress: (e) => {
+            e.preventDefault();
+            authFlow.openAuth();
+          },
+        }}
+      />
+
+      <Drawer.Screen
+        name="settings"
+        options={{
+          drawerLabel: 'Settings',
+          title: 'Settings',
+        }}
+        listeners={{
+          drawerItemPress: (e) => {
+            e.preventDefault();
+            authFlow.openAuth();
+          },
+        }}
+      />
+
+      <Drawer.Screen
+        name='[id]'
+        options={{ drawerItemStyle: { display: 'none' } }}
+      />
+
+      <Drawer.Screen
+        name='login'
+        options={{ drawerItemStyle: { display: 'none' } }}
+      />
+    </Drawer>
+  );
+  }
+
+  // SMARTPHONE + TABLET → Tabs
   return (
-    <>
-      
-
-      <Tabs screenOptions={{ headerShown: false }}>
-        <Tabs.Screen
-          name="index"
-          options={{
-            title: "Home",
-            tabBarIcon: ({ color }) => (
-              <Feather size={28} name="home" color={color} />
-            ),
-          }}
-          listeners={{
-            tabPress: (e) => {
-              e.preventDefault();
-              openModalSmooth();
-            },
-          }}
-        />
-
-        <Tabs.Screen
-          name="search"
-          options={{
-            title: "Search",
-            tabBarIcon: ({ color }) => (
-              <Feather size={28} name="search" color={color} />
-            ),
-          }}
-          listeners={{
-            tabPress: (e) => {
-              e.preventDefault();
-              openModalSmooth();
-            },
-          }}
-        />
-
-        <Tabs.Screen
-          name="add"
-          options={{
-            title: "Add",
-            tabBarIcon: ({ color }) => (
-              <Feather size={28} name="plus" color={color} />
-            ),
-          }}
-          listeners={{
-            tabPress: (e) => {
-              e.preventDefault();
-              openModalSmooth();
-            },
-          }}
-        />
-
-        <Tabs.Screen
-          name="settings"
-          options={{
-            title: "Settings",
-            tabBarIcon: ({ color }) => (
-              <Feather size={28} name="user" color={color} />
-            ),
-          }}
-          listeners={{
-            tabPress: (e) => {
-              e.preventDefault();
-              openModalSmooth();
-            },
-          }}
-        />
-
-        <Tabs.Screen
-          name="[id]"
-          options={{
-            tabBarItemStyle: { display: "none" },
-          }}
-        />
-      </Tabs>
-    </>
+    <Tabs
+      screenOptions={{
+        headerShown: false,
+      }}
+    >
+      <Tabs.Screen name="index" />
+      <Tabs.Screen name="add" />
+      <Tabs.Screen name="login" />
+    </Tabs>
   );
 }

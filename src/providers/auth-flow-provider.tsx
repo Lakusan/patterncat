@@ -14,7 +14,6 @@ export function AuthFlowProvider({ children }: { children: React.ReactNode }) {
     const openRegister = () => setState("register");
     const openPasswordReset = () => setState("reset");
     const close = () => setState("closed");
-    console.log(`!!! ----- >>> AuthFlowState: ${state}`)
 
     return (
         <AuthFlowContext.Provider

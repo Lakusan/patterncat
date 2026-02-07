@@ -9,14 +9,16 @@ export default function AuthProvider({ children }: PropsWithChildren) {
 
   const [isSessionLoading, setIsSessionLoading] = useState(true);
   const [isProfileLoading, setIsProfileLoading] = useState(false);
+  const [isHydratingAuth, setIsHydratingAuth] = useState(true);
 
-  const isLoading = isSessionLoading || isProfileLoading;
+  const isLoading = isSessionLoading || isProfileLoading || isHydratingAuth;
 
   // Appstart: Session laden & Subscription auf Session-Änderungen
   useEffect(() => {
     authService.getSession().then((s) => {
       setSession(s);
       setIsSessionLoading(false);
+      setIsHydratingAuth(false);
     });
 
     const unsubscribe = authService.onAuthStateChanged((s) => {
@@ -41,8 +43,8 @@ export default function AuthProvider({ children }: PropsWithChildren) {
         profile,
         isLoading,
         isLoggedIn: !!session,
-        signIn: ( email, password ) => authService.signIn( email, password ),
-        signUp: ( email, password ) => authService.signUp( email, password ),
+        signIn: (email, password) => authService.signIn(email, password),
+        signUp: (email, password) => authService.signUp(email, password),
         signOut: () => authService.signOut(),
         resetPassword: (email) => authService.resetPassword(email),
       }}
