@@ -1,4 +1,4 @@
-import { AuthData } from "@/src/types/authTypes";
+import { AuthData } from "@/src/types/auth";
 import { createContext, useContext } from "react";
 
 
