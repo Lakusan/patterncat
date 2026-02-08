@@ -4,7 +4,7 @@
     "slug": "patterncat",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/patterncat_logo.png",
+    "icon": "./assets/images/icon.png",
     "scheme": "patterncat",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
@@ -32,9 +32,9 @@
       [
         "expo-splash-screen",
         {
-          "image": "./assets/images/üatterncat_splash.png",
+          "image": "./assets/images/patterncat_splash_icon.png",
           "imageWidth": 200,
-          "resizeMode": "contain",
+          "resizeMode": "cover",
           "backgroundColor": "#ffffff",
           "dark": {
             "backgroundColor": "#000000"
