@@ -14,10 +14,13 @@ export function AuthFlowProvider({ children }: { children: React.ReactNode }) {
     const openRegister = () => setState("register");
     const openPasswordReset = () => setState("reset");
     const close = () => setState("closed");
+    // Native Varinten
+    const openAuthNative = () => setState("auth");
+    const closeAuthNative = () => setState("closed");
 
     return (
         <AuthFlowContext.Provider
-            value={{ state, openAuth, openLogin, openRegister, openPasswordReset, close }}
+            value={{ state, openAuth, openLogin, openRegister, openPasswordReset, close, openAuthNative, closeAuthNative }}
         >
             {children}
 

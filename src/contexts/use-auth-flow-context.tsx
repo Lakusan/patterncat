@@ -14,6 +14,8 @@ export interface AuthFlowContextValue {
     openRegister: () => void;
     openPasswordReset: () => void;
     close: () => void;
+    openAuthNative: () => void;
+    closeAuthNative: () => void;
 }
 
 export const AuthFlowContext = createContext<AuthFlowContextValue | null>(null);

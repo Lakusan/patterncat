@@ -187,7 +187,7 @@ export default function PublicLayout() {
   // liegen aktuell in assets/android -> kopieren in android/app/src/res/drawable nach repbuild --clean
   // Nur angelegte Routen werden angezeigt und gerendert; keine danebenliegenden wie mit RN Tabs
   return (
-    <NativeTabs>
+    <NativeTabs >
       <NativeTabs.Trigger name="index">
         <Label>Home</Label>
            <Icon drawable="home_24px" />

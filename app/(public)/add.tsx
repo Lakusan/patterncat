@@ -1,3 +1,14 @@
-export default function PublicAdd(){
-    return <></>
+import { useAuthFlow } from "@/src/contexts/use-auth-flow-context";
+import { useFocusEffect } from "expo-router";
+import { useCallback } from "react";
+
+export default function PublicAdd() {
+    const authFlow = useAuthFlow();
+  useFocusEffect(
+    useCallback(() => {
+      authFlow.openAuthNative();
+    }, [])
+  );
+
+  return null; 
 }
