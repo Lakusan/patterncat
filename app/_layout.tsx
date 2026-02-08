@@ -2,14 +2,14 @@ import "@/global.css";
 import React from "react";
 
 import { GluestackUIProvider } from "@/components/ui/gluestack-ui-provider";
-import { SplashScreenController } from "@/src/components/splash-screen-controller";
+import { SplashScreenController } from "@/src/controller/splash-screen-controller";
 
 import { AlertProvider } from "@/src/providers/alert-provider";
 import { AuthFlowProvider } from "@/src/providers/auth-flow-provider";
 import AuthProvider from "@/src/providers/auth-provider";
 
 import { useAuthContext } from "@/src/contexts/use-auth-context";
-import AuthGate from "@/src/providers/auth-gate";
+import AuthGate from "@/src/controller/auth-gate";
 
 import { Stack } from "expo-router";
 

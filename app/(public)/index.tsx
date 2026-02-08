@@ -2,7 +2,7 @@ import { Card } from '@/components/ui/card';
 import { Heading } from '@/components/ui/heading';
 import { Image } from '@/components/ui/image';
 import { Text } from '@/components/ui/text';
-import SafeAreaContainer from '@/src/components/SafeAreaContainer';
+import SafeAreaContainer from '@/src/components/container/SafeAreaContainer';
 import { CATEGORIES, NUM_TESTOBJECTS } from '@/src/constants/dev';
 import { Pattern } from '@/src/types/patternTypes';
 import { router } from 'expo-router';
