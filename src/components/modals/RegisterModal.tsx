@@ -30,6 +30,11 @@ import { PASSWORD_LIMITS } from "@/src/constants/validation/limits";
 import { checkPasswordRules } from "@/src/validation/CheckPasswords";
 import { registerSchema, RegisterSchema } from "@/src/validation/registerSchema";
 
+// TODO: Sollte entkoppelt weden. Besser DSGVO / AGB Modal auslagern. Wird später noch als Page mit Deeplink beötigt. 
+// AGB und DSGVO View als Komponete auslagern. -> wie Styled Text besser machen?
+// raus: signup, resendConfirmation, EMailResentALertDialog, LegalModal, hasReadStates, Reset-Logik, onSuccess
+
+
 type RegisterModalProps = {
   isOpen: boolean;
   onClose: () => void;
@@ -116,6 +121,7 @@ export default function RegisterModal({
       return !showState;
     });
   };
+
   const [showPasswordConfirm, setShowPasswordConfirm] = React.useState(false);
   const handlePasswordConfirmShowState = () => {
     setShowPasswordConfirm((showState) => {
