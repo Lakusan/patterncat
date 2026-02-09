@@ -14,7 +14,7 @@ export function AuthFlowProvider({ children }: { children: React.ReactNode }) {
     const openRegister = () => setState("register");
     const openPasswordReset = () => setState("reset");
     const close = () => setState("closed");
-    // Native Varinten
+    // Native Varianten
     const openAuthNative = () => setState("auth");
     const closeAuthNative = () => setState("closed");
 
@@ -49,7 +49,10 @@ export function AuthFlowProvider({ children }: { children: React.ReactNode }) {
                 isOpen={state === "reset"}
                 onClose={close}
                 onBack={()=> setState("login")}
-                onConfirm={() => {console.log("confirm authflowcontroller")}}
+                onConfirm={() => {
+                    
+                    setState("auth");
+                }}
             />
 
         </AuthFlowContext.Provider>

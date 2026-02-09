@@ -25,7 +25,6 @@ import AGB from "@/src/components/regulations/AGB";
 import DSGVO from "@/src/components/regulations/DSGVO";
 
 import { useAuthContext } from "@/src/contexts/use-auth-context";
-import { supabase } from "@/src/lib/supabase";
 
 import { PASSWORD_LIMITS } from "@/src/constants/validation/limits";
 import { checkPasswordRules } from "@/src/validation/CheckPasswords";
@@ -91,10 +90,7 @@ export default function RegisterModal({
 
   const resendConfirmation = async (email: string) => {
     try {
-      await supabase.auth.resend({
-        type: "signup",
-        email,
-      });
+      await resendConfirmation(email)
     } catch (err) {
       console.log("Resend failed:", err);
     }
@@ -102,10 +98,10 @@ export default function RegisterModal({
 
   const onSubmit = async (data: RegisterSchema) => {
     try {
-      await signUp({
-        email: data.email,
-        password: data.password,
-      });
+      await signUp(
+        data.email,
+        data.password,
+      );
 
       setEmailForAlert(data.email);
       setEMailAlertModal(true);
@@ -113,6 +109,7 @@ export default function RegisterModal({
       console.log("Registration failed:", err);
     }
   };
+
   const [showPassword, setShowPassword] = React.useState(false);
   const handlePasswordShowState = () => {
     setShowPassword((showState) => {

@@ -22,5 +22,6 @@ export type AuthData = {
   signIn: (email: string, password: string) => Promise<void>;
   signUp: (email: string, password: string) => Promise<void>;
   signOut: () => Promise<void>;
+  resendConfirmation: () => Promise<void>;
   resetPassword: (email: string) => Promise<void>;
 };

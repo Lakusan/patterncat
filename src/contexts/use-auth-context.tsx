@@ -12,6 +12,7 @@ export const AuthContext = createContext<AuthData>({
   signIn: async () => {},
   signUp: async () => {},
   signOut: async () => {},
+  resendConfirmation: async () => {},
   resetPassword: async () => {},
 });
 

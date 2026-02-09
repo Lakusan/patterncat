@@ -48,12 +48,15 @@ export default function LoginModal({
   } = useForm<LoginSchema>({
     resolver: zodResolver(loginSchema),
   });
+  
+  // UI‑Level Await: Die UI ist die Async Boundary für State‑Transitionen
+  // und nutzt Promise Propagation aus dem AuthService.
 
   const onSubmit = async (data: LoginSchema) => {
     try {
       await signIn(
-         data.email,
-          data.password,
+        data.email,
+        data.password,
       );
       onClose();
       router.replace("/(main)/home");
@@ -115,12 +118,11 @@ export default function LoginModal({
               {errors.password.message}
             </Text>
           )}
-          <Button variant='link' className='justify-start p-4' onPress={() => 
-            {
-              alert.confirm("Are you sure you want to reset your password?",
-                onPasswordReset
-              )
-            }}>
+          <Button variant='link' className='justify-start p-4' onPress={() => {
+            alert.confirm("Are you sure you want to reset your password?",
+              onPasswordReset
+            )
+          }}>
             <ButtonText size='sm'>Forgot Password?</ButtonText>
           </Button>
         </ModalBody>
