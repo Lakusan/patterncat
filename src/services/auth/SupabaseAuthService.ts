@@ -32,6 +32,15 @@ export const supabaseAuthService: AuthService = {
     if (error) throw error;
   },
 
+  async resendPasswordConfirmation(email) {
+    const {error} = await supabase.auth.resend(
+      {
+        type: "signup",
+        email
+      }
+    )
+  },
+
   async resetPassword(email) {
     const { error } = await supabase.auth.resetPasswordForEmail(email, {
       redirectTo: "/(public)",
