@@ -46,6 +46,7 @@ export default function AuthProvider({ children }: PropsWithChildren) {
         signIn: (email, password) => authService.signIn(email, password),
         signUp: (email, password) => authService.signUp(email, password),
         signOut: () => authService.signOut(),
+        resendConfirmation: (email) => authService.resendPasswordConfirmation(email),
         resetPassword: (email) => authService.resetPassword(email),
       }}
     >
