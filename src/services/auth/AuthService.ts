@@ -5,6 +5,6 @@ export interface AuthService {
   signIn(email: string, password: string): Promise<void>;
   signUp(email: string, password: string): Promise<void>;
   signOut(): Promise<void>;
-  resendPasswordConfirmation(): Promise<void>;
+  resendPasswordConfirmation(email: string): Promise<void>;
   resetPassword(email: string): Promise<void>;
 }
