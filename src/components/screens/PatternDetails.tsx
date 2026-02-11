@@ -6,13 +6,13 @@ const { width } = Dimensions.get("window");
 
 export type Pattern = {
   id: string;
-  ownerId: string;
-  title: string;
-  description: string;
-  image: string
-  gallery: string[];
-  category: string;
-  updatedAt: number;
+  ownerId?: string;
+  title?: string;
+  description?: string;
+  image?: string
+  gallery?: string[];
+  category?: string;
+  updatedAt?: number;
 };
 
 
