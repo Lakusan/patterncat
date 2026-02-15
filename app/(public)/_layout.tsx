@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { BREAKPOINTS } from "@/src/constants/ui/breakpoints";
 import { useAuthFlow } from '@/src/contexts/use-auth-flow-context';
 import Feather from "@expo/vector-icons/Feather";
-import { Tabs } from "expo-router";
+import { Stack, Tabs } from "expo-router";
 import { Drawer } from "expo-router/drawer";
 import { Icon, Label, NativeTabs } from 'expo-router/unstable-native-tabs';
 import React from "react";
@@ -187,6 +187,7 @@ export default function PublicLayout() {
   // liegen aktuell in assets/android -> kopieren in android/app/src/res/drawable nach repbuild --clean
   // Nur angelegte Routen werden angezeigt und gerendert; keine danebenliegenden wie mit RN Tabs
   return (
+    <Stack screenOptions={{ headerShown: false }}>
     <NativeTabs >
       <NativeTabs.Trigger name="index">
         <Label>Home</Label>
@@ -205,5 +206,6 @@ export default function PublicLayout() {
         <Label>Settings</Label>
       </NativeTabs.Trigger>
     </NativeTabs>
+    </Stack>
   )
 }

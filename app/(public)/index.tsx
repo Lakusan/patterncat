@@ -63,11 +63,13 @@ export default function PublicHome() {
   const renderCard = ({ item: pattern }: { item: Pattern }) => (
     <View style={{ width: cardWidth }}>
       <Pressable
-        onPress={() =>
+        onPress={() =>{
+          console.log(`Navigating to pattern ${pattern.id}`)
           router.push({
-            pathname: "/[id]",
+            pathname: "/(public)/[id]",
             params: { id: pattern.id },
           })
+        }
         }
       >
         <Card size="sm" variant="ghost" className="p-0">

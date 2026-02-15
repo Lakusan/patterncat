@@ -11,20 +11,25 @@ import AuthProvider from "@/src/providers/auth-provider";
 import { useAuthContext } from "@/src/contexts/use-auth-context";
 import AuthGate from "@/src/controller/auth-gate";
 
+import { SafeAreaProvider } from "react-native-safe-area-context";
+
+
 import { Stack } from "expo-router";
 
 export default function RootLayout() {
   return (
     <AuthProvider>
       <GluestackUIProvider>
-        <AlertProvider>
-          <SplashScreenController />
-          <AuthFlowProvider>
-            <AuthGate>
-              <InnerRootLayout />
-            </AuthGate>
-          </AuthFlowProvider>
-        </AlertProvider>
+        <SafeAreaProvider>
+          <AlertProvider>
+            <SplashScreenController />
+            <AuthFlowProvider>
+              <AuthGate>
+                <InnerRootLayout />
+              </AuthGate>
+            </AuthFlowProvider>
+          </AlertProvider>
+        </SafeAreaProvider>
       </GluestackUIProvider>
     </AuthProvider>
   );

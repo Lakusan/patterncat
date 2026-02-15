@@ -1,4 +1,5 @@
 import { Text } from "@/components/ui/text";
+import SafeAreaContainer from "@/src/components/container/SafeAreaContainer";
 import PatternDetails from "@/src/components/screens/PatternDetails";
 import { supabase } from "@/src/lib/supabase";
 import { useLocalSearchParams } from "expo-router";
@@ -98,35 +99,38 @@ export default function PublicPatternDetails() {
   }
 
   return (
-    <ScrollView style={{ padding: 16 }}>
-      {pattern ? (
-        <>
-          <Text style={{ fontSize: 20, fontWeight: "bold" }}>
-            PatternName: {pattern.name}
-          </Text>
+    <SafeAreaContainer>
 
-          <PatternDetails item={{ id }} />
+      <ScrollView style={{ padding: 16 }}>
+        {pattern ? (
+          <>
+            <Text style={{ fontSize: 20, fontWeight: "bold" }}>
+              PatternName: {pattern.name}
+            </Text>
 
-          <Text style={{ marginTop: 20, fontWeight: "bold" }}>
-            Rohdaten aus der Datenbank:
-          </Text>
+            <PatternDetails item={{ id }} />
 
-          <Text
-            style={{
-              fontFamily: "monospace",
-              fontSize: 12,
-              marginTop: 10,
-              backgroundColor: "#eee",
-              padding: 10,
-              borderRadius: 8,
-            }}
-          >
-            {JSON.stringify(pattern, null, 2)}
-          </Text>
-        </>
-      ) : (
-        <Text>Keine Pattern gefunden</Text>
-      )}
-    </ScrollView>
+            <Text style={{ marginTop: 20, fontWeight: "bold" }}>
+              Rohdaten aus der Datenbank:
+            </Text>
+
+            <Text
+              style={{
+                fontFamily: "monospace",
+                fontSize: 12,
+                marginTop: 10,
+                backgroundColor: "#eee",
+                padding: 10,
+                borderRadius: 8,
+              }}
+            >
+              {JSON.stringify(pattern, null, 2)}
+            </Text>
+          </>
+        ) : (
+          <Text>Keine Pattern gefunden</Text>
+        )}
+      </ScrollView>
+    </SafeAreaContainer>
   );
 }
