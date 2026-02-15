@@ -22,18 +22,20 @@ export default function AuthRequestModal({
     <BaseModal
       isOpen={isOpen}
       onClose={onClose}
+      header={
+      <Text className="text-center">
+        Log In or Create a user account to feel the magic of PATTERN CAT
+      </Text>
+      }
       footer={
         <Image
           source={require("@/assets/images/patterncat_logo.png")}
           alt="image"
-          className="h-[185px] w-full rounded"
+          className="h-[200px] w-full rounded bg-green-500"
           resizeMode="contain"
         />
       }
     >
-      <Text className="text-center">
-        Log In or Create a user account to feel the magic of PATTERN CAT
-      </Text>
 
       <VStack space="lg" className="w-full mt-4">
         <Divider />

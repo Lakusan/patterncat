@@ -1,8 +1,8 @@
 import { Button, ButtonText } from '@/components/ui/button';
 import { Heading } from '@/components/ui/heading';
 import { Input, InputField, InputIcon, InputSlot } from '@/components/ui/input';
-import { Modal, ModalBackdrop, ModalBody, ModalContent, ModalFooter, ModalHeader } from "@/components/ui/modal";
 import { Text } from '@/components/ui/text';
+import BaseModal from "@/src/components/modals/BaseModal";
 import React from "react";
 
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -45,69 +45,12 @@ export default function LoginModal({
   };
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose}>
-      <ModalBackdrop />
-
-      <ModalContent className="max-w-[375px]">
-        <ModalHeader>
-          <Heading className="text-xl font-bold">Login</Heading>
-        </ModalHeader>
-
-        <Text className='text-center m-2'>
-          Log In to feel the magic of PATTERN CAT
-        </Text>
-
-        <Divider />
-
-        <ModalBody className="gap-4">
-
-          {/* EMAIL */}
-          <Input className="border border-gray-300 rounded-lg m-2">
-            <InputField
-              placeholder="Email"
-              keyboardType="email-address"
-              onFocus={() => clearErrors()}
-              onChangeText={(text) => setValue("email", text)}
-            />
-          </Input>
-
-          {errors.email && (
-            <Text className="text-red-500 text-small text-center">
-              {errors.email.message}
-            </Text>
-          )}
-
-          {/* PASSWORD */}
-          <Input className="border border-gray-300 rounded-lg m-2">
-            <InputField
-              placeholder="Password"
-              onFocus={() => clearErrors()}
-              onChangeText={(text) => setValue("password", text)}
-              type={showPassword ? 'text' : 'password'}
-            />
-            <InputSlot onPress={() => setShowPassword(prev => !prev)}>
-              <InputIcon as={showPassword ? EyeIcon : EyeOffIcon} />
-            </InputSlot>
-          </Input>
-
-          {errors.password && (
-            <Text className="text-red-500 text-sm text-center">
-              {errors.password.message}
-            </Text>
-          )}
-
-          {/* PASSWORD VERGESSEN */}
-          <Button
-            variant='link'
-            className='justify-start p-4'
-            onPress={onPasswordReset}
-          >
-            <ButtonText size='sm'>Forgot Password?</ButtonText>
-          </Button>
-
-        </ModalBody>
-
-        <ModalFooter className="flex-row justify-between mt-4">
+    <BaseModal
+      isOpen={isOpen}
+      onClose={onClose}
+      header={<Heading className="text-xl font-bold">Login</Heading>}
+      footer={
+        <>
           <Button
             variant="outline"
             action="secondary"
@@ -124,8 +67,58 @@ export default function LoginModal({
           >
             <ButtonText>{isSubmitting ? "..." : "Login"}</ButtonText>
           </Button>
-        </ModalFooter>
-      </ModalContent>
-    </Modal>
+        </>
+      }
+    >
+      <Text className='text-center m-2'>
+        Log In to feel the magic of PATTERN CAT
+      </Text>
+
+      <Divider />
+
+      {/* EMAIL */}
+      <Input className="border border-gray-300 rounded-lg m-2">
+        <InputField
+          placeholder="Email"
+          keyboardType="email-address"
+          onFocus={() => clearErrors()}
+          onChangeText={(text) => setValue("email", text)}
+        />
+      </Input>
+
+      {errors.email && (
+        <Text className="text-red-500 text-small text-center">
+          {errors.email.message}
+        </Text>
+      )}
+
+      {/* PASSWORD */}
+      <Input className="border border-gray-300 rounded-lg m-2">
+        <InputField
+          placeholder="Passwort"
+          onFocus={() => clearErrors()}
+          onChangeText={(text) => setValue("password", text)}
+          type={showPassword ? 'text' : 'password'}
+        />
+        <InputSlot onPress={() => setShowPassword(prev => !prev)}>
+          <InputIcon as={showPassword ? EyeIcon : EyeOffIcon} />
+        </InputSlot>
+      </Input>
+
+      {errors.password && (
+        <Text className="text-red-500 text-sm text-center">
+          {errors.password.message}
+        </Text>
+      )}
+      {/* PASSWORD VERGESSEN */}
+      <Button
+        variant='link'
+        className=''
+        onPress={onPasswordReset}
+      >
+        <ButtonText size='sm'>Passwort vergessen?</ButtonText>
+      </Button>
+
+    </BaseModal>
   );
 }

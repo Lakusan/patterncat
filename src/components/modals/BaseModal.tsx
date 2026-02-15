@@ -2,14 +2,17 @@ import {
   Modal,
   ModalBackdrop,
   ModalBody,
+  ModalCloseButton,
   ModalContent,
-  ModalFooter
+  ModalFooter,
+  ModalHeader
 } from "@/components/ui/modal";
 import { ReactNode } from "react";
 
 interface BaseModalProps {
   isOpen: boolean;
   onClose: () => void;
+  header?: ReactNode;
   children: ReactNode;
   footer?: ReactNode;
   className?: string;
@@ -18,6 +21,7 @@ interface BaseModalProps {
 export default function BaseModal({
   isOpen,
   onClose,
+  header,
   children,
   footer,
   className
@@ -26,10 +30,31 @@ export default function BaseModal({
     <Modal isOpen={isOpen} onClose={onClose}>
       <ModalBackdrop />
 
-      <ModalContent className={`max-w-[375px] ${className ?? ""}`}>
-        <ModalBody>{children}</ModalBody>
+      <ModalContent
+        className={`
+          flex
+          min-h-[50%]
+          lg:max-w-[375px]
+          ${className ?? ""}
+        `}
+      >
+        {header && (
+          <ModalHeader>
+            {header}
+            <ModalCloseButton />
+          </ModalHeader>
+        )}
 
-        {footer && <ModalFooter className="flex-row justify-between mt-4">{footer}</ModalFooter>}
+        <ModalBody
+        >
+          {children}
+        </ModalBody>
+
+        {footer && (
+          <ModalFooter className="flex-row justify-between">
+            {footer}
+          </ModalFooter>
+        )}
       </ModalContent>
     </Modal>
   );
