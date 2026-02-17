@@ -3,11 +3,12 @@ import { Heading } from '@/components/ui/heading';
 import { Image } from '@/components/ui/image';
 import { Text } from '@/components/ui/text';
 import SafeAreaContainer from '@/src/components/container/SafeAreaContainer';
+import PatternList from '@/src/components/Lists/PatternList';
 import { CATEGORIES, NUM_TESTOBJECTS } from '@/src/constants/dev';
 import { Pattern } from '@/src/types/patternTypes';
 import { router } from 'expo-router';
 import { useMemo, useState } from 'react';
-import { FlatList, Platform, Pressable, useWindowDimensions, View } from 'react-native';
+import { Platform, Pressable, useWindowDimensions, View } from 'react-native';
 
 const MIN_CARD_WIDTH = 500;
 const MIN_CARD_WIDTH_WEB = 150;
@@ -86,6 +87,11 @@ export default function PublicHome() {
     </View>
   );
 
+  if (__DEV__){
+    return(
+      <PatternList></PatternList>
+    );
+  }
   return (
     <SafeAreaContainer>
       <View className="flex-1 items-center">
@@ -95,7 +101,6 @@ export default function PublicHome() {
           <View className="flex-row justify-around lg:p-0 p-2 lg:h-[3%] h-[5%]">
             {CATEGORIES.map((cat) => {
               const isActive = selectedCategory === cat || (cat === "Alle" && selectedCategory === null);
-
               return (
                 <Pressable
                   key={cat}
@@ -118,7 +123,7 @@ export default function PublicHome() {
           </View>
 
           {/* Grid */}
-          {filteredPatterns.length > 0 ? (
+          {/* {filteredPatterns.length > 0 ? (
             <FlatList
               data={filteredPatterns}
               renderItem={renderCard}
@@ -139,7 +144,7 @@ export default function PublicHome() {
             <Text className="bg-red-500 text-center mt-4">
               Keine Schnittmuster gefunden 😢
             </Text>
-          )}
+          )} */}
         </View>
       </View>
     </SafeAreaContainer>
