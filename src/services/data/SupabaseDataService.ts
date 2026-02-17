@@ -7,7 +7,7 @@ export const supabaseDataService: DataService = {
       .from("profiles")
       .select("username")
       .eq("id", id)
-      .maybeSingle(); // besser als .single()
+      .maybeSingle();
 
     if (error) {
       console.error("Supabase error:", error);
