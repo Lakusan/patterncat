@@ -11,6 +11,7 @@ import AuthProvider from "@/src/providers/auth-provider";
 import { useAuthContext } from "@/src/contexts/use-auth-context";
 import AuthGate from "@/src/controller/auth-gate";
 
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
 
@@ -18,20 +19,22 @@ import { Stack } from "expo-router";
 
 export default function RootLayout() {
   return (
-    <AuthProvider>
+    <GestureHandlerRootView style={{ flex: 1 }}>
       <GluestackUIProvider>
-        <SafeAreaProvider>
-          <AlertProvider>
-            <SplashScreenController />
-            <AuthFlowProvider>
-              <AuthGate>
-                <InnerRootLayout />
-              </AuthGate>
-            </AuthFlowProvider>
-          </AlertProvider>
-        </SafeAreaProvider>
+        <AuthProvider>
+          <SafeAreaProvider>
+            <AlertProvider>
+              <SplashScreenController />
+              <AuthFlowProvider>
+                <AuthGate>
+                  <InnerRootLayout />
+                </AuthGate>
+              </AuthFlowProvider>
+            </AlertProvider>
+          </SafeAreaProvider>
+        </AuthProvider>
       </GluestackUIProvider>
-    </AuthProvider>
+    </GestureHandlerRootView>
   );
 }
 
