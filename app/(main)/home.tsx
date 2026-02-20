@@ -1,5 +1,5 @@
 import { Button, ButtonText } from "@/components/ui/button";
-import PatternList from "@/src/components/PatternList";
+import PatternList from "@/src/components/Lists/PatternList";
 import { useAuthContext } from "@/src/contexts/use-auth-context";
 import { Text, View } from "react-native";
 

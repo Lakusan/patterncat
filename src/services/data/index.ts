@@ -1,2 +1,2 @@
-export { supabaseDataService as dataService } from "@/src/services/data/SupabaseDataService";
+export { supabasePatternService as patternService } from "@/src/services/data/SupabasePatternService";
 

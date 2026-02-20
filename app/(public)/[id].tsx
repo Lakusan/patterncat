@@ -1,10 +1,14 @@
+import { Button, ButtonText } from "@/components/ui/button";
+import { Image } from "@/components/ui/image";
 import { Text } from "@/components/ui/text";
 import SafeAreaContainer from "@/src/components/container/SafeAreaContainer";
 import PatternDetails from "@/src/components/screens/PatternDetails";
+import { useAuthContext } from "@/src/contexts/use-auth-context";
 import { supabase } from "@/src/lib/supabase";
 import { useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
 import { ScrollView } from "react-native";
+
 
 export default function PublicPatternDetails() {
   const { id } = useLocalSearchParams<{ id: string }>();
@@ -12,61 +16,11 @@ export default function PublicPatternDetails() {
   const [pattern, setPattern] = useState<any>(null);
   const [loading, setLoading] = useState(true);
 
-  async function getPattern(patternId: string) {
-    const { data, error } = await supabase
-      .from("patterns")
-      .select(`
-        id,
-        name,
-        beschreibung,
-        nummer_bezeichnung,
-        datum,
-        elastische_stoffe,
-        bereits_genaeht,
-        stoffmenge_cm,
+  const AuthProvider = useAuthContext();
 
-        format ( id, name ),
-        groessenspektrum:groessen ( id, value ),
-        art ( id, name ),
-        kategorie_1 ( id, value ),
-        kategorie_2 ( id, value ),
-        anlass ( id, value ),
-        aermel ( id, value ),
-        saumlaenge ( id, value ),
-        verschluss ( id, value ),
-        ausschnitt ( id, value ),
-        jahrezeit:jahreszeit ( id, name ),
-        schwierigkeitsgrad ( id, value ),
-        quelle_marke:source ( id, name, type ),
-        user:profiles ( id, username ),
 
-        pattern_materials (
-          materials ( id, material_name )
-        ),
+  const [getImage, setImage] = useState("");
 
-        pattern_tags (
-          tags ( id, tag_name )
-        ),
-
-        images (
-          id,
-          titel,
-          beschreibung,
-          dateiname,
-          content_type,
-          ismainimage
-        )
-      `)
-      .eq("id", patternId)
-      .maybeSingle();
-
-    if (error) {
-      console.error("Supabase Pattern Error:", error);
-      return null;
-    }
-
-    return data;
-  }
 
   useEffect(() => {
     async function load() {
@@ -74,7 +28,7 @@ export default function PublicPatternDetails() {
 
       setLoading(true);
 
-      const patternData = await getPattern(id);
+      const patternData = await (id);
 
       if (!patternData) {
         console.warn("Kein Pattern gefunden oder RLS blockiert");
@@ -98,8 +52,51 @@ export default function PublicPatternDetails() {
     );
   }
 
+  if (__DEV__) {
+    console.log("true")
+    return (
+      <>
+      <Image
+        source={require("@/assets/images/patterncat_dummy_pattern_image.png")}
+        className="w-full h-[50%]"
+        resizeMode="cover"
+      />
+      </>
+
+    )
+  }
+
   return (
     <SafeAreaContainer>
+      {getImage ? (
+        <Image
+          source={{ uri: getImage }}
+          className="h-[50%] w-full m-10"></Image>
+      ) : (
+        <Text>Kein Bild</Text>
+      )}
+      <Button size="sm" variant="solid" className="bg-green-500" onPress={async () => {
+        const { data, error } = await supabase.from("pattern_tags").select("*")
+        if (data) console.log(data)
+        if (error) console.error(error)
+
+      }
+      }>
+        <ButtonText>Get SQL </ButtonText>
+      </Button>
+      <Button size="sm" variant="solid" className="bg-green-500" onPress={
+        async () => {
+          const { data: signed } = await supabase
+            .storage
+            .from("images")
+            .createSignedUrl(`${AuthProvider.userId}/${pattern.id}/Dummy.jpg`, 60 * 60)
+          if (signed) setImage(signed.signedUrl)
+          console.log("Files:", signed);
+        }
+
+      }>
+        <ButtonText>Get Bucket </ButtonText>
+      </Button>
 
       <ScrollView style={{ padding: 16 }}>
         {pattern ? (
@@ -131,6 +128,6 @@ export default function PublicPatternDetails() {
           <Text>Keine Pattern gefunden</Text>
         )}
       </ScrollView>
-    </SafeAreaContainer>
+    </SafeAreaContainer >
   );
 }
