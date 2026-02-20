@@ -13,15 +13,15 @@ export interface AuthSession {
 // Type AuthData: als type, da essentiell für App-Logik
 export type AuthData = {
   session: AuthSession | null;
+  userId: string | null;
   profile: any;
   isLoading: boolean;
   isLoggedIn: boolean;
 
-  // Auth-Funktionen -> Mapping dann auf Service Level
-  // -> /src/services/authService.ts als Interfaces und Implementierung in /src/services/supabaseAuthService.ts
   signIn: (email: string, password: string) => Promise<void>;
   signUp: (email: string, password: string) => Promise<void>;
   signOut: () => Promise<void>;
   resendConfirmation: (email: string) => Promise<void>;
   resetPassword: (email: string) => Promise<void>;
 };
+
