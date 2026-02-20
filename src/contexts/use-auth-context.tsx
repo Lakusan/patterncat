@@ -7,6 +7,7 @@ export const AuthContext = createContext<AuthData>({
   profile: null,
   isLoading: true,
   isLoggedIn: false,
+  userId: null,
 
   // Default no-op functions (so context always has valid shape)
   signIn: async () => {},
