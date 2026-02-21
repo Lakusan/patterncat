@@ -1,8 +1,12 @@
-import type { Pattern, RawPattern } from "@/src/types/patternTypes";
+// src/services/data/PatternService.ts
+// This file defines the PatternService interface, which abstracts the data operations related to patterns.
+// It allows us to switch between different implementations (e.g., Supabase, REST API) without changing the rest of the app.
+
+import type { Pattern, PatternListElement } from "@/src/types/patternTypes";
 
 export interface PatternService {
-  getAll(): Promise<Pattern[]>;
-  getAllRaw(): Promise<RawPattern[]>;
-  getById(id: number): Promise<Pattern | null>;
-  // später: create, update, delete, search, filter …
+  getAllPatternListElements(userId: string): Promise<PatternListElement[]>;
+  getAllPatterns(): Promise<Pattern[]>;
+  getPatternById(id: number): Promise<Pattern | null>;
+  // TODO: create, update, delete, search, filter …
 }

@@ -1,4 +1,4 @@
-export type RawPattern = {
+export type Pattern = {
   id: string;
   name: string;
   format: number | null;
@@ -26,70 +26,18 @@ export type RawPattern = {
   user_id: string | null;
 };
 
-export type Pattern = {
-  id: string;
-  ownerId: string | null;
+// Pattern type Flatlist Home
+// Data: patternID, title, description, mainImage, category
 
-  title: string;
+export type PatternListElement = {
+  id: string;
+
+  name: string;
   description: string | null;
 
-  image: string | null;      
-  gallery: string[];         
+  image: string | null;
 
-  category: string | null;   
+  category: string | null;
 
-  updatedAt: number | null;  
+  updatedAt: number | null;
 };
-
-export function mapRawPatternToPattern(raw: RawPattern): Pattern {
-  return {
-    id: raw.id,
-    ownerId: raw.user_id,
-
-    title: raw.name,
-    description: raw.beschreibung,
-
-    image: raw.bild_linienzeichnung, // später: signed URL
-    gallery: [], // kommt später aus images-Tabelle
-
-    category: raw.kategorie_1?.toString() ?? null,
-
-    updatedAt: raw.datum ? new Date(raw.datum).getTime() : null,
-  };
-}
-
-
-export type PatternItemState = {
-  // --- DATA ---
-  patterns: Pattern[];
-  selectedPattern: Pattern | null;
-
-  // --- SETTERS ---
-  setPatterns: (patterns: Pattern[]) => void;
-  setSelectedPattern: (pattern: Pattern | null) => void;
-
-  // --- CACHE ---
-  cachedPatterns: Record<string, Pattern>;
-  cachePattern: (pattern: Pattern) => void;
-
-  // --- DIRTY (unsynced) PATTERNS ---
-  dirtyPatterns: Record<string, Pattern>;
-  markDirty: (pattern: Pattern) => void;
-
-  // --- SYNC TIMESTAMP ---
-  lastSyncedAt: number | null;
-  setLastSyncedAt: (ts: number) => void;
-
-  // --- MERGING ---
-  mergeRemotePatterns: (remote: Pattern[]) => void;
-
-  // --- SYNC ---
-  syncWithServer: () => Promise<void>;
-
-  // --- INITIALIZATION ---
-  initializeStore: () => Promise<void>;
-
-  // --- CLEAR PERSISTENCE ---
-  clearPersistance: () => Promise<void>;
-};
-
