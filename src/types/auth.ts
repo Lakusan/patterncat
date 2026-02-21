@@ -13,10 +13,9 @@ export interface AuthSession {
 // Type AuthData: als type, da essentiell für App-Logik
 export type AuthData = {
   session: AuthSession | null;
-  userId: string | null;
-  profile: any;
   isLoading: boolean;
   isLoggedIn: boolean;
+  userId: string | null;
 
   signIn: (email: string, password: string) => Promise<void>;
   signUp: (email: string, password: string) => Promise<void>;
@@ -24,4 +23,3 @@ export type AuthData = {
   resendConfirmation: (email: string) => Promise<void>;
   resetPassword: (email: string) => Promise<void>;
 };
-

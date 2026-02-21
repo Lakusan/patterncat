@@ -5,27 +5,21 @@ import { PropsWithChildren, useEffect, useState } from "react";
 
 export default function AuthProvider({ children }: PropsWithChildren) {
   const [session, setSession] = useState<AuthSession | null>(null);
-  const [userId, setUserId] = useState<string | null>(null);
   const [profile, setProfile] = useState<any | null>(null);
 
   const [isSessionLoading, setIsSessionLoading] = useState(true);
   const [isProfileLoading, setIsProfileLoading] = useState(false);
-  const [isHydratingAuth, setIsHydratingAuth] = useState(true);
 
-  const isLoading = isSessionLoading || isProfileLoading || isHydratingAuth;
+  const isLoading = isSessionLoading || isProfileLoading;
 
-  // Appstart: Session laden & Subscription auf Session-Änderungen
   useEffect(() => {
     authService.getSession().then((s) => {
       setSession(s);
-      setUserId(s?.user?.id ?? null);
       setIsSessionLoading(false);
-      setIsHydratingAuth(false);
     });
 
     const unsubscribe = authService.onAuthStateChanged((s) => {
       setSession(s);
-      setUserId(s?.user?.id ?? null);
     });
 
     return unsubscribe;
@@ -38,13 +32,14 @@ export default function AuthProvider({ children }: PropsWithChildren) {
     }
   }, [session]);
 
+  const userId = session?.user?.id ?? null;
+
   return (
     <AuthContext.Provider
       value={{
         session,
-        userId,
-        profile,
         isLoading,
+        userId,
         isLoggedIn: !!session,
         signIn: (email, password) => authService.signIn(email, password),
         signUp: (email, password) => authService.signUp(email, password),
