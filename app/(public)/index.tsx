@@ -1,4 +1,4 @@
-import PublicPatternList from '@/src/components/Lists/PatternListPublic';
+import PublicPatternList from '@/src/components/lists/PatternListPublic';
 
 export default function PublicHome() {
     return(

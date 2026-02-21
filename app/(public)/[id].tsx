@@ -1,6 +1,9 @@
 import { Button, ButtonText } from "@/components/ui/button";
+import { Heading } from "@/components/ui/heading";
+import { HStack } from "@/components/ui/hstack/index.web";
 import { Image } from "@/components/ui/image";
 import { Text } from "@/components/ui/text";
+import { VStack } from "@/components/ui/vstack";
 import SafeAreaContainer from "@/src/components/container/SafeAreaContainer";
 import PatternDetails from "@/src/components/screens/PatternDetails";
 import { useAuthContext } from "@/src/contexts/use-auth-context";
@@ -53,14 +56,22 @@ export default function PublicPatternDetails() {
   }
 
   if (__DEV__) {
-    console.log("true")
     return (
       <>
-      <Image
-        source={require("@/assets/images/patterncat_dummy_pattern_image.png")}
-        className="w-full h-[50%]"
-        resizeMode="cover"
-      />
+        <SafeAreaContainer>
+          <Image
+            source={require("@/assets/images/patterncat_dummy_pattern_image.png")}
+            className="w-full h-[50%]"
+            resizeMode="cover"
+          />
+          <VStack>
+          <Heading>Title</Heading>
+          <HStack>
+            <Text>Category</Text>
+            <Text>Author</Text>
+          </HStack>
+          </VStack>
+        </SafeAreaContainer>
       </>
 
     )
