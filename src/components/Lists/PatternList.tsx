@@ -1,8 +1,9 @@
 import { Text } from "@/components/ui/text";
 import SafeAreaContainer from '@/src/components/container/SafeAreaContainer';
 import { CATEGORIES } from '@/src/constants/dev';
+import { useAuthContext } from "@/src/contexts/use-auth-context";
 import { patternService } from "@/src/services/data";
-import type { RawPattern } from '@/src/types/patternTypes';
+import type { PatternListElement } from '@/src/types/patternTypes';
 import { router } from "expo-router";
 import { useEffect, useMemo, useState } from "react";
 import { Platform, Pressable, useWindowDimensions, View } from 'react-native';
@@ -15,14 +16,20 @@ const GAP = 15;
 const MIN_COLUMNS = 2;
 const MAX_COLUMNS = 6;
 
+
+// spinner for loading
+// Get Categories from supabase -> Generate shrotfilter
+// load pattern elements meta data and images 
+
 export default function PatternList() {
-    const [patterns, setPatterns] = useState<RawPattern[]>([]);
+    const [patterns, setPatterns] = useState<PatternListElement[]>([]);
     const [loading, setLoading] = useState(true);
+    const { userId } = useAuthContext();
 
     useEffect(() => {
         async function load() {
             try {
-                const data = await patternService.getAllRaw();
+                const data = await patternService.getAllPatternListElements(userId ?? "");
                 setPatterns(data);
             } catch (err) {
                 console.error("Fehler beim Laden der Patterns:", err);
@@ -31,8 +38,11 @@ export default function PatternList() {
             }
         }
 
-        load();
-    }, []);
+        if (userId) {
+            load();
+        }
+    }, [userId]);
+
 
 
     const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
@@ -59,7 +69,7 @@ export default function PatternList() {
         return patterns
     }, [patterns, selectedCategory]);
 
-    const renderCard = ({ item: pattern }: { item: RawPattern }) => (
+    const renderCard = ({ item: pattern }: { item: any }) => (
         <View
             style={{ width: cardWidth, minHeight: cardHeight }}
             className="bg-white rounded-xl overflow-hidden"
@@ -68,7 +78,7 @@ export default function PatternList() {
                 className="flex-1"
                 onPress={() =>
                     router.push({
-                        pathname: "/(public)/[id]",
+                        pathname: "/(main)/[id]",
                         params: { id: pattern.id },
                     })
                 }
@@ -100,7 +110,7 @@ export default function PatternList() {
 
     return (
         <SafeAreaContainer>
-            < View className="flex-1 items-center">
+            < View className="flex-1 items-center bg-red-500">
                 <View className="flex-1 lg:w-[70%] w-full h-full shadow-lg">
 
                     {/* Filterbar */}
@@ -114,10 +124,10 @@ export default function PatternList() {
                                         setSelectedCategory(cat === "Alle" ? null : cat)
                                     }
                                     className={`
-                    flex-1 flex-shrink justify-center items-center rounded m-1
-                    ${isActive ? "bg-purple-800" : "bg-gray-200"}
-                  `}
-                                >
+                                        flex-1 flex-shrink justify-center items-center rounded m-1
+                                        ${isActive ? "bg-purple-800" : "bg-gray-200"}
+                                        `}
+                                        >
                                     <Text
                                         className={`text-md ${isActive ? "text-white font-semibold" : "text-gray-700"}`}
                                     >
