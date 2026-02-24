@@ -1,17 +1,18 @@
-import React, { useState } from 'react';
-import { Dimensions, Modal, Pressable } from 'react-native';
-
-// Gluestack Einzel-Imports
 import { Box } from '@/components/ui/box';
 import { Button, ButtonIcon } from '@/components/ui/button';
 import { HStack } from '@/components/ui/hstack';
 import { ChevronLeftIcon, ChevronRightIcon, CloseIcon, Icon } from '@/components/ui/icon';
 import { Image } from '@/components/ui/image';
+import React, { useState } from 'react';
+import { Dimensions, Modal, Pressable } from 'react-native';
 
+import FALLBACK_IMAGE from '@/assets/images/patterncat_dummy_pattern_image.png';
 
+// Modal ion gluestack modal
+// fallback dummy image statisch einbinden
+// modal auslagern -> ImageGaleryFullScreenModal
+// Kommentieren
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
-const FALLBACK_IMAGE = 'https://via.placeholder.com/600x400?text=Bild+nicht+verfügbar';
-
 interface ImageGalleryProps {
   images: string[];
 }
@@ -22,6 +23,7 @@ const SmartGallery = ({ images = [] }: ImageGalleryProps) => {
   const [errorImages, setErrorImages] = useState<{ [key: number]: boolean }>({});
 
   // Sicherheit: Fallback wenn Array leer ist
+  console.log(images.length)
   const displayImages = images.length > 0 ? images : [FALLBACK_IMAGE];
 
   const handleImageError = (index: number) => {

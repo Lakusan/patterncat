@@ -25,7 +25,7 @@ export default function PatternDetails() {
                 <View className="flex-1 lg:w-[70%] w-full h-full shadow-lg">
 
                     {/* --- TOP: IMAGE (fixed 50%) --- */}
-                    <View className="h-1/2 w-full">
+                    <View className="h-1/2 w-full bg-blue-500">
                         <SmartGallery 
                             images={[
                                 "https://picsum.photos/200?random=101",
