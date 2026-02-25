@@ -1,121 +1,179 @@
-import { Box } from '@/components/ui/box';
-import { Button, ButtonIcon } from '@/components/ui/button';
-import { HStack } from '@/components/ui/hstack';
-import { ChevronLeftIcon, ChevronRightIcon, CloseIcon, Icon } from '@/components/ui/icon';
-import { Image } from '@/components/ui/image';
-import React, { useState } from 'react';
-import { Dimensions, Modal, Pressable } from 'react-native';
+// src/components/image/ImageCarousel.tsx
+import { Box } from "@/components/ui/box";
+import { Button, ButtonIcon } from "@/components/ui/button";
+import { HStack } from "@/components/ui/hstack";
+import { ChevronLeftIcon, ChevronRightIcon } from "@/components/ui/icon";
+import { Image } from "@/components/ui/image";
+import React, { useEffect, useMemo, useRef, useState } from "react";
+import { Dimensions, NativeScrollEvent, NativeSyntheticEvent, Pressable, ScrollView } from "react-native";
 
-import FALLBACK_IMAGE from '@/assets/images/patterncat_dummy_pattern_image.png';
+import FALLBACK_IMAGE from "@/assets/images/Dummy.jpg";
+import { ImageCarouselFullscreenModal } from "@/src/components/images/ImageCarouselFullScreenModal";
 
-// Modal ion gluestack modal
-// fallback dummy image statisch einbinden
-// modal auslagern -> ImageGaleryFullScreenModal
-// Kommentieren
-const { width: SCREEN_WIDTH } = Dimensions.get('window');
-interface ImageGalleryProps {
-  images: string[];
+type ImageSource = string | number;
+
+interface ImageCarouselProps {
+  images?: string[]; // Liste von Bild-URLs (optional)
 }
 
-const SmartGallery = ({ images = [] }: ImageGalleryProps) => {
+const { width: SCREEN_WIDTH } = Dimensions.get("window");
+
+export const ImageCarousel: React.FC<ImageCarouselProps> = ({ images = [] }) => {
+  // Aktives Bild
   const [activeIndex, setActiveIndex] = useState(0);
+
+  // Vollbild-Status
   const [isFullscreen, setIsFullscreen] = useState(false);
-  const [errorImages, setErrorImages] = useState<{ [key: number]: boolean }>({});
 
-  // Sicherheit: Fallback wenn Array leer ist
-  console.log(images.length)
-  const displayImages = images.length > 0 ? images : [FALLBACK_IMAGE];
+  // ScrollView-Ref, um per Button zu scrollen
+  const scrollRef = useRef<ScrollView | null>(null);
 
-  const handleImageError = (index: number) => {
-    setErrorImages((prev) => ({ ...prev, [index]: true }));
+
+
+  // Vereinheitlichte Bildquellen (URLs → string, Fallback → require)
+  const displayImages: ImageSource[] = useMemo(
+    () => (images.length > 0 ? images : [FALLBACK_IMAGE]),
+    [images]
+  );
+
+  const handleScrollEnd = (e: NativeSyntheticEvent<NativeScrollEvent>) => {
+    const offsetX = e.nativeEvent.contentOffset.x;
+    const index = Math.round(offsetX / SCREEN_WIDTH);
+    setActiveIndex(index);
+  };
+
+  const scrollToIndex = (index: number) => {
+    if (!scrollRef.current) return;
+    scrollRef.current.scrollTo({ x: index * SCREEN_WIDTH, animated: true });
+    setActiveIndex(index);
   };
 
   const nextImage = () => {
-    if (activeIndex < displayImages.length - 1) setActiveIndex(activeIndex + 1);
+    if (activeIndex < displayImages.length - 1) {
+      scrollToIndex(activeIndex + 1);
+    }
   };
 
   const prevImage = () => {
-    if (activeIndex > 0) setActiveIndex(activeIndex - 1);
+    if (activeIndex > 0) {
+      scrollToIndex(activeIndex - 1);
+    }
   };
 
-  const currentImageUri = errorImages[activeIndex] 
-    ? FALLBACK_IMAGE 
-    : displayImages[activeIndex];
+  const currentImage = displayImages[activeIndex];
 
-  // Vollbild-Modal Komponente
-  const FullscreenModal = () => (
-    <Modal visible={isFullscreen} transparent={false} animationType="slide">
-      <Box className="flex-1 bg-black justify-center items-center">
-        <Pressable 
-          onPress={() => setIsFullscreen(false)}
-          className="absolute top-12 right-6 z-50 p-3 bg-white/20 rounded-full"
-        >
-          <Icon as={CloseIcon} size="xl" color="white" />
-        </Pressable>
-        <Image
-          source={{ uri: currentImageUri }}
-          alt="Fullscreen view"
-          className="w-full h-full"
-          style={{ resizeMode: 'contain' }}
-        />
-      </Box>
-    </Modal>
-  );
+  const currentSource =
+    typeof currentImage === "string" ? { uri: currentImage } : currentImage;
+
+  // 1. Beim ersten Render zurücksetzen
+  useEffect(() => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollTo({ x: 0, animated: false });
+    }
+    setActiveIndex(0);
+  }, []);
+
+  // 2. Wenn sich die Bilder ändern
+  useEffect(() => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollTo({ x: 0, animated: false });
+    }
+    setActiveIndex(0);
+  }, [displayImages]);
+
+  // 3. Immer synchron halten
+  useEffect(() => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollTo({
+        x: activeIndex * SCREEN_WIDTH,
+        animated: false,
+      });
+    }
+  }, [activeIndex]);
 
   return (
     <Box className="w-full p-2">
       <Box className="w-full h-72 rounded-2xl overflow-hidden bg-gray-200 shadow-lg">
-        {/* Hauptbild */}
-        <Pressable onPress={() => setIsFullscreen(true)} className="w-full h-full">
-          <Image
-            source={{ uri: currentImageUri }}
-            alt={`Gallery Image ${activeIndex}`}
-            className="w-full h-full"
-            style={{ resizeMode: 'cover' }}
-            onError={() => handleImageError(activeIndex)}
-          />
+        {/* Swipebarer Bereich */}
+        <Pressable
+          className="w-full h-full"
+          onPress={() => setIsFullscreen(true)}
+        >
+          <ScrollView
+            ref={scrollRef}
+            horizontal
+            pagingEnabled
+            showsHorizontalScrollIndicator={false}
+            onMomentumScrollEnd={handleScrollEnd}
+            scrollEventThrottle={16}
+          >
+            {displayImages.map((img, index) => {
+              const source =
+                typeof img === "string" ? { uri: img } : img;
+
+              return (
+                <Box
+                  key={index}
+                  style={{ width: SCREEN_WIDTH }}
+                  className="h-72"
+                >
+                  <Image
+                    source={source}
+                    alt={`Gallery Image ${index + 1}`}
+                    className="w-full h-full"
+                    style={{ resizeMode: "cover" }}
+                  />
+                </Box>
+              );
+            })}
+          </ScrollView>
         </Pressable>
 
-        {/* Carousel Steuerung (Nur wenn > 1 Bild) */}
+        {/* Navigation + Counter nur bei mehreren Bildern */}
         {displayImages.length > 1 && (
-          <>
-            {/* Navigations Buttons */}
-            <HStack className="absolute bottom-4 left-0 right-0 justify-between px-4 items-center">
-              <Button
-                size="md"
-                className={`rounded-full bg-white/90 shadow-sm ${activeIndex === 0 ? 'opacity-30' : 'opacity-100'}`}
-                onPress={prevImage}
-                disabled={activeIndex === 0}
-              >
-                <ButtonIcon as={ChevronLeftIcon} color="black" />
-              </Button>
+          <HStack className="absolute bottom-4 left-0 right-0 justify-between px-4 items-center">
+            {/* Zurück */}
+            <Button
+              size="md"
+              className={`rounded-full bg-white/90 shadow-sm ${activeIndex === 0 ? "opacity-30" : "opacity-100"
+                }`}
+              onPress={prevImage}
+              disabled={activeIndex === 0}
+            >
+              <ButtonIcon as={ChevronLeftIcon} color="black" />
+            </Button>
 
-              {/* Counter Anzeige */}
-              <Box className="bg-black/50 px-3 py-1 rounded-full">
-                <Box>
-                   <Box className="text-white text-xs font-bold">
-                     {activeIndex + 1} / {displayImages.length}
-                   </Box>
-                </Box>
+            {/* Counter */}
+            <Box className="bg-black/50 px-3 py-1 rounded-full">
+              <Box className="text-white text-xs font-bold">
+                {activeIndex + 1} / {displayImages.length}
               </Box>
+            </Box>
 
-              <Button
-                size="md"
-                className={`rounded-full bg-white/90 shadow-sm ${activeIndex === displayImages.length - 1 ? 'opacity-30' : 'opacity-100'}`}
-                onPress={nextImage}
-                disabled={activeIndex === displayImages.length - 1}
-              >
-                <ButtonIcon as={ChevronRightIcon} color="black" />
-              </Button>
-            </HStack>
-          </>
+            {/* Weiter */}
+            <Button
+              size="md"
+              className={`rounded-full bg-white/90 shadow-sm ${activeIndex === displayImages.length - 1
+                  ? "opacity-30"
+                  : "opacity-100"
+                }`}
+              onPress={nextImage}
+              disabled={activeIndex === displayImages.length - 1}
+            >
+              <ButtonIcon as={ChevronRightIcon} color="black" />
+            </Button>
+          </HStack>
         )}
       </Box>
 
-      {/* Fullscreen Overlay */}
-      <FullscreenModal />
+      {/* Vollbild-Modal ausgelagert */}
+      <ImageCarouselFullscreenModal
+        visible={isFullscreen}
+        onClose={() => setIsFullscreen(false)}
+        image={currentImage}
+      />
     </Box>
   );
 };
 
-export default SmartGallery;
+export default ImageCarousel;

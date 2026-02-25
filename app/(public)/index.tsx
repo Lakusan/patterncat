@@ -1,6 +1,5 @@
 // import PublicPatternList from '@/src/components/lists/PublicPatternList';
 
-import DummyImage from "@/assets/images/Dummy.jpg";
 import {
   Accordion,
   AccordionContent,
@@ -12,7 +11,6 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { Grid, GridItem } from "@/components/ui/grid";
-import { Image } from "@/components/ui/image";
 import { Text } from "@/components/ui/text";
 import { ExpandableText } from "@/src/components/text/ExpandableText";
 import { View } from "react-native";
@@ -20,20 +18,23 @@ import { ScrollView } from "react-native-gesture-handler";
 // import { Divider } from '@/components/ui/divider';
 import { Button, ButtonText } from "@/components/ui/button";
 import { AddIcon, RemoveIcon } from '@/components/ui/icon';
+import ImageCarousel from "@/src/components/images/ImageCarousel";
 
 export default function PublicHome() {
   return (
-    <View className="flex-1 xl:w-2/3 xl:self-center bg-blue-500">
-      <View className="flex-row h-1/2 bg-green-500">
-        <Image
-          source={DummyImage}
-          alt="Dummy"
-          size="full"
-        >
-        </Image>
-
+    // Container Formular
+    <View className="flex-1 xl:w-2/3 xl:self-center">
+      {/* Container Carousel 50% screensize */}
+      <View className="flex-row h-1/2 bg-blue-500">
+        <ImageCarousel images={[
+          "https://picsum.photos/200?random=101",
+          "https://picsum.photos/200?random=102",
+          "https://picsum.photos/200?random=103"
+        ]}>
+        </ImageCarousel>
       </View>
-      <ScrollView className="flex-1 bg-orange-500">
+      {/* Pattern Profil Scollable */}
+      <ScrollView className="flex-1">
         <Grid
           _extra={{ className: "grid-cols-2" }}>
           <GridItem
