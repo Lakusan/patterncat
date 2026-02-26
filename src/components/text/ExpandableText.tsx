@@ -15,7 +15,7 @@ export function ExpandableText({
   const [expanded, setExpanded] = useState(false);
 
   return (
-    <View className="px-4">
+    <View className="p-2">
       <Pressable onPress={() => setExpanded(!expanded)}>
         <View
           style={{
@@ -29,8 +29,8 @@ export function ExpandableText({
         </View>
       </Pressable>
 
-      <Pressable onPress={() => setExpanded(!expanded)}>
-        <Text >
+      <Pressable className="pt-1" onPress={() => setExpanded(!expanded)}>
+        <Text underline={true} className="text-purple-800">
           {expanded ? "Weniger" : "Mehr"}
         </Text>
       </Pressable>

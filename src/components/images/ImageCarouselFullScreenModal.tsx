@@ -25,11 +25,11 @@ export const ImageCarouselFullscreenModal: React.FC<ImageCarouselFullscreenModal
   return (
     <Modal
       visible={visible}
-      transparent={false}
+      transparent={true}
       animationType="slide"
       onRequestClose={onClose}
     >
-      <Box className="flex-1 bg-black justify-center items-center">
+      <Box className="flex-1 bg-black/90 justify-center items-center">
         {/* Close-Button */}
         <Pressable
           onPress={onClose}
@@ -43,7 +43,7 @@ export const ImageCarouselFullscreenModal: React.FC<ImageCarouselFullscreenModal
           source={source}
           alt="Fullscreen view"
           className="w-full h-full"
-          style={{ resizeMode: "contain" }}
+          resizeMode="center"
         />
       </Box>
     </Modal>

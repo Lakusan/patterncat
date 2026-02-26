@@ -4,6 +4,7 @@ import { Button, ButtonIcon } from "@/components/ui/button";
 import { HStack } from "@/components/ui/hstack";
 import { ChevronLeftIcon, ChevronRightIcon } from "@/components/ui/icon";
 import { Image } from "@/components/ui/image";
+import { Text } from "@/components/ui/text";
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { Dimensions, NativeScrollEvent, NativeSyntheticEvent, Pressable, ScrollView } from "react-native";
 
@@ -92,8 +93,8 @@ export const ImageCarousel: React.FC<ImageCarouselProps> = ({ images = [] }) => 
   }, [activeIndex]);
 
   return (
-    <Box className="w-full p-2">
-      <Box className="w-full h-72 rounded-2xl overflow-hidden bg-gray-200 shadow-lg">
+    <Box className="w-full">
+      <Box className="w-full h-full overflow-hidden bg-gray-200">
         {/* Swipebarer Bereich */}
         <Pressable
           className="w-full h-full"
@@ -115,14 +116,14 @@ export const ImageCarousel: React.FC<ImageCarouselProps> = ({ images = [] }) => 
                 <Box
                   key={index}
                   style={{ width: SCREEN_WIDTH }}
-                  className="h-72"
+                  className="h-full"
                 >
                   <Image
                     source={source}
                     alt={`Gallery Image ${index + 1}`}
                     className="w-full h-full"
-                    style={{ resizeMode: "cover" }}
-                  />
+                    resizeMode="cover"
+                    />
                 </Box>
               );
             })}
@@ -145,8 +146,10 @@ export const ImageCarousel: React.FC<ImageCarouselProps> = ({ images = [] }) => 
 
             {/* Counter */}
             <Box className="bg-black/50 px-3 py-1 rounded-full">
-              <Box className="text-white text-xs font-bold">
+              <Box>
+                <Text className="text-white text-xs font-bold">
                 {activeIndex + 1} / {displayImages.length}
+                </Text>
               </Box>
             </Box>
 
