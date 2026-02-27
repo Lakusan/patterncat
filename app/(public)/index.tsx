@@ -19,13 +19,18 @@ import { useColorScheme } from "nativewind";
 import { Pressable, View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 
+
 export default function PublicHome() {
   const { colorScheme, setColorScheme } = useColorScheme();
-  console.log(colorScheme)
     return (
       
       // Container Formular
-      <View className="flex-1 xl:w-2/3 xl:self-center dark:bg-pink-900">
+      <View className="flex-1 xl:w-2/3 xl:self-center bg-primary dark:bg-primary">
+         <View className="">
+      <Text className="text-primary">Primary</Text>
+      <Text className="text-secondary">Secondary</Text>
+ 
+    </View>
         <Pressable
           onPress={() => setColorScheme(colorScheme === "dark" ? "light" : "dark")}
           className="bg-gray-200 dark:bg-gray-700 p-3 rounded-xl"

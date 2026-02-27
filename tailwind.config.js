@@ -11,7 +11,28 @@ module.exports = {
   important: 'html',
   darkMode: "class",
   theme: {
-    extend: {
+    colors: {
+      primary: "rgb(var(--color-primary) / <alpha-value>)",
+      secondary: "rgb(var(--color-secondary) / <alpha-value>)",
+      background: "rgb(var(--color-background) / <alpha-value>)",
+      foreground: "rgb(var(--color-foreground) / <alpha-value>)"
     },
-  }
+  },
+  plugins: [
+    ({ addBase }) =>
+      addBase({
+         ":root": { 
+          "--color-primary": "255 0 0",
+          "--color-secondary": "0 0 0",
+          "--color-background": "255 255 255",
+          "--color-foreground": "20 20 20",
+         },
+        ".dark":
+         { "--color-primary": "0 128 255",
+          "--color-secondary": "255 255 255",
+          "--color-background": "20 20 20",
+          "--color-foreground": "230 230 230",
+          }, 
+      }),
+  ],
 };
