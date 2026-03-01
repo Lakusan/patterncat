@@ -1,4 +1,5 @@
 import { Text } from "@/components/ui/text";
+import { useTheme } from "@/src/contexts/use-theme-context";
 import { useState } from "react";
 import { Pressable, View } from "react-native";
 
@@ -13,6 +14,7 @@ export function ExpandableText({
   collapsedHeight = 24,
 }: ExpandableTextProps) {
   const [expanded, setExpanded] = useState(false);
+  const { colors } = useTheme();
 
   return (
     <View className="p-2">
@@ -23,14 +25,14 @@ export function ExpandableText({
             overflow: "hidden",
           }}
         >
-          <Text >
+          <Text style={{ color: colors.text_background }} >
             {text}
           </Text>
         </View>
       </Pressable>
 
       <Pressable className="pt-1" onPress={() => setExpanded(!expanded)}>
-        <Text underline={true} className="text-purple-800">
+        <Text underline={true} className="text-primary">
           {expanded ? "Weniger" : "Mehr"}
         </Text>
       </Pressable>

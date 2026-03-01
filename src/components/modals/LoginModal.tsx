@@ -10,6 +10,7 @@ import { useForm } from "react-hook-form";
 
 import { Divider } from '@/components/ui/divider';
 import { EyeIcon, EyeOffIcon } from '@/components/ui/icon';
+import { useTheme } from '@/src/contexts/use-theme-context';
 import { loginSchema, LoginSchema } from "@/src/validation/loginSchema";
 
 type LoginModalProps = {
@@ -29,7 +30,8 @@ export default function LoginModal({
 }: LoginModalProps) {
 
   const [showPassword, setShowPassword] = React.useState(false);
-
+  const { colors } = useTheme();
+  
   const {
     setValue,
     handleSubmit,
@@ -48,16 +50,16 @@ export default function LoginModal({
     <BaseModal
       isOpen={isOpen}
       onClose={onClose}
-      header={<Heading className="text-xl font-bold">Login</Heading>}
+      header={<Heading style={{ color: colors.text_background }} className="text-xl font-bold">Login</Heading>}
       footer={
         <>
           <Button
             variant="outline"
             action="secondary"
             onPress={onBack}
-            className="border-gray-400"
+            className="bg-secondary"
           >
-            <ButtonText>Back</ButtonText>
+            <ButtonText style={{ color: colors.text_background }}>Back</ButtonText>
           </Button>
 
           <Button
@@ -65,12 +67,12 @@ export default function LoginModal({
             onPress={handleSubmit(handleValidSubmit)}
             isDisabled={isSubmitting}
           >
-            <ButtonText>{isSubmitting ? "..." : "Login"}</ButtonText>
+            <ButtonText style={{ color: colors.text_background }}>{isSubmitting ? "..." : "Login"}</ButtonText>
           </Button>
         </>
       }
     >
-      <Text className='text-center m-2'>
+      <Text  style={{ color: colors.text_background }} className='text-center m-2'>
         Log In to feel the magic of PATTERN CAT
       </Text>
 
@@ -116,7 +118,7 @@ export default function LoginModal({
         className=''
         onPress={onPasswordReset}
       >
-        <ButtonText size='sm'>Passwort vergessen?</ButtonText>
+        <ButtonText style={{ color: colors.text_background }} size='sm'>Passwort vergessen?</ButtonText>
       </Button>
 
     </BaseModal>

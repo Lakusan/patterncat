@@ -35,6 +35,7 @@ export default function BaseModal({
           flex
           min-h-[50%]
           lg:max-w-[375px]
+          bg-background
           ${className ?? ""}
         `}
       >

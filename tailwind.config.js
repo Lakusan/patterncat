@@ -1,38 +1,56 @@
+const { themeTokens } = require("./src/constants/ui/tokens");
+
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
-    './app/**/*.{html,js,jsx,ts,tsx,mdx}',
-    './components/**/*.{html,js,jsx,ts,tsx,mdx}',
-    './utils/**/*.{html,js,jsx,ts,tsx,mdx}',
-    './*.{html,js,jsx,ts,tsx,mdx}',
-    './src/**/*.{html,js,jsx,ts,tsx,mdx}',
+    "./app/**/*.{html,js,jsx,ts,tsx,mdx}",
+    "./components/**/*.{html,js,jsx,ts,tsx,mdx}",
+    "./utils/**/*.{html,js,jsx,ts,tsx,mdx}",
+    "./*.{html,js,jsx,ts,tsx,mdx}",
+    "./src/**/*.{html,js,jsx,ts,tsx,mdx}",
   ],
-  presets: [require('nativewind/preset')],
-  important: 'html',
+
+  presets: [require("nativewind/preset")],
+  important: "html",
   darkMode: "class",
+
   theme: {
-    colors: {
-      primary: "rgb(var(--color-primary) / <alpha-value>)",
-      secondary: "rgb(var(--color-secondary) / <alpha-value>)",
-      background: "rgb(var(--color-background) / <alpha-value>)",
-      foreground: "rgb(var(--color-foreground) / <alpha-value>)"
+    extend: {
+      colors: {
+        background: "rgb(var(--color-background) / <alpha-value>)",
+        primary: "rgb(var(--color-primary) / <alpha-value>)",
+        secondary: "rgb(var(--color-secondary) / <alpha-value>)",
+        accent: "rgb(var(--color-accent) / <alpha-value>)",
+
+        text_background: "rgb(var(--text-background) / <alpha-value>)",
+        text_primary: "rgb(var(--text-primary) / <alpha-value>)",
+        text_secondary: "rgb(var(--text-secondary) / <alpha-value>)",
+        text_accent: "rgb(var(--text-accent) / <alpha-value>)",
+      },
     },
   },
+
   plugins: [
     ({ addBase }) =>
       addBase({
-         ":root": { 
-          "--color-primary": "255 0 0",
-          "--color-secondary": "0 0 0",
-          "--color-background": "255 255 255",
-          "--color-foreground": "20 20 20",
-         },
-        ".dark":
-         { "--color-primary": "0 128 255",
-          "--color-secondary": "255 255 255",
-          "--color-background": "20 20 20",
-          "--color-foreground": "230 230 230",
-          }, 
+        ":root": convertTokensToCssVars(themeTokens.light),
+        ".dark": convertTokensToCssVars(themeTokens.dark),
       }),
   ],
 };
+
+/**
+ * Wandelt Tokens in CSS-Variablen um
+ * z.B. background → --color-background
+ */
+function convertTokensToCssVars(tokenSet) {
+  const cssVars = {};
+
+  Object.entries(tokenSet).forEach(([key, value]) => {
+    cssVars[`--color-${key.replace(/_/g, "-")}`] = value
+      .replace("rgb(", "")
+      .replace(")", "");
+  });
+
+  return cssVars;
+}

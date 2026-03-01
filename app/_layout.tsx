@@ -14,30 +14,49 @@ import AuthGate from "@/src/controller/auth-gate";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
-
+import { useTheme } from "@/src/contexts/use-theme-context";
+import { ThemeProvider } from "@/src/providers/theme-provder";
 import { Stack } from "expo-router";
+import { View } from "react-native";
+
+
+// ⭐ WICHTIG: Dieser Wrapper setzt die "dark"-Klasse für NativeWind
+function ThemeWrapper({ children }: { children: React.ReactNode }) {
+  const { theme } = useTheme();
+
+  return (
+    <View className={theme === "dark" ? "dark h-full w-full" : "h-full w-full"}>
+      {children}
+    </View>
+  );
+}
+
 
 export default function RootLayout() {
-  
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
-      <GluestackUIProvider>
-        <AuthProvider>
-          <SafeAreaProvider>
-            <AlertProvider>
-              <SplashScreenController />
-              <AuthFlowProvider>
-                <AuthGate>
-                  <InnerRootLayout />
-                </AuthGate>
-              </AuthFlowProvider>
-            </AlertProvider>
-          </SafeAreaProvider>
-        </AuthProvider>
-      </GluestackUIProvider>
+      <ThemeProvider>
+        <ThemeWrapper>
+          <GluestackUIProvider>
+            <AuthProvider>
+              <SafeAreaProvider>
+                <AlertProvider>
+                  <SplashScreenController />
+                  <AuthFlowProvider>
+                    <AuthGate>
+                      <InnerRootLayout />
+                    </AuthGate>
+                  </AuthFlowProvider>
+                </AlertProvider>
+              </SafeAreaProvider>
+            </AuthProvider>
+          </GluestackUIProvider>
+        </ThemeWrapper>
+      </ThemeProvider>
     </GestureHandlerRootView>
   );
 }
+
 
 function InnerRootLayout() {
   const { isLoggedIn } = useAuthContext();
@@ -45,7 +64,7 @@ function InnerRootLayout() {
   return (
     <Stack screenOptions={{ headerShown: false }}>
       <Stack.Protected guard={!isLoggedIn}>
-      <Stack.Screen name="(public)" />
+        <Stack.Screen name="(public)" />
       </Stack.Protected>
 
       <Stack.Protected guard={isLoggedIn}>

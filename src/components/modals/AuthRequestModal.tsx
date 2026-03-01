@@ -3,6 +3,7 @@ import { Divider } from "@/components/ui/divider";
 import { Image } from "@/components/ui/image";
 import { VStack } from "@/components/ui/vstack";
 import BaseModal from "@/src/components/modals/BaseModal";
+import { useTheme } from "@/src/contexts/use-theme-context";
 import { Text } from "react-native";
 
 export type AuthModalProps = {
@@ -18,12 +19,13 @@ export default function AuthRequestModal({
   onLogin,
   onRegister
 }: AuthModalProps) {
+    const { colors } = useTheme();
   return (
     <BaseModal
       isOpen={isOpen}
       onClose={onClose}
       header={
-      <Text className="text-center">
+      <Text style={{ color: colors.text_background }} className="text-center">
         Log In or Create a user account to feel the magic of PATTERN CAT
       </Text>
       }
@@ -31,14 +33,14 @@ export default function AuthRequestModal({
         <Image
           source={require("@/assets/images/patterncat_logo.png")}
           alt="image"
-          className="h-[200px] w-full rounded bg-green-500"
+          className="h-[200px] w-full rounded"
           resizeMode="contain"
         />
       }
     >
 
       <VStack space="lg" className="w-full mt-4">
-        <Divider />
+        <Divider className="bg-current"/>
 
         <Button
           className="flex-1"
@@ -48,10 +50,10 @@ export default function AuthRequestModal({
             onLogin();
           }}
         >
-          <ButtonText>Log In</ButtonText>
+          <ButtonText style={{ color: colors.text_background }}>Log In</ButtonText>
         </Button>
 
-        <Divider />
+        <Divider className="bg-current"/>
 
         <Button
           className="flex-1"
@@ -61,7 +63,7 @@ export default function AuthRequestModal({
             onRegister();
           }}
         >
-          <ButtonText>Register</ButtonText>
+          <ButtonText style={{ color: colors.text_background }}>Register</ButtonText>
         </Button>
       </VStack>
     </BaseModal>

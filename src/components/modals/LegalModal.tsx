@@ -36,7 +36,7 @@ export function LegalModal({
         <Modal isOpen={visible} onClose={onClose}>
             <ModalBackdrop />
 
-            <ModalContent className="bg-white rounded-2xl p-4 w-[90%] self-center">
+            <ModalContent className="rounded-2xl p-4 w-[90%] self-center">
 
                 <ModalHeader>
                     <Heading className="text-xl font-bold">{title}</Heading>
