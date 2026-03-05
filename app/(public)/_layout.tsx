@@ -17,12 +17,12 @@ export default function PublicLayout() {
   const isAndroid = Platform.OS === "android";
   const isIOS = Platform.OS === "ios";
   const isDesktop = isWeb && width >= BREAKPOINTS.DESKTOP;
-  const { colors } = useTheme();
+  const { colors, theme } = useTheme();
 
   // WEB / DESKTOP → Expo/React-Native Drawer mit JS
   if (isDesktop) {
     return (
-      <Drawer
+      <Drawer 
        screenOptions={{
         /**
          * HEADER-BEREICH (oben)

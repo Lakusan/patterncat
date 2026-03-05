@@ -1,63 +1,213 @@
-import React, { useState } from "react";
-import { Dimensions, Pressable, ScrollView, Text, View } from "react-native";
-import SafeAreaContainer from '../container/SafeAreaContainer';
+import {
+  Accordion,
+  AccordionContent,
+  AccordionContentText,
+  AccordionHeader,
+  AccordionIcon,
+  AccordionItem,
+  AccordionTitleText,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
+import { Button, ButtonText } from "@/components/ui/button";
+import { Grid, GridItem } from "@/components/ui/grid";
+import { AddIcon, RemoveIcon } from '@/components/ui/icon';
+import { Text } from "@/components/ui/text";
+import { ImageCarousel } from "@/src/components/images/ImageCarousel";
+import { ExpandableText } from "@/src/components/text/ExpandableText";
+import { useTheme } from "@/src/contexts/use-theme-context";
+import { useColorScheme } from "nativewind";
+import { Pressable, View } from "react-native";
+import { ScrollView } from "react-native-gesture-handler";
 
-const { width } = Dimensions.get("window");
 
-export type Pattern = {
-  id: string;
-  ownerId?: string;
-  title?: string;
-  description?: string;
-  image?: string
-  gallery?: string[];
-  category?: string;
-  updatedAt?: number;
-};
-
-
-export default function PatternDetail({ item }: { item: Pattern }) {
-  const [expanded, setExpanded] = useState(false);
-
-  if (!item) {
-    return (
-      <View className="p-5">
-        <Text>No item data provided.</Text>
-      </View>
-    );
-  }
-
+export default function PatternDetails() {
+  const { colors, toggleTheme, theme } = useTheme();
+  const { colorScheme } = useColorScheme();
   return (
-    <SafeAreaContainer>
 
-      <ScrollView className="flex-1 bg-white">
-        {/* PRODUCT IMAGE GALLERY */}
-        {/* <PatternImageGalery images={images}/> */}
+    // Container Formular
+    <View className="flex-1 xl:w-2/3 xl:self-center bg-background shadow-sm">
 
-        {/* Title */}
-        <Text className="text-3xl font-bold mt-4 mx-4">{item.title}</Text>
-
-        {/* Category */}
-        <Text className="text-base text-gray-500 mx-4 mt-1">
-          {item.category}
-        </Text>
-
-        {/* Description */}
-        <View className="mx-4 mt-4 mb-10">
-          <Text
-            className="text-base"
-            numberOfLines={expanded ? undefined : 3}
-          >
-            {item.description}
+      <Pressable
+          onPress={toggleTheme}
+          className="bg-background p-3 rounded-xl"
+        >
+          <Text style={{ color: colors.text_background }}>
+            Switch Theme Mode
           </Text>
+        </Pressable>
+        {/* Container Carousel 50% screensize */}
+        <Text style={{ color: colors.text_background }}> Aktuelles  nativewind Theme: {colorScheme}</Text>
+        <Text style={{ color: colors.text_background }}> Aktuelles  themeModes: {theme}</Text>
 
-          <Pressable onPress={() => setExpanded(!expanded)}>
-            <Text className="text-purple-600 font-semibold mt-1">
-              {expanded ? "Show less" : "More"}
-            </Text>
-          </Pressable>
-        </View>
+
+
+      <View className="flex-row h-1/2">
+        <ImageCarousel images={[
+          "https://picsum.photos/200?random=101",
+          "https://picsum.photos/200?random=102",
+          "https://picsum.photos/200?random=103"
+        ]}>
+        </ImageCarousel>
+      </View>
+      {/* Pattern Profil Scollable */}
+      <ScrollView className="flex-1">
+        <Grid
+          _extra={{ className: "grid-cols-2" }}>
+          <GridItem
+            className="p-1 shadow-sm"
+            _extra={{ className: "col-span-2" }}
+          >
+            <Text
+            style={{ color: colors.text_background }}
+             className="text-4xl font-bold">Kleid Nr. 124</Text>
+          </GridItem>
+          <GridItem
+            className="p-1 shadow-sm"
+            _extra={{ className: "col-span-2" }}
+          >
+            <View className="flex-row items-center justify-between">
+              <Text style={{ color: colors.text_background }}>Burdasstyle 09/2024</Text>
+              <Text style={{ color: colors.text_background }}>analog</Text>
+            </View>
+          </GridItem>
+          <GridItem
+            className="p-1 shadow-sm"
+            _extra={{ className: "col-span-2" }}
+          >
+            <Text style={{ color: colors.text_background }} className="text-xs font-semibold">Beschreibung</Text>
+            <ExpandableText
+              text="Ein kurzes Jäckchen, welches auch gut über einem Kleid getragen werden kann. Satz2: Ein kurzes Jäckchen, welches auch gut über einem Kleid getragen werden kann. Satz3: Ein kurzes Jäckchen, welches auch gut über einem Kleid getragen werden kann."
+            />
+          </GridItem>
+          <GridItem
+            className="p-5"
+            _extra={{ className: "col-span-2" }}>
+            <Accordion className="bg-transparent">
+              <AccordionItem value="item-1" className="bg-accent rounded-lg">
+                <AccordionHeader>
+                  <AccordionTrigger>
+                    {({ isExpanded }: {isExpanded: boolean}) => {
+                      return (
+                        <>
+                          {isExpanded ? (
+                            <AccordionIcon as={RemoveIcon} className="mr-3" />
+                          ) : (
+                            <AccordionIcon as={AddIcon} className="mr-3" />
+                          )}
+                          <AccordionTitleText>
+                            Kategorien
+                          </AccordionTitleText>
+                        </>
+                      );
+                    }}
+                  </AccordionTrigger>
+                </AccordionHeader>
+                <AccordionContent>
+                  <AccordionContentText>
+                    To place an order, simply select the products you want, proceed to
+                    checkout, provide shipping and payment information, and finalize
+                    your purchase.
+                  </AccordionContentText>
+                </AccordionContent>
+              </AccordionItem>
+              <AccordionItem value="item-2" className="mt-2 bg-accent rounded-lg">
+                <AccordionHeader>
+                  <AccordionTrigger>
+                    {({ isExpanded }: {isExpanded: boolean}) => {
+                      return (
+                        <>
+                          {isExpanded ? (
+                            <AccordionIcon as={RemoveIcon} className="mr-3" />
+                          ) : (
+                            <AccordionIcon as={AddIcon} className="mr-3" />
+                          )}
+                          <AccordionTitleText>
+                            Material
+                          </AccordionTitleText>
+                        </>
+                      );
+                    }}
+                  </AccordionTrigger>
+                </AccordionHeader>
+                <AccordionContent className="ml-9">
+                  <AccordionContentText>
+                    We accept all major credit cards, including Visa, Mastercard, and
+                    American Express. We also support payments through PayPal.
+                  </AccordionContentText>
+                </AccordionContent>
+              </AccordionItem>
+              <AccordionItem value="item-3" className="mt-2 bg-accent rounded-lg">
+                <AccordionHeader>
+                  <AccordionTrigger>
+                    {({ isExpanded }: {isExpanded: boolean}) => {
+                      return (
+                        <>
+                          {isExpanded ? (
+                            <AccordionIcon as={RemoveIcon} className="mr-3" />
+                          ) : (
+                            <AccordionIcon as={AddIcon} className="mr-3" />
+                          )}
+                          <AccordionTitleText>
+                            Design
+                          </AccordionTitleText>
+                        </>
+                      );
+                    }}
+                  </AccordionTrigger>
+                </AccordionHeader>
+                <AccordionContent className="ml-9">
+                  <AccordionContentText>
+                    We accept all major credit cards, including Visa, Mastercard, and
+                    American Express. We also support payments through PayPal.
+                  </AccordionContentText>
+                </AccordionContent>
+              </AccordionItem>
+            </Accordion>
+          </GridItem>
+          <GridItem
+            className="h-10"
+            _extra={{ className: "col-span-2" }}
+          >
+            <ScrollView
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              scrollEnabled={true}
+              // onContentSizeChange={(w) => setContentWidth(w)}
+              className="flex-row px-2 py-3"
+            >
+              <Button size="xs" className="m-1 bg-gray-400">
+                <ButtonText style={{ color: colors.text_background }}>Tag_1</ButtonText>
+              </Button>
+              <Button size="xs" className="m-1 bg-gray-400">
+                <ButtonText style={{ color: colors.text_background }}>Tag_2</ButtonText>
+              </Button>
+              <Button size="xs" className="m-1 bg-gray-400">
+                <ButtonText style={{ color: colors.text_background }}>Tag_3</ButtonText>
+              </Button>
+              <Button size="xs" className="m-1 bg-gray-400">
+                <ButtonText style={{ color: colors.text_background }}>Tag_4</ButtonText>
+              </Button>
+              <Button size="xs" className="m-1 bg-gray-400">
+                <ButtonText style={{ color: colors.text_background }}>Tag_5</ButtonText>
+              </Button>
+              <Button size="xs" className="m-1 bg-gray-400">
+                <ButtonText style={{ color: colors.text_background }}>Tag_6</ButtonText>
+              </Button>
+              <Button size="xs" className="m-1 bg-gray-400">
+                <ButtonText style={{ color: colors.text_background }}>Tag_7</ButtonText>
+              </Button>
+            </ScrollView>
+          </GridItem>
+        </Grid>
       </ScrollView>
-    </SafeAreaContainer>
+      <View className="items-center">
+        <Button className="bg-primary w-60 h-10 m-2">
+          <ButtonText style={{ color: colors.text_background }}>
+            Edit
+          </ButtonText>
+        </Button>
+      </View>
+    </View>
   );
 }

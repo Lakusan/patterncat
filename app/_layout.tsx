@@ -20,11 +20,13 @@ import { Stack } from "expo-router";
 import { View } from "react-native";
 
 
-// ⭐ WICHTIG: Dieser Wrapper setzt die "dark"-Klasse für NativeWind
 function ThemeWrapper({ children }: { children: React.ReactNode }) {
   const { theme } = useTheme();
 
   return (
+    // damit automatisch vom System dark mode genutzt wird dark klasse mitgeben für nativewind
+    // <View className={theme === "dark" ? "dark h-full w-full" : "h-full w-full"}>
+
     <View className={theme === "dark" ? "dark h-full w-full" : "h-full w-full"}>
       {children}
     </View>
@@ -37,23 +39,32 @@ export default function RootLayout() {
     <GestureHandlerRootView style={{ flex: 1 }}>
       <ThemeProvider>
         <ThemeWrapper>
-          <GluestackUIProvider>
-            <AuthProvider>
-              <SafeAreaProvider>
-                <AlertProvider>
-                  <SplashScreenController />
-                  <AuthFlowProvider>
-                    <AuthGate>
-                      <InnerRootLayout />
-                    </AuthGate>
-                  </AuthFlowProvider>
-                </AlertProvider>
-              </SafeAreaProvider>
-            </AuthProvider>
-          </GluestackUIProvider>
+          <ThemedApp />
         </ThemeWrapper>
       </ThemeProvider>
     </GestureHandlerRootView>
+  );
+}
+
+function ThemedApp() {
+  const { theme } = useTheme();
+  
+  return (
+    // hier dann theme, damit sytem theme gesetzt wird -> später dann aus user prefs holen, sonst system
+    <GluestackUIProvider mode={"light"}>
+      <AuthProvider>
+        <SafeAreaProvider>
+          <AlertProvider>
+            <SplashScreenController />
+            <AuthFlowProvider>
+              <AuthGate>
+                <InnerRootLayout />
+              </AuthGate>
+            </AuthFlowProvider>
+          </AlertProvider>
+        </SafeAreaProvider>
+      </AuthProvider>
+    </GluestackUIProvider>
   );
 }
 

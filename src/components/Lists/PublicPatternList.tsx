@@ -43,7 +43,7 @@ export default function PublicPatternList() {
 const renderCard = ({ item: pattern }: { item: Pattern }) => (
   <View
     style={{ width: cardWidth, minHeight: cardHeight }}
-    className="bg-white rounded-xl overflow-hidden"
+    className="rounded-xl overflow-hidden shadow-lg"
   >
     <Pressable
       className="flex-1"
@@ -71,7 +71,7 @@ const renderCard = ({ item: pattern }: { item: Pattern }) => (
           {pattern.name}
         </Text>
 
-        <Text className="text-gray-600 mt-1 line-clamp-2">
+        <Text className="mt-1 line-clamp-2 text-text_background">
           {pattern.beschreibung}
         </Text>
       </View>
@@ -81,8 +81,8 @@ const renderCard = ({ item: pattern }: { item: Pattern }) => (
 
     return (
         <SafeAreaContainer>
-            < View className="flex-1 items-center">
-                <View className="flex-1 lg:w-[70%] w-full h-full shadow-lg">
+            < View className="flex-1 items-center bg-background">
+                <View className="flex-1 lg:w-[70%] w-full h-full shadow-lg bg-background">
 
                     {/* Filterbar */}
                     <View className="flex-row justify-around lg:p-0 p-2 lg:h-[3%] h-[5%]">
@@ -96,11 +96,11 @@ const renderCard = ({ item: pattern }: { item: Pattern }) => (
                                     }
                                     className={`
                     flex-1 flex-shrink justify-center items-center rounded m-1
-                    ${isActive ? "bg-purple-800" : "bg-gray-200"}
+                    ${isActive ? "bg-primary" : "bg-secondary"}
                   `}
                                 >
                                     <Text
-                                        className={`text-md ${isActive ? "text-white font-semibold" : "text-gray-700"}`}
+                                        className={`text-md ${isActive ? "text-font-semibold text-white" : "text-text_primary"}`}
                                     >
                                         {cat}
                                     </Text>
