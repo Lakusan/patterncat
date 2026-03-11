@@ -32,13 +32,13 @@ export default function PatternDetails() {
           onPress={toggleTheme}
           className="bg-background p-3 rounded-xl"
         >
-          <Text style={{ color: colors.text_background }}>
+          <Text style={{ color: colors.text_primary }}>
             Switch Theme Mode
           </Text>
         </Pressable>
         {/* Container Carousel 50% screensize */}
-        <Text style={{ color: colors.text_background }}> Aktuelles  nativewind Theme: {colorScheme}</Text>
-        <Text style={{ color: colors.text_background }}> Aktuelles  themeModes: {theme}</Text>
+        <Text style={{ color: colors.text_primary }}> Aktuelles  nativewind Theme: {colorScheme}</Text>
+        <Text style={{ color: colors.text_primary }}> Aktuelles  themeModes: {theme}</Text>
 
 
 
@@ -59,7 +59,7 @@ export default function PatternDetails() {
             _extra={{ className: "col-span-2" }}
           >
             <Text
-            style={{ color: colors.text_background }}
+            style={{ color: colors.text_primary }}
              className="text-4xl font-bold">Kleid Nr. 124</Text>
           </GridItem>
           <GridItem
@@ -67,15 +67,15 @@ export default function PatternDetails() {
             _extra={{ className: "col-span-2" }}
           >
             <View className="flex-row items-center justify-between">
-              <Text style={{ color: colors.text_background }}>Burdasstyle 09/2024</Text>
-              <Text style={{ color: colors.text_background }}>analog</Text>
+              <Text style={{ color: colors.text_primary }}>Burdasstyle 09/2024</Text>
+              <Text style={{ color: colors.text_primary }}>analog</Text>
             </View>
           </GridItem>
           <GridItem
             className="p-1 shadow-sm"
             _extra={{ className: "col-span-2" }}
           >
-            <Text style={{ color: colors.text_background }} className="text-xs font-semibold">Beschreibung</Text>
+            <Text style={{ color: colors.text_primary }} className="text-xs font-semibold">Beschreibung</Text>
             <ExpandableText
               text="Ein kurzes Jäckchen, welches auch gut über einem Kleid getragen werden kann. Satz2: Ein kurzes Jäckchen, welches auch gut über einem Kleid getragen werden kann. Satz3: Ein kurzes Jäckchen, welches auch gut über einem Kleid getragen werden kann."
             />
@@ -177,25 +177,25 @@ export default function PatternDetails() {
               className="flex-row px-2 py-3"
             >
               <Button size="xs" className="m-1 bg-gray-400">
-                <ButtonText style={{ color: colors.text_background }}>Tag_1</ButtonText>
+                <ButtonText style={{ color: colors.text_primary }}>Tag_1</ButtonText>
               </Button>
               <Button size="xs" className="m-1 bg-gray-400">
-                <ButtonText style={{ color: colors.text_background }}>Tag_2</ButtonText>
+                <ButtonText style={{ color: colors.text_primary }}>Tag_2</ButtonText>
               </Button>
               <Button size="xs" className="m-1 bg-gray-400">
-                <ButtonText style={{ color: colors.text_background }}>Tag_3</ButtonText>
+                <ButtonText style={{ color: colors.text_primary }}>Tag_3</ButtonText>
               </Button>
               <Button size="xs" className="m-1 bg-gray-400">
-                <ButtonText style={{ color: colors.text_background }}>Tag_4</ButtonText>
+                <ButtonText style={{ color: colors.text_primary }}>Tag_4</ButtonText>
               </Button>
               <Button size="xs" className="m-1 bg-gray-400">
-                <ButtonText style={{ color: colors.text_background }}>Tag_5</ButtonText>
+                <ButtonText style={{ color: colors.text_primary }}>Tag_5</ButtonText>
               </Button>
               <Button size="xs" className="m-1 bg-gray-400">
-                <ButtonText style={{ color: colors.text_background }}>Tag_6</ButtonText>
+                <ButtonText style={{ color: colors.text_primary }}>Tag_6</ButtonText>
               </Button>
               <Button size="xs" className="m-1 bg-gray-400">
-                <ButtonText style={{ color: colors.text_background }}>Tag_7</ButtonText>
+                <ButtonText style={{ color: colors.text_primary }}>Tag_7</ButtonText>
               </Button>
             </ScrollView>
           </GridItem>
@@ -203,7 +203,7 @@ export default function PatternDetails() {
       </ScrollView>
       <View className="items-center">
         <Button className="bg-primary w-60 h-10 m-2">
-          <ButtonText style={{ color: colors.text_background }}>
+          <ButtonText style={{ color: colors.text_primary }}>
             Edit
           </ButtonText>
         </Button>

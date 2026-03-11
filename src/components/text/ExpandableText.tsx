@@ -25,7 +25,7 @@ export function ExpandableText({
             overflow: "hidden",
           }}
         >
-          <Text style={{ color: colors.text_background }} >
+          <Text style={{ color: colors.text_primary }} >
             {text}
           </Text>
         </View>

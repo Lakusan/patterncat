@@ -72,7 +72,7 @@ export default function PatternList() {
     const renderCard = ({ item: pattern }: { item: any }) => (
         <View
             style={{ width: cardWidth, minHeight: cardHeight }}
-            className="bg-white rounded-xl overflow-hidden"
+            className="rounded-xl overflow-hidden shadow-lg"
         >
             <Pressable
                 className="flex-1"
@@ -84,15 +84,9 @@ export default function PatternList() {
                 }
             >
                 {/* Bild: exakt 50% der Card-Höhe */}
-                {/* <Image
-                    source={
-                        pattern?.images?.[0]?.dateiname
-                            ? { uri: pattern.images[0].dateiname }
-                            : ImageDummyPattern
-                    }
-                    resizeMode="cover"
-                    className="w-full h-[50%]"
-                /> */}
+                    <View
+                className="w-full h-[50%] bg-red-500"
+            />
 
                 {/* Content */}
                 <View className="p-3 flex-1">
@@ -110,7 +104,7 @@ export default function PatternList() {
 
     return (
         <SafeAreaContainer>
-            < View className="flex-1 items-center bg-red-500">
+            < View className="flex-1 items-center bg-red-500 m-2">
                 <View className="flex-1 lg:w-[70%] w-full h-full shadow-lg">
 
                     {/* Filterbar */}
