@@ -1,5 +1,4 @@
 import { Button, ButtonText } from '@/components/ui/button';
-import { Heading } from '@/components/ui/heading';
 import { Input, InputField, InputIcon, InputSlot } from '@/components/ui/input';
 import { Text } from '@/components/ui/text';
 import BaseModal from "@/src/components/modals/BaseModal";
@@ -50,7 +49,7 @@ export default function LoginModal({
     <BaseModal
       isOpen={isOpen}
       onClose={onClose}
-      header={<Heading style={{ color: colors.text_background }} className="text-xl font-bold">Login</Heading>}
+      headerText="Login"
       footer={
         <>
           <Button
@@ -59,7 +58,7 @@ export default function LoginModal({
             onPress={onBack}
             className="bg-secondary"
           >
-            <ButtonText style={{ color: colors.text_background }}>Back</ButtonText>
+            <ButtonText style={{ color: colors.text_primary }}>Back</ButtonText>
           </Button>
 
           <Button
@@ -67,12 +66,12 @@ export default function LoginModal({
             onPress={handleSubmit(handleValidSubmit)}
             isDisabled={isSubmitting}
           >
-            <ButtonText style={{ color: colors.text_background }}>{isSubmitting ? "..." : "Login"}</ButtonText>
+            <ButtonText style={{ color: colors.text_primary }}>{isSubmitting ? "..." : "Login"}</ButtonText>
           </Button>
         </>
       }
     >
-      <Text  style={{ color: colors.text_background }} className='text-center m-2'>
+      <Text  style={{ color: colors.text_primary }} className='text-center m-2'>
         Log In to feel the magic of PATTERN CAT
       </Text>
 
@@ -118,7 +117,7 @@ export default function LoginModal({
         className=''
         onPress={onPasswordReset}
       >
-        <ButtonText style={{ color: colors.text_background }} size='sm'>Passwort vergessen?</ButtonText>
+        <ButtonText style={{ color: colors.text_primary }} size='sm'>Passwort vergessen?</ButtonText>
       </Button>
 
     </BaseModal>

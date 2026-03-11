@@ -34,7 +34,7 @@ export default function PublicLayout() {
         },
 
         // Farbe des Header-Titels und Icons
-        headerTintColor: colors.text_background,
+        headerTintColor: colors.text_primary,
 
         /**
          * DRAWER-HINTERGRUND
@@ -55,10 +55,10 @@ export default function PublicLayout() {
          */
 
         // Text- und Iconfarbe für das aktive Menü-Item
-        drawerActiveTintColor: colors.text_primary,
+        drawerActiveTintColor: colors.text_secondary,
 
         // Text- und Iconfarbe für inaktive Menü-Items
-        drawerInactiveTintColor: colors.text_secondary,
+        drawerInactiveTintColor: colors.text_primary,
 
         /**
          * DRAWER-AKTIV-STATUS

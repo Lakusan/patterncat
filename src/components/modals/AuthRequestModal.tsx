@@ -4,7 +4,6 @@ import { Image } from "@/components/ui/image";
 import { VStack } from "@/components/ui/vstack";
 import BaseModal from "@/src/components/modals/BaseModal";
 import { useTheme } from "@/src/contexts/use-theme-context";
-import { Text } from "react-native";
 
 export type AuthModalProps = {
   isOpen: boolean;
@@ -24,10 +23,8 @@ export default function AuthRequestModal({
     <BaseModal
       isOpen={isOpen}
       onClose={onClose}
-      header={
-      <Text style={{ color: colors.text_background }} className="text-center">
-        Log In or Create a user account to feel the magic of PATTERN CAT
-      </Text>
+      headerText={
+        "Log In or Create a user account to feel the magic of PATTERN CAT"
       }
       footer={
         <Image
@@ -40,7 +37,7 @@ export default function AuthRequestModal({
     >
 
       <VStack space="lg" className="w-full mt-4">
-        <Divider className="bg-current"/>
+        <Divider className="bg-secondary"/>
 
         <Button
           className="flex-1"
@@ -50,10 +47,10 @@ export default function AuthRequestModal({
             onLogin();
           }}
         >
-          <ButtonText style={{ color: colors.text_background }}>Log In</ButtonText>
+          <ButtonText style={{ color: colors.text_primary }}>Log In</ButtonText>
         </Button>
 
-        <Divider className="bg-current"/>
+        <Divider className="bg-secondary"/>
 
         <Button
           className="flex-1"
@@ -63,7 +60,7 @@ export default function AuthRequestModal({
             onRegister();
           }}
         >
-          <ButtonText style={{ color: colors.text_background }}>Register</ButtonText>
+          <ButtonText style={{ color: colors.text_primary }}>Register</ButtonText>
         </Button>
       </VStack>
     </BaseModal>

@@ -3,11 +3,12 @@ export const themeTokens = {
     background: "rgb(255 255 255)",
     primary: "rgb(153 135 220)",
     secondary: "rgb(130 130 130)",
-    accent: "rgb(252 240 224)",
+    accent: "rgb(236 213 180)",
 
     text_primary: "rgb(0 0 0)",
     text_secondary: "rgb(255 255 255)",
     text_accent: "rgb(0 0 0)",
+    test: "rgb(255 0 0)"
   },
 
   dark: {
@@ -15,10 +16,11 @@ export const themeTokens = {
     primary: "rgb(109 86 132)",
     secondary: "rgb(130 130 130)",
     accent: "rgb(236 213 180)",
-
+    
     text_primary: "rgb(255 255 255)",
     text_secondary: "rgb(255 255 255)",
     text_accent: "rgb(0 0 0)",
+    test: "rgb(255 0 0)" 
   },
 } as const;
 

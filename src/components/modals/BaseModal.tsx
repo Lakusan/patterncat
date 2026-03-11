@@ -7,12 +7,13 @@ import {
   ModalFooter,
   ModalHeader
 } from "@/components/ui/modal";
+import { Text } from "@/components/ui/text";
 import { ReactNode } from "react";
 
 interface BaseModalProps {
   isOpen: boolean;
   onClose: () => void;
-  header?: ReactNode;
+  headerText?: string;
   children: ReactNode;
   footer?: ReactNode;
   className?: string;
@@ -21,7 +22,7 @@ interface BaseModalProps {
 export default function BaseModal({
   isOpen,
   onClose,
-  header,
+  headerText,
   children,
   footer,
   className
@@ -39,9 +40,11 @@ export default function BaseModal({
           ${className ?? ""}
         `}
       >
-        {header && (
-          <ModalHeader>
-            {header}
+        {headerText && (
+            <ModalHeader>
+            <Text className="text-text_primary">
+            {headerText}
+            </Text>
             <ModalCloseButton />
           </ModalHeader>
         )}
