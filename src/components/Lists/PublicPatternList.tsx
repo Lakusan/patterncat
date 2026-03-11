@@ -67,11 +67,11 @@ const renderCard = ({ item: pattern }: { item: Pattern }) => (
 
       {/* Content */}
       <View className="p-3 flex-1">
-        <Text className="font-semibold text-lg line-clamp-1">
+        <Text className="font-semibold text-lg line-clamp-1 text-text_primary">
           {pattern.name}
         </Text>
 
-        <Text className="mt-1 line-clamp-2 text-text_background">
+        <Text className="mt-1 line-clamp-2 text-text_primary">
           {pattern.beschreibung}
         </Text>
       </View>
@@ -100,7 +100,7 @@ const renderCard = ({ item: pattern }: { item: Pattern }) => (
                   `}
                                 >
                                     <Text
-                                        className={`text-md ${isActive ? "text-font-semibold text-white" : "text-text_primary"}`}
+                                        className={`text-md ${isActive ? "text-font-semibold text-text_secondary" : "text-text_secondary"}`}
                                     >
                                         {cat}
                                     </Text>
