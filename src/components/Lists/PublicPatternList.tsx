@@ -63,6 +63,7 @@ const renderCard = ({ item: pattern }: { item: Pattern }) => (
         }
         resizeMode="cover"
         className="w-full h-[50%]"
+        alt="image"
       />
 
       {/* Content */}

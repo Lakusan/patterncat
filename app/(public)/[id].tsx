@@ -1,6 +1,6 @@
 import { Button, ButtonText } from "@/components/ui/button";
 import { Heading } from "@/components/ui/heading";
-import { HStack } from "@/components/ui/hstack/index.web";
+import { HStack } from "@/components/ui/hstack";
 import { Image } from "@/components/ui/image";
 import { Text } from "@/components/ui/text";
 import { VStack } from "@/components/ui/vstack";
@@ -63,6 +63,7 @@ export default function PublicPatternDetails() {
             source={require("@/assets/images/patterncat_dummy_pattern_image.png")}
             className="w-full h-[50%]"
             resizeMode="cover"
+            alt="image"
           />
           <VStack>
           <Heading>Title</Heading>
@@ -82,7 +83,9 @@ export default function PublicPatternDetails() {
       {getImage ? (
         <Image
           source={{ uri: getImage }}
-          className="h-[50%] w-full m-10"></Image>
+          className="h-[50%] w-full m-10"
+          alt="image"
+          ></Image>
       ) : (
         <Text>Kein Bild</Text>
       )}
@@ -116,7 +119,7 @@ export default function PublicPatternDetails() {
               PatternName: {pattern.name}
             </Text>
 
-            <PatternDetails item={{ id }} />
+            <PatternDetails/>
 
             <Text style={{ marginTop: 20, fontWeight: "bold" }}>
               Rohdaten aus der Datenbank:

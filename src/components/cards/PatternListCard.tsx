@@ -13,7 +13,7 @@ export default function PatternListCard() {
         className=""
         alt="image"
       />
-      <Text className=">
+      <Text className="">
         May 15, 2023
       </Text>
       <Heading size="md" className="mb-4">

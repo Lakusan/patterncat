@@ -16,7 +16,7 @@ import { ImageCarousel } from "@/src/components/images/ImageCarousel";
 import { ExpandableText } from "@/src/components/text/ExpandableText";
 import { useTheme } from "@/src/contexts/use-theme-context";
 import { useColorScheme } from "nativewind";
-import { Pressable, View } from "react-native";
+import { View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 
 
@@ -28,17 +28,18 @@ export default function PatternDetails() {
     // Container Formular
     <View className="flex-1 xl:w-2/3 xl:self-center bg-background shadow-sm">
 
-      <Pressable
+       {/*<Pressable
           onPress={toggleTheme}
           className="bg-background p-3 rounded-xl"
         >
           <Text style={{ color: colors.text_primary }}>
             Switch Theme Mode
           </Text>
-        </Pressable>
+        </Pressable>*/}
         {/* Container Carousel 50% screensize */}
-        <Text style={{ color: colors.text_primary }}> Aktuelles  nativewind Theme: {colorScheme}</Text>
-        <Text style={{ color: colors.text_primary }}> Aktuelles  themeModes: {theme}</Text>
+      {/*  <Text style={{ color: colors.text_primary }}> Aktuelles  nativewind Theme: {colorScheme}</Text>
+        <Text style={{ color: colors.text_primary }}> Aktuelles  themeModes: {theme}</Text> 
+      */}
 
 
 

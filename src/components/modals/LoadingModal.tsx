@@ -21,6 +21,7 @@ export default function LoadingModal({ isOpen, message, footer }: LoadingModalPr
         source={require("@/assets/images/patterncat_logo.png")}
         style={{ width: 200, height: 200, marginBottom: 20 }}
         resizeMode="cover"
+        alt="image"
       />
 
       <Spinner size="large" />

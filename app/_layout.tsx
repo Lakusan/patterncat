@@ -51,7 +51,7 @@ function ThemedApp() {
   
   return (
     // hier dann theme, damit sytem theme gesetzt wird -> später dann aus user prefs holen, sonst system
-    <GluestackUIProvider mode={"light"}>
+    <GluestackUIProvider>
       <AuthProvider>
         <SafeAreaProvider>
           <AlertProvider>
