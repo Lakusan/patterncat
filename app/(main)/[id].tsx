@@ -1,107 +1,97 @@
-import LoadingModal from "@/src/components/modals/LoadingModal";
+import { Image } from "@/components/ui/image";
+import { Text } from "@/components/ui/text";
+import SafeAreaContainer from "@/src/components/container/SafeAreaContainer";
 import PatternDetails from "@/src/components/screens/PatternDetails";
+import { useAuthContext } from "@/src/contexts/use-auth-context";
+import { patternService } from "@/src/services/data";
+import { useLocalSearchParams } from "expo-router";
+import { useEffect, useState } from "react";
+import { ScrollView } from "react-native";
 
 export default function PatternDetailsScreen() {
-    const loading = false;
+  const { id } = useLocalSearchParams<{ id: string }>();
+  const { userId } = useAuthContext();
 
-    if (loading) {
-        return (
-            <LoadingModal
-                isOpen={loading}
-                message="Lade deine Schnittmuster..."
-            />
-        );
+  const [pattern, setPattern] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
+  const [getImage, setImage] = useState("");
+
+  useEffect(() => {
+    async function load() {
+      if (!id || !userId) 
+        {
+          console.log(`patternId: ${id} userId: ${userId}`)
+          setLoading(false);
+          return;
+        }
+      setLoading(true);
+
+      const patternData = await patternService.getPatternById(id, "488be6f5-97e4-4ad6-a652-5a057c646ea8");
+
+      if (!patternData) {
+        console.warn("Kein Pattern gefunden oder RLS blockiert");
+        setPattern(null);
+      } else {
+        setPattern(patternData);
+      }
+
+      setLoading(false);
     }
 
+    load();
+  }, [id, userId]);
+
+  if (loading) {
     return (
-        <PatternDetails></PatternDetails>
-        // <SafeAreaContainer>
-        //     <View className="flex-1 items-center justify-center">
-        //         <View className="flex-1 lg:w-[70%] w-full h-full shadow-lg">
-
-        //             {/* --- TOP: IMAGE (fixed 50%) --- */}
-        //             <View className="h-1/2 w-full bg-blue-500">
-        //                 <SmartGallery 
-        //                     images={[
-        //                         "https://picsum.photos/200?random=101",
-        //                         "https://picsum.photos/200?random=102",
-        //                         "https://picsum.photos/200?random=103",
-        //                     ]}
-        //                 />
-        //             </View>
-
-
-        //             {/* --- SCROLLABLE CONTENT (bottom 50%) --- */}
-        //             <ScrollView
-        //                 className="flex-1"
-        //                 contentContainerStyle={{ paddingBottom: 40 }}
-        //             >
-        //                 <View className="px-4 pt-4">
-
-        //                     <Grid className="gap-1" _extra={{ className: "grid-cols-2" }}>
-        //                         <GridItem
-        //                             className="bg-red-500 p-6 rounded-md"
-        //                             _extra={{ className: "col-span-2" }}
-        //                         >
-        //                             <Text className="text-4xl font-bold">Kleid Nr. 124</Text>
-        //                         </GridItem>
-
-
-        //                         <GridItem className="bg-red-500 p-6 rounded-md" _extra={{ className: "col-span-1" }}>
-        //                             <Text className="text-lg font-semibold">Burdastyle 09/2024</Text>
-        //                         </GridItem>
-
-        //                         <GridItem className="bg-red-500 p-6 rounded-md" _extra={{ className: "col-span-1" }}>
-        //                             <Text className="text-lg font-semibold">analog</Text>
-        //                         </GridItem>
-
-        //                         <GridItem
-        //                             className="bg-red-500 p-6 rounded-md"
-        //                             _extra={{ className: "col-span-2" }}
-        //                         >
-        //                             <Text className="text-xs font-semibold">Beschreibung</Text>
-        //                             <ExpandableText
-        //                                 text="Dies ist ein sehr langer Text, der normalerweise abgeschnitten wird, aber bei Klick auf 'Mehr anzeigen' vollständig sichtbar wird. Dies ist ein sehr langer Text, der normalerweise abgeschnitten wird, aber bei Klick auf 'Mehr anzeigen' vollständig sichtbar wird..."
-        //                             />
-        //                         </GridItem>
-
-        //                         <GridItem
-        //                             className="bg-red-500 p-6 rounded-md"
-        //                             _extra={{ className: "col-span-2" }}
-        //                         >
-        //                             <VStack>
-        //                                 <Text className="text-xs font-semibold">Größen</Text>
-        //                                 <Text className="text-lg font-semibold">Damengrößen</Text>
-        //                             </VStack>
-        //                         </GridItem>
-
-        //                         <GridItem
-        //                             className="bg-red-500 p-6 rounded-md"
-        //                             _extra={{ className: "col-span-2" }}
-        //                         >
-        //                             <Text className="text-lg font-semibold">ACCORDEON</Text>
-        //                         </GridItem>
-
-        //                         <GridItem
-        //                             className="bg-red-500 p-6 rounded-md"
-        //                             _extra={{ className: "col-span-2" }}
-        //                         >
-        //                             <Text className="text-lg font-semibold">HSTACK TAGS</Text>
-        //                         </GridItem>
-
-        //                         <GridItem
-        //                             className="bg-red-500 p-6 rounded-md"
-        //                             _extra={{ className: "col-span-2" }}
-        //                         >
-        //                             <Text className="text-lg font-semibold">Button</Text>
-        //                         </GridItem>
-        //                     </Grid>
-
-        //                 </View>
-        //             </ScrollView>
-
-        //         </View>
-        //     </View>
-        // </SafeAreaContainer>
+      <>
+        <Text>Loading…</Text>
+        <Text>ID: {id}</Text>
+      </>
     );
+  }
+
+  return (
+    <SafeAreaContainer>
+      {getImage ? (
+        <Image
+          source={{ uri: getImage }}
+          className="h-[50%] w-full m-10"
+          alt="image"
+        />
+      ) : (
+        <Text>Kein Bild</Text>
+      )}
+
+      <ScrollView style={{ padding: 16 }}>
+        {pattern ? (
+          <>
+            <Text style={{ fontSize: 20, fontWeight: "bold" }}>
+              PatternName: {pattern.name}
+            </Text>
+
+            <PatternDetails />
+
+            <Text style={{ marginTop: 20, fontWeight: "bold" }}>
+              Rohdaten aus der Datenbank:
+            </Text>
+
+            <Text
+              style={{
+                fontFamily: "monospace",
+                fontSize: 12,
+                marginTop: 10,
+                backgroundColor: "#eee",
+                padding: 10,
+                borderRadius: 8,
+              }}
+            >
+              {JSON.stringify(pattern, null, 2)}
+            </Text>
+          </>
+        ) : (
+          <Text>Keine Pattern gefunden</Text>
+        )}
+      </ScrollView>
+    </SafeAreaContainer>
+  );
 }

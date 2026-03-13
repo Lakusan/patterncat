@@ -24,9 +24,6 @@ function ThemeWrapper({ children }: { children: React.ReactNode }) {
   const { theme } = useTheme();
 
   return (
-    // damit automatisch vom System dark mode genutzt wird dark klasse mitgeben für nativewind
-    // <View className={theme === "dark" ? "dark h-full w-full" : "h-full w-full"}>
-
     <View className={theme === "dark" ? "dark h-full w-full" : "h-full w-full"}>
       {children}
     </View>
@@ -50,7 +47,6 @@ function ThemedApp() {
   const { theme } = useTheme();
   
   return (
-    // hier dann theme, damit sytem theme gesetzt wird -> später dann aus user prefs holen, sonst system
     <GluestackUIProvider>
       <AuthProvider>
         <SafeAreaProvider>

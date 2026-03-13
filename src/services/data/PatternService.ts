@@ -6,7 +6,22 @@ import type { Pattern, PatternListElement } from "@/src/types/patternTypes";
 
 export interface PatternService {
   getAllPatternListElements(userId: string): Promise<PatternListElement[]>;
-  getAllPatterns(): Promise<Pattern[]>;
-  getPatternById(id: number): Promise<Pattern | null>;
-  // TODO: create, update, delete, search, filter …
+
+  getAllPatterns(userId: string): Promise<Pattern[]>;
+
+  getPatternById(id: string, userId: string): Promise<Pattern | null>;
+
+  createPattern(
+    data: Omit<Pattern, "id" | "user_id">,
+    userId: string
+  ): Promise<Pattern>;
+
+  updatePattern(
+    id: string,
+    data: Partial<Omit<Pattern, "id" | "user_id">>,
+    userId: string
+  ): Promise<Pattern>;
+
+  deletePattern(id: string, userId: string): Promise<void>;
 }
+

@@ -24,7 +24,6 @@ export default function PatternDetails() {
   const { colors, toggleTheme, theme } = useTheme();
   const { colorScheme } = useColorScheme();
   return (
-
     // Container Formular
     <View className="flex-1 xl:w-2/3 xl:self-center bg-background shadow-sm">
 

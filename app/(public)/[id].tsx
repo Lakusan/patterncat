@@ -1,42 +1,41 @@
-import { Button, ButtonText } from "@/components/ui/button";
-import { Heading } from "@/components/ui/heading";
-import { HStack } from "@/components/ui/hstack";
 import { Image } from "@/components/ui/image";
 import { Text } from "@/components/ui/text";
-import { VStack } from "@/components/ui/vstack";
 import SafeAreaContainer from "@/src/components/container/SafeAreaContainer";
 import PatternDetails from "@/src/components/screens/PatternDetails";
 import { useAuthContext } from "@/src/contexts/use-auth-context";
-import { supabase } from "@/src/lib/supabase";
+import { patternService } from "@/src/services/data";
 import { useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
 import { ScrollView } from "react-native";
 
-
-export default function PublicPatternDetails() {
+export default function PublicPatternDetailsScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
+  const { userId } = useAuthContext();
 
   const [pattern, setPattern] = useState<any>(null);
   const [loading, setLoading] = useState(true);
-
-  const AuthProvider = useAuthContext();
-
-
   const [getImage, setImage] = useState("");
-
 
   useEffect(() => {
     async function load() {
-      if (!id) return;
-
+      console.log("Lade Daten")
+      // if (!id || !userId) 
+      if(!id)
+        {
+          console.log(`patternId: ${id} userId: ${userId}`)
+          setLoading(false);
+          return;
+        }
       setLoading(true);
+      console.log("Loading True")
 
-      const patternData = await (id);
+      const patternData = await patternService.getPatternById(id, "488be6f5-97e4-4ad6-a652-5a057c646ea8");
 
       if (!patternData) {
         console.warn("Kein Pattern gefunden oder RLS blockiert");
         setPattern(null);
       } else {
+      console.log("Set Pattern Data")
         setPattern(patternData);
       }
 
@@ -44,7 +43,7 @@ export default function PublicPatternDetails() {
     }
 
     load();
-  }, [id]);
+  }, [id, userId]);
 
   if (loading) {
     return (
@@ -55,29 +54,6 @@ export default function PublicPatternDetails() {
     );
   }
 
-  if (__DEV__) {
-    return (
-      <>
-        <SafeAreaContainer>
-          <Image
-            source={require("@/assets/images/patterncat_dummy_pattern_image.png")}
-            className="w-full h-[50%]"
-            resizeMode="cover"
-            alt="image"
-          />
-          <VStack>
-          <Heading>Title</Heading>
-          <HStack>
-            <Text>Category</Text>
-            <Text>Author</Text>
-          </HStack>
-          </VStack>
-        </SafeAreaContainer>
-      </>
-
-    )
-  }
-
   return (
     <SafeAreaContainer>
       {getImage ? (
@@ -85,32 +61,10 @@ export default function PublicPatternDetails() {
           source={{ uri: getImage }}
           className="h-[50%] w-full m-10"
           alt="image"
-          ></Image>
+        />
       ) : (
         <Text>Kein Bild</Text>
       )}
-      <Button size="sm" variant="solid" className="bg-green-500" onPress={async () => {
-        const { data, error } = await supabase.from("pattern_tags").select("*")
-        if (data) console.log(data)
-        if (error) console.error(error)
-
-      }
-      }>
-        <ButtonText>Get SQL </ButtonText>
-      </Button>
-      <Button size="sm" variant="solid" className="bg-green-500" onPress={
-        async () => {
-          const { data: signed } = await supabase
-            .storage
-            .from("images")
-            .createSignedUrl(`${AuthProvider.userId}/${pattern.id}/Dummy.jpg`, 60 * 60)
-          if (signed) setImage(signed.signedUrl)
-          console.log("Files:", signed);
-        }
-
-      }>
-        <ButtonText>Get Bucket </ButtonText>
-      </Button>
 
       <ScrollView style={{ padding: 16 }}>
         {pattern ? (
@@ -119,7 +73,7 @@ export default function PublicPatternDetails() {
               PatternName: {pattern.name}
             </Text>
 
-            <PatternDetails/>
+            <PatternDetails />
 
             <Text style={{ marginTop: 20, fontWeight: "bold" }}>
               Rohdaten aus der Datenbank:
@@ -142,6 +96,6 @@ export default function PublicPatternDetails() {
           <Text>Keine Pattern gefunden</Text>
         )}
       </ScrollView>
-    </SafeAreaContainer >
+    </SafeAreaContainer>
   );
 }
