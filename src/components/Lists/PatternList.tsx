@@ -23,7 +23,6 @@ export default function PublicPatternList() {
         native: () => MIN_CARD_WIDTH,
         default: () => MIN_CARD_WIDTH_WEB,
     })();
-
     const contentWidth = width * (Platform.OS === "web" ? 0.7 : 1);
 
     const numColumns = Math.min(
@@ -64,8 +63,7 @@ const renderCard = ({ item: pattern }: { item: Pattern }) => (
         resizeMode="cover"
         className="w-full h-[50%]"
         alt="image"
-      />
-
+      />          
       {/* Content */}
       <View className="p-3 flex-1">
         <Text className="font-semibold text-lg line-clamp-1 text-text_primary">

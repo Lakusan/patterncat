@@ -1,5 +1,5 @@
 import "@/global.css";
-import React from "react";
+import React, { JSX, ReactNode } from "react";
 
 import { GluestackUIProvider } from "@/components/ui/gluestack-ui-provider";
 import { SplashScreenController } from "@/src/controller/splash-screen-controller";
@@ -8,19 +8,22 @@ import { AlertProvider } from "@/src/providers/alert-provider";
 import { AuthFlowProvider } from "@/src/providers/auth-flow-provider";
 import AuthProvider from "@/src/providers/auth-provider";
 
-import { useAuthContext } from "@/src/contexts/use-auth-context";
-import AuthGate from "@/src/controller/auth-gate";
-
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
 import { useTheme } from "@/src/contexts/use-theme-context";
 import { ThemeProvider } from "@/src/providers/theme-provder";
+
 import { Stack } from "expo-router";
 import { View } from "react-native";
 
 
-function ThemeWrapper({ children }: { children: React.ReactNode }) {
+// Theme Wrapper
+interface ThemeWrapperProps {
+  children: ReactNode;
+}
+
+function ThemeWrapper({ children }: ThemeWrapperProps): JSX.Element {
   const { theme } = useTheme();
 
   return (
@@ -31,52 +34,31 @@ function ThemeWrapper({ children }: { children: React.ReactNode }) {
 }
 
 
-export default function RootLayout() {
+// Root Layout
+export default function RootLayout(): JSX.Element {
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <ThemeProvider>
         <ThemeWrapper>
-          <ThemedApp />
+          <GluestackUIProvider>
+            <AuthProvider>
+              <SafeAreaProvider>
+                <AlertProvider>
+                  <AuthFlowProvider>
+                    <SplashScreenController />
+                    {/* Expo Router */}
+                    <Stack screenOptions={{ headerShown: false }}>
+                      <Stack.Screen name="(public)" />
+                      <Stack.Screen name="(main)" />
+                    </Stack>
+
+                  </AuthFlowProvider>
+                </AlertProvider>
+              </SafeAreaProvider>
+            </AuthProvider>
+          </GluestackUIProvider>
         </ThemeWrapper>
       </ThemeProvider>
     </GestureHandlerRootView>
-  );
-}
-
-function ThemedApp() {
-  const { theme } = useTheme();
-  
-  return (
-    <GluestackUIProvider>
-      <AuthProvider>
-        <SafeAreaProvider>
-          <AlertProvider>
-            <SplashScreenController />
-            <AuthFlowProvider>
-              <AuthGate>
-                <InnerRootLayout />
-              </AuthGate>
-            </AuthFlowProvider>
-          </AlertProvider>
-        </SafeAreaProvider>
-      </AuthProvider>
-    </GluestackUIProvider>
-  );
-}
-
-
-function InnerRootLayout() {
-  const { isLoggedIn } = useAuthContext();
-
-  return (
-    <Stack screenOptions={{ headerShown: false }}>
-      <Stack.Protected guard={!isLoggedIn}>
-        <Stack.Screen name="(public)" />
-      </Stack.Protected>
-
-      <Stack.Protected guard={isLoggedIn}>
-        <Stack.Screen name="(main)" />
-      </Stack.Protected>
-    </Stack>
   );
 }
