@@ -137,7 +137,7 @@ export default function PatternDetails() {
                   </AccordionContentText>
                 </AccordionContent>
               </AccordionItem>
-              <AccordionItem value="item-3" className="mt-2 bg-accent rounded-lg">
+              <AccordionItem value="item-3" className="mt-2 bg-text_background rounded-lg">
                 <AccordionHeader>
                   <AccordionTrigger>
                     {({ isExpanded }: {isExpanded: boolean}) => {
@@ -177,25 +177,25 @@ export default function PatternDetails() {
               className="flex-row px-2 py-3"
             >
               <Button size="xs" className="m-1 bg-gray-400">
-                <ButtonText style={{ color: colors.text_primary }}>Tag_1</ButtonText>
+                <ButtonText style={{ color: colors.text_secondary }}>Tag_1</ButtonText>
               </Button>
               <Button size="xs" className="m-1 bg-gray-400">
-                <ButtonText style={{ color: colors.text_primary }}>Tag_2</ButtonText>
+                <ButtonText style={{ color: colors.text_secondary }}>Tag_2</ButtonText>
               </Button>
               <Button size="xs" className="m-1 bg-gray-400">
-                <ButtonText style={{ color: colors.text_primary }}>Tag_3</ButtonText>
+                <ButtonText style={{ color: colors.text_secondary }}>Tag_3</ButtonText>
               </Button>
               <Button size="xs" className="m-1 bg-gray-400">
-                <ButtonText style={{ color: colors.text_primary }}>Tag_4</ButtonText>
+                <ButtonText style={{ color: colors.text_secondary }}>Tag_4</ButtonText>
               </Button>
               <Button size="xs" className="m-1 bg-gray-400">
-                <ButtonText style={{ color: colors.text_primary }}>Tag_5</ButtonText>
+                <ButtonText style={{ color: colors.text_secondary }}>Tag_5</ButtonText>
               </Button>
               <Button size="xs" className="m-1 bg-gray-400">
-                <ButtonText style={{ color: colors.text_primary }}>Tag_6</ButtonText>
+                <ButtonText style={{ color: colors.text_secondary }}>Tag_6</ButtonText>
               </Button>
               <Button size="xs" className="m-1 bg-gray-400">
-                <ButtonText style={{ color: colors.text_primary }}>Tag_7</ButtonText>
+                <ButtonText style={{ color: colors.text_secondary }}>Tag_7</ButtonText>
               </Button>
             </ScrollView>
           </GridItem>
@@ -203,7 +203,7 @@ export default function PatternDetails() {
       </ScrollView>
       <View className="items-center">
         <Button className="bg-primary w-60 h-10 m-2">
-          <ButtonText style={{ color: colors.text_primary }}>
+          <ButtonText style={{ color: colors.text_secondary }}>
             Edit
           </ButtonText>
         </Button>
