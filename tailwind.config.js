@@ -21,13 +21,11 @@ module.exports = {
         primary: "rgb(var(--color-primary) / <alpha-value>)",
         secondary: "rgb(var(--color-secondary) / <alpha-value>)",
         accent: "rgb(var(--color-accent) / <alpha-value>)",
-        text_background: "rgb(var(--color-text-background) / <alpha-value>)",
 
         text_primary: "rgb(var(--color-text-primary) / <alpha-value>)",
         text_secondary: "rgb(var(--color-text-secondary) / <alpha-value>)",
         text_accent: "rgb(var(--color-text-accent) / <alpha-value>)",
       },
-
     },
   },
 

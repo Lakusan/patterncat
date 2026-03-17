@@ -30,7 +30,7 @@ export default function PatternDetails({ pattern }: PatternDetailsProps) {
   const { colors } = useTheme();
   return (
     // Container Formular
-    <View className="flex-1 xl:w-2/3 xl:self-center bg-red-500 shadow-sm">
+    <View className="flex-1 xl:w-2/3 xl:self-center shadow-sm">
       <View className="flex-row h-[45%]">
         <ImageCarousel images={pattern.images}>
         </ImageCarousel>
@@ -122,7 +122,7 @@ export default function PatternDetails({ pattern }: PatternDetailsProps) {
                   </AccordionContentText>
                 </AccordionContent>
               </AccordionItem>
-              <AccordionItem value="item-3" className="mt-2 bg-text_background rounded-lg">
+              <AccordionItem value="item-3" className="mt-2 bg-accent rounded-lg">
                 <AccordionHeader>
                   <AccordionTrigger>
                     {({ isExpanded }: { isExpanded: boolean }) => {
