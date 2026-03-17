@@ -3,14 +3,12 @@ import { Box } from "@/components/ui/box";
 import { CloseIcon, Icon } from "@/components/ui/icon";
 import { Image } from "@/components/ui/image";
 import React from "react";
-import { Modal, Pressable } from "react-native";
-
-type ImageSource = string | number;
+import { ImageSourcePropType, Modal, Pressable } from "react-native";
 
 interface ImageCarouselFullscreenModalProps {
   visible: boolean;
   onClose: () => void;
-  image: ImageSource;
+  image: ImageSourcePropType; // <-- WICHTIG: RN-kompatibler Typ
 }
 
 export const ImageCarouselFullscreenModal: React.FC<ImageCarouselFullscreenModalProps> = ({
@@ -18,10 +16,6 @@ export const ImageCarouselFullscreenModal: React.FC<ImageCarouselFullscreenModal
   onClose,
   image,
 }) => {
-  // Quelle je nach Typ (URL-String oder require-Asset), weil einzelbild als FallBack -> Dummy
-  const source =
-    typeof image === "string" ? { uri: image } : image;
-
   return (
     <Modal
       visible={visible}
@@ -30,6 +24,7 @@ export const ImageCarouselFullscreenModal: React.FC<ImageCarouselFullscreenModal
       onRequestClose={onClose}
     >
       <Box className="flex-1 bg-black/90 justify-center items-center">
+        
         {/* Close-Button */}
         <Pressable
           onPress={onClose}
@@ -40,10 +35,10 @@ export const ImageCarouselFullscreenModal: React.FC<ImageCarouselFullscreenModal
 
         {/* Vollbild-Bild */}
         <Image
-          source={source}
+          source={image}
           alt="Fullscreen view"
           className="w-full h-full"
-          resizeMode="center"
+          resizeMode="contain"
         />
       </Box>
     </Modal>

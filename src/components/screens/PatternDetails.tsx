@@ -10,44 +10,29 @@ import {
 } from "@/components/ui/accordion";
 import { Button, ButtonText } from "@/components/ui/button";
 import { Grid, GridItem } from "@/components/ui/grid";
+import { HStack } from "@/components/ui/hstack";
 import { AddIcon, RemoveIcon } from '@/components/ui/icon';
 import { Text } from "@/components/ui/text";
-import { ImageCarousel } from "@/src/components/images/ImageCarousel";
+import { VStack } from "@/components/ui/vstack";
 import { ExpandableText } from "@/src/components/text/ExpandableText";
 import { useTheme } from "@/src/contexts/use-theme-context";
-import { useColorScheme } from "nativewind";
+import type { Pattern } from "@/src/types/patternTypes";
 import { View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
+import ImageCarousel from "../images/ImageCarousel";
 
 
-export default function PatternDetails() {
-  const { colors, toggleTheme, theme } = useTheme();
-  const { colorScheme } = useColorScheme();
+interface PatternDetailsProps {
+  pattern: Pattern;
+}
+
+export default function PatternDetails({ pattern }: PatternDetailsProps) {
+  const { colors } = useTheme();
   return (
     // Container Formular
-    <View className="flex-1 xl:w-2/3 xl:self-center bg-background shadow-sm">
-
-       {/*<Pressable
-          onPress={toggleTheme}
-          className="bg-background p-3 rounded-xl"
-        >
-          <Text style={{ color: colors.text_primary }}>
-            Switch Theme Mode
-          </Text>
-        </Pressable>*/}
-        {/* Container Carousel 50% screensize */}
-      {/*  <Text style={{ color: colors.text_primary }}> Aktuelles  nativewind Theme: {colorScheme}</Text>
-        <Text style={{ color: colors.text_primary }}> Aktuelles  themeModes: {theme}</Text> 
-      */}
-
-
-
-      <View className="flex-row h-1/2">
-        <ImageCarousel images={[
-          "https://picsum.photos/200?random=101",
-          "https://picsum.photos/200?random=102",
-          "https://picsum.photos/200?random=103"
-        ]}>
+    <View className="flex-1 xl:w-2/3 xl:self-center bg-red-500 shadow-sm">
+      <View className="flex-row h-[45%]">
+        <ImageCarousel images={pattern.images}>
         </ImageCarousel>
       </View>
       {/* Pattern Profil Scollable */}
@@ -59,16 +44,16 @@ export default function PatternDetails() {
             _extra={{ className: "col-span-2" }}
           >
             <Text
-            style={{ color: colors.text_primary }}
-             className="text-4xl font-bold">Kleid Nr. 124</Text>
+              style={{ color: colors.text_primary }}
+              className="text-4xl font-bold">{pattern.name}</Text>
           </GridItem>
           <GridItem
             className="p-1 shadow-sm"
             _extra={{ className: "col-span-2" }}
           >
             <View className="flex-row items-center justify-between">
-              <Text style={{ color: colors.text_primary }}>Burdasstyle 09/2024</Text>
-              <Text style={{ color: colors.text_primary }}>analog</Text>
+              <Text style={{ color: colors.text_primary }}>{pattern.quelle_marke} {pattern.magazin_monat}/{pattern.magazin_jahr}</Text>
+              <Text style={{ color: colors.text_primary }}>{pattern.format}</Text>
             </View>
           </GridItem>
           <GridItem
@@ -77,7 +62,7 @@ export default function PatternDetails() {
           >
             <Text style={{ color: colors.text_primary }} className="text-xs font-semibold">Beschreibung</Text>
             <ExpandableText
-              text="Ein kurzes Jäckchen, welches auch gut über einem Kleid getragen werden kann. Satz2: Ein kurzes Jäckchen, welches auch gut über einem Kleid getragen werden kann. Satz3: Ein kurzes Jäckchen, welches auch gut über einem Kleid getragen werden kann."
+              text={pattern.beschreibung}
             />
           </GridItem>
           <GridItem
@@ -87,7 +72,7 @@ export default function PatternDetails() {
               <AccordionItem value="item-1" className="bg-accent rounded-lg">
                 <AccordionHeader>
                   <AccordionTrigger>
-                    {({ isExpanded }: {isExpanded: boolean}) => {
+                    {({ isExpanded }: { isExpanded: boolean }) => {
                       return (
                         <>
                           {isExpanded ? (
@@ -105,16 +90,17 @@ export default function PatternDetails() {
                 </AccordionHeader>
                 <AccordionContent>
                   <AccordionContentText>
-                    To place an order, simply select the products you want, proceed to
-                    checkout, provide shipping and payment information, and finalize
-                    your purchase.
+                    <VStack>
+                      <Text>{pattern.kategorie_1}</Text>
+                      <Text>{pattern.kategorie_2}</Text>
+                    </VStack>
                   </AccordionContentText>
                 </AccordionContent>
               </AccordionItem>
               <AccordionItem value="item-2" className="mt-2 bg-accent rounded-lg">
                 <AccordionHeader>
                   <AccordionTrigger>
-                    {({ isExpanded }: {isExpanded: boolean}) => {
+                    {({ isExpanded }: { isExpanded: boolean }) => {
                       return (
                         <>
                           {isExpanded ? (
@@ -132,15 +118,14 @@ export default function PatternDetails() {
                 </AccordionHeader>
                 <AccordionContent className="ml-9">
                   <AccordionContentText>
-                    We accept all major credit cards, including Visa, Mastercard, and
-                    American Express. We also support payments through PayPal.
+                   {pattern.materials}
                   </AccordionContentText>
                 </AccordionContent>
               </AccordionItem>
               <AccordionItem value="item-3" className="mt-2 bg-text_background rounded-lg">
                 <AccordionHeader>
                   <AccordionTrigger>
-                    {({ isExpanded }: {isExpanded: boolean}) => {
+                    {({ isExpanded }: { isExpanded: boolean }) => {
                       return (
                         <>
                           {isExpanded ? (
@@ -158,8 +143,17 @@ export default function PatternDetails() {
                 </AccordionHeader>
                 <AccordionContent className="ml-9">
                   <AccordionContentText>
-                    We accept all major credit cards, including Visa, Mastercard, and
-                    American Express. We also support payments through PayPal.
+                    <VStack>
+                      <HStack>
+                        
+                      <Text>Verschluss:</Text>
+                      <Text className="">{pattern.verschluss}</Text>
+                       
+                      </HStack>
+                      <Text>Ärmel: {pattern.aermel}</Text>
+                      <Text>Ausschnitt: {pattern.ausschnitt}</Text>
+                      <Text>Saumlänge: {pattern.saumlaenge}</Text>
+                    </VStack>
                   </AccordionContentText>
                 </AccordionContent>
               </AccordionItem>

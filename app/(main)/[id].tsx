@@ -6,7 +6,6 @@ import { useAuthContext } from "@/src/contexts/use-auth-context";
 import { patternService } from "@/src/services/data";
 import { useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
-import { ScrollView } from "react-native";
 
 export default function PatternDetailsScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
@@ -21,14 +20,12 @@ export default function PatternDetailsScreen() {
       if (!id || !userId) 
         {
           console.log(`patternId: ${id} userId: ${userId}`)
-          setLoading(false);
           return;
         }
       setLoading(true);
 
-      const patternData = await patternService.getPatternById(id, "488be6f5-97e4-4ad6-a652-5a057c646ea8");
-
-      if (!patternData) {
+      const patternData = await patternService.getPatternById(id, userId);
+     if (!patternData) {
         console.warn("Kein Pattern gefunden oder RLS blockiert");
         setPattern(null);
       } else {
@@ -62,16 +59,11 @@ export default function PatternDetailsScreen() {
         <Text>Kein Bild</Text>
       )}
 
-      <ScrollView style={{ padding: 16 }}>
         {pattern ? (
           <>
-            <Text style={{ fontSize: 20, fontWeight: "bold" }}>
-              PatternName: {pattern.name}
-            </Text>
+            <PatternDetails pattern={pattern} />
 
-            <PatternDetails />
-
-            <Text style={{ marginTop: 20, fontWeight: "bold" }}>
+            {/* <Text style={{ marginTop: 20, fontWeight: "bold" }}>
               Rohdaten aus der Datenbank:
             </Text>
 
@@ -86,12 +78,11 @@ export default function PatternDetailsScreen() {
               }}
             >
               {JSON.stringify(pattern, null, 2)}
-            </Text>
+            </Text> */}
           </>
         ) : (
           <Text>Keine Pattern gefunden</Text>
         )}
-      </ScrollView>
     </SafeAreaContainer>
   );
 }

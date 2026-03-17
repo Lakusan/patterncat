@@ -11,7 +11,7 @@ export type Pattern = {
   kategorie_2: string | null;
   anlass: string | null;
 
-  beschreibung: string | null;
+  beschreibung: string;
 
   aermel: string | null;
   saumlaenge: string | null;
@@ -58,7 +58,18 @@ export type Pattern = {
   tags: string[];
 };
 
-
+export type PatternImage = {
+    id: number;
+    path: string;
+    titel: string | null;
+    beschreibung: string | null;
+    dateiname: string | null;
+    content_type: string | null;
+    ismainimage: boolean | null;
+    ownerId: string | null;
+    pattern_id: number;
+    ["Erstellt am"]?: string;
+}
 
 // Pattern type PatternList -> reduced Information for PatterList
 // Data: patternID, title, description, mainImage, category
