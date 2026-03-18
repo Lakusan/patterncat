@@ -23,7 +23,7 @@ export const supabasePatternService: PatternService = {
       .eq("user_id", userId);
 
     if (error) throw error;
-
+        
     return (data ?? []).map((raw) => ({
       id: raw.id,
       name: raw.name,
@@ -80,7 +80,6 @@ export const supabasePatternService: PatternService = {
       if (error.code === "PGRST116") return null;
       throw error;
     }
-
     // 🔥 Signed URLs erzeugen
     const signedImages = await Promise.all(
       (data.images ?? []).map(async (img: any) => {

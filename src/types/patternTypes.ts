@@ -40,15 +40,12 @@ export type Pattern = {
   // Images bleiben Objekte
   images: {
     id: number;
-    path: string;
+    url: string;
     titel: string | null;
     beschreibung: string | null;
     dateiname: string | null;
     content_type: string | null;
     ismainimage: boolean | null;
-    ownerId: string | null;
-    pattern_id: number;
-    ["Erstellt am"]?: string;
   }[];
 
   // Materials als String-Array

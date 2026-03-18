@@ -14,12 +14,12 @@ import { HStack } from "@/components/ui/hstack";
 import { AddIcon, RemoveIcon } from '@/components/ui/icon';
 import { Text } from "@/components/ui/text";
 import { VStack } from "@/components/ui/vstack";
+import ImageCarousel from "@/src/components/images/ImageCarousel";
 import { ExpandableText } from "@/src/components/text/ExpandableText";
 import { useTheme } from "@/src/contexts/use-theme-context";
 import type { Pattern } from "@/src/types/patternTypes";
 import { View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
-import ImageCarousel from "../images/ImageCarousel";
 
 
 interface PatternDetailsProps {

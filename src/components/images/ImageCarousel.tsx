@@ -9,64 +9,84 @@ import { Dimensions, NativeScrollEvent, NativeSyntheticEvent, Pressable, ScrollV
 
 import FALLBACK_IMAGE from "@/assets/images/Dummy.jpg";
 import { ImageCarouselFullscreenModal } from "@/src/components/images/ImageCarouselFullScreenModal";
-import { PatternImage } from "@/src/types/patternTypes";
 
 type ImageSource = string | number;
 
 interface ImageCarouselProps {
-  images?: PatternImage[];
+  images?: any[];
 }
 
+// Bildschirmbreite holen, um die Scroll-Position zu berechnen
 const { width: SCREEN_WIDTH } = Dimensions.get("window");
 
 export const ImageCarousel: React.FC<ImageCarouselProps> = ({ images = [] }) => {
+  // Welches Bild ist aktuell sichtbar?
   const [activeIndex, setActiveIndex] = useState(0);
-  const [isFullscreen, setIsFullscreen] = useState(false);
-  const scrollRef = useRef<ScrollView | null>(null);
 
-  // 🔥 Vereinheitlichte Bildquellen
+  // Steuert, ob das Fullscreen-Modul geöffnet ist
+  const [isFullscreen, setIsFullscreen] = useState(false);
+
+  // Referenz auf den ScrollView, um programmatisch scrollen zu können
+  const scrollRef = useRef<ScrollView | null>(null);
+  
+  // Debug-Ausgabe beim ersten Render
+  useEffect(() => {
+    console.log(`ImageCarousel Images: ${JSON.stringify(images)}`)
+  }, []);
+
+  // Bereitet die Bildquellen für das Carousel auf
   const displayImages: ImageSource[] = useMemo(() => {
+    // Wenn keine Bilder vorhanden sind → Fallback-Bild anzeigen
     if (!images || images.length === 0) {
-      return [FALLBACK_IMAGE]; // lokales Bild
+      return [FALLBACK_IMAGE];
     }
 
-    // PatternImage[] → string[]
-    return images.map((img) => img.path);
+    // Wandelt PatternImage[] in string[] (Signed URLs) um
+    return images.map((img) => {
+      return img.url;
+    });
   }, [images]);
 
+  // Wird ausgelöst, wenn der ScrollView das Scrollen beendet hat
+  // Berechnet anhand der Scroll-Position, welches Bild sichtbar ist
   const handleScrollEnd = (e: NativeSyntheticEvent<NativeScrollEvent>) => {
     const offsetX = e.nativeEvent.contentOffset.x;
     const index = Math.round(offsetX / SCREEN_WIDTH);
     setActiveIndex(index);
   };
 
+  // Scrollt zu einem bestimmten Bild
   const scrollToIndex = (index: number) => {
     scrollRef.current?.scrollTo({ x: index * SCREEN_WIDTH, animated: true });
     setActiveIndex(index);
   };
 
+  // Navigiert zum nächsten Bild
   const nextImage = () => {
     if (activeIndex < displayImages.length - 1) scrollToIndex(activeIndex + 1);
   };
 
+  // Navigiert zum vorherigen Bild
   const prevImage = () => {
     if (activeIndex > 0) scrollToIndex(activeIndex - 1);
   };
 
+  // Das aktuell sichtbare Bild
   const currentImage = displayImages[activeIndex];
 
+  // React Native Image benötigt entweder { uri: string } oder require(number)
   const currentSource =
     typeof currentImage === "string"
       ? { uri: currentImage }
-      : currentImage; // number (require)
+      : currentImage;
 
-  // Reset bei erstem Render
+  // Beim ersten Render → immer zum ersten Bild scrollen
   useEffect(() => {
     scrollRef.current?.scrollTo({ x: 0, animated: false });
     setActiveIndex(0);
   }, []);
 
-  // Reset bei neuen Bildern
+  // Wenn neue Bilder geladen werden → Carousel zurücksetzen
   useEffect(() => {
     scrollRef.current?.scrollTo({ x: 0, animated: false });
     setActiveIndex(0);
@@ -74,8 +94,15 @@ export const ImageCarousel: React.FC<ImageCarouselProps> = ({ images = [] }) => 
 
   return (
     <Box className="w-full">
+      {/* Debug-Ausgabe des ersten Bildpfads */}
+      <Text>{images[0].path}</Text>
+
       <Box className="w-full h-full overflow-hidden bg-gray-200">
+        
+        {/* Öffnet Fullscreen beim Tippen */}
         <Pressable className="w-full h-full" onPress={() => setIsFullscreen(true)}>
+          
+          {/* Horizontal scrollbares Image-Carousel */}
           <ScrollView
             ref={scrollRef}
             horizontal
@@ -88,8 +115,8 @@ export const ImageCarousel: React.FC<ImageCarouselProps> = ({ images = [] }) => 
               const source =
                 typeof img === "string"
                   ? { uri: img }
-                  : img; // require()
-
+                  : img;
+                  
               return (
                 <Box key={index} style={{ width: SCREEN_WIDTH }} className="h-full">
                   <Image
@@ -104,8 +131,11 @@ export const ImageCarousel: React.FC<ImageCarouselProps> = ({ images = [] }) => 
           </ScrollView>
         </Pressable>
 
+        {/* Navigation + Bildzähler */}
         {displayImages.length > 1 && (
           <HStack className="absolute bottom-4 left-0 right-0 justify-between px-4 items-center">
+            
+            {/* Zurück-Button */}
             <Button
               size="md"
               className={`rounded-full bg-white/90 shadow-sm ${activeIndex === 0 ? "opacity-30" : "opacity-100"}`}
@@ -115,12 +145,14 @@ export const ImageCarousel: React.FC<ImageCarouselProps> = ({ images = [] }) => 
               <ButtonIcon as={ChevronLeftIcon} color="black" />
             </Button>
 
+            {/* Bildzähler */}
             <Box className="bg-black/50 px-3 py-1 rounded-full">
               <Text className="text-white text-xs font-bold">
                 {activeIndex + 1} / {displayImages.length}
               </Text>
             </Box>
 
+            {/* Vorwärts-Button */}
             <Button
               size="md"
               className={`rounded-full bg-white/90 shadow-sm ${
@@ -135,6 +167,7 @@ export const ImageCarousel: React.FC<ImageCarouselProps> = ({ images = [] }) => 
         )}
       </Box>
 
+      {/* Fullscreen Modal */}
       <ImageCarouselFullscreenModal
         visible={isFullscreen}
         onClose={() => setIsFullscreen(false)}

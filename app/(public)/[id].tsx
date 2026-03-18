@@ -1,7 +1,6 @@
 import { Image } from "@/components/ui/image";
 import { Text } from "@/components/ui/text";
 import SafeAreaContainer from "@/src/components/container/SafeAreaContainer";
-import PatternDetails from "@/src/components/screens/PatternDetails";
 import { useAuthContext } from "@/src/contexts/use-auth-context";
 import { patternService } from "@/src/services/data";
 import { useLocalSearchParams } from "expo-router";
@@ -72,8 +71,6 @@ export default function PublicPatternDetailsScreen() {
             <Text style={{ fontSize: 20, fontWeight: "bold" }}>
               PatternName: {pattern.name}
             </Text>
-
-            <PatternDetails />
 
             <Text style={{ marginTop: 20, fontWeight: "bold" }}>
               Rohdaten aus der Datenbank:

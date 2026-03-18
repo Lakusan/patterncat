@@ -107,7 +107,9 @@ export default function MainLayout() {
 
         <Drawer.Screen
           name='[id]'
-          options={{ drawerItemStyle: { display: 'none' } }}
+          options={{ 
+            drawerItemStyle: { display: 'none' },
+          }}
         />
 
       </Drawer>
@@ -161,8 +163,7 @@ export default function MainLayout() {
         }}
       />
       <Tabs.Screen name="[id]" options={{
-        headerShown: true,
-        title: "",
+        headerShown: false,
         tabBarButton: () => <Button></Button>, // Hides the tab bar button
         tabBarItemStyle: { display: 'none' }
       }} />
