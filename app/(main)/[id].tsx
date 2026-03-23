@@ -1,5 +1,6 @@
 import { Text } from "@/components/ui/text";
 import SafeAreaContainer from "@/src/components/container/SafeAreaContainer";
+import LoadingModal from "@/src/components/modals/LoadingModal";
 import PatternDetails from "@/src/components/screens/PatternDetails";
 import { useAuthContext } from "@/src/contexts/use-auth-context";
 import { patternService } from "@/src/services/data";
@@ -13,6 +14,7 @@ export default function PatternDetailsScreen() {
   const [pattern, setPattern] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [image, setImage] = useState("");
+  const wait = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
   useEffect(() => {
     async function load() {
@@ -27,9 +29,9 @@ export default function PatternDetailsScreen() {
         setPattern(null);
       } else {
         setPattern(patternData);
-        console.log(`ID: Pattern: ${JSON.stringify(patternData.images)}`)
       }
-      setLoading(false);
+      await new Promise(resolve => setTimeout(resolve, 1000))
+      // setLoading(false);
     }
 
     load();
@@ -37,10 +39,10 @@ export default function PatternDetailsScreen() {
 
   if (loading) {
     return (
-      <>
-        <Text>Loading…</Text>
-        <Text>ID: {id}</Text>
-      </>
+      <LoadingModal
+      isOpen={loading}
+      message="Lade Pattern"
+      ></LoadingModal>
     );
   }
   return (
