@@ -16,6 +16,8 @@ export default function AuthProvider({ children }: PropsWithChildren) {
     authService.getSession().then((s) => {
       setSession(s);
       setIsSessionLoading(false);
+      console.log("get Session")
+      console.log(s)
     });
 
     const unsubscribe = authService.onAuthStateChanged((s) => {

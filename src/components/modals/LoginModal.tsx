@@ -102,7 +102,7 @@ export default function LoginModal({
           type={showPassword ? 'text' : 'password'}
         />
         <InputSlot onPress={() => setShowPassword(prev => !prev)}>
-          <InputIcon as={showPassword ? EyeIcon : EyeOffIcon} />
+          <InputIcon as={showPassword ? EyeIcon : EyeOffIcon} className='mr-2' />
         </InputSlot>
       </Input>
 
@@ -117,7 +117,7 @@ export default function LoginModal({
         className=''
         onPress={onPasswordReset}
       >
-        <ButtonText style={{ color: colors.text_primary }} size='sm'>Passwort vergessen?</ButtonText>
+        <ButtonText className='text-primary underline' size='sm'>Passwort vergessen?</ButtonText>
       </Button>
 
     </BaseModal>

@@ -9,7 +9,7 @@ import { ScrollView } from "react-native";
 
 export default function PublicPatternDetailsScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
-  const { userId } = useAuthContext();
+  const { userId, session } = useAuthContext();
 
   const [pattern, setPattern] = useState<any>(null);
   const [loading, setLoading] = useState(true);
@@ -18,17 +18,17 @@ export default function PublicPatternDetailsScreen() {
   useEffect(() => {
     async function load() {
       console.log("Lade Daten")
-      // if (!id || !userId) 
-      if(!id)
+      console.log(`patternId: ${id} userId: ${userId}`)
+      console.log(session)
+      if(!id || !userId)
         {
-          console.log(`patternId: ${id} userId: ${userId}`)
           setLoading(false);
           return;
         }
       setLoading(true);
       console.log("Loading True")
 
-      const patternData = await patternService.getPatternById(id, "488be6f5-97e4-4ad6-a652-5a057c646ea8");
+      const patternData = await patternService.getPatternById(id, userId);
 
       if (!patternData) {
         console.warn("Kein Pattern gefunden oder RLS blockiert");
@@ -55,6 +55,7 @@ export default function PublicPatternDetailsScreen() {
 
   return (
     <SafeAreaContainer>
+      <Text>(public)/[id]</Text>
       {getImage ? (
         <Image
           source={{ uri: getImage }}

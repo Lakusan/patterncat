@@ -10,9 +10,8 @@ export default function Home() {
         <View>
             <Text>Main Home: home.tsx</Text>
             <Button onPress={() => {
-                if (isLoggedIn) {
+                    console.log(`Loged In State: ${isLoggedIn}`)
                     signOut()
-                }
             }}>
                 <ButtonText>SignOut</ButtonText>
             </Button>

@@ -14,9 +14,9 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 import { useTheme } from "@/src/contexts/use-theme-context";
 import { ThemeProvider } from "@/src/providers/theme-provder";
 
+import { useAuthContext } from "@/src/contexts/use-auth-context";
 import { Stack } from "expo-router";
 import { View } from "react-native";
-
 
 // Theme Wrapper
 interface ThemeWrapperProps {
@@ -36,6 +36,10 @@ function ThemeWrapper({ children }: ThemeWrapperProps): JSX.Element {
 
 // Root Layout
 export default function RootLayout(): JSX.Element {
+  const { isLoggedIn, userId, session } = useAuthContext();
+  console.log(`rootlayout isLoggedIn: ${isLoggedIn}`);
+  console.log( userId );
+  console.log( session );
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <ThemeProvider>
@@ -48,8 +52,14 @@ export default function RootLayout(): JSX.Element {
                     <SplashScreenController />
                     {/* Expo Router */}
                     <Stack screenOptions={{ headerShown: false }}>
-                      <Stack.Screen name="(public)" />
-                      <Stack.Screen name="(main)" />
+                      
+                      <Stack.Protected guard={isLoggedIn}>
+                        <Stack.Screen name="(main)" />
+                      </Stack.Protected>
+                      <Stack.Protected guard={!isLoggedIn}>
+                        <Stack.Screen name="(public)" />
+                      </Stack.Protected>
+
                     </Stack>
 
                   </AuthFlowProvider>

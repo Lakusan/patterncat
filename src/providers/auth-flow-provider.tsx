@@ -50,6 +50,7 @@ export function AuthFlowProvider({ children }: { children: React.ReactNode }) {
                 onConfirm={async (email: string, password: string) => {
                     try {
                         await signIn(email, password)
+                        
                         close()
                         router.replace("/(main)/home")
                     } catch (err: any) {

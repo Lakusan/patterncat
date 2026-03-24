@@ -1,3 +1,5 @@
+import { Timestamp } from "react-native-reanimated/lib/typescript/commonTypes";
+
 // interfaces für AuthUser -> Vorlage für VendorAuthUser => Bspw. Supabase | Firebase etc.
 export interface AuthUser {
   id: string;
@@ -23,3 +25,15 @@ export type AuthData = {
   resendConfirmation: (email: string) => Promise<void>;
   resetPassword: (email: string) => Promise<void>;
 };
+
+// UserProfile Type
+export type UserProfile = {
+  id: string;
+  updates_at: Timestamp;
+  username: string;
+  full_name: string;
+  avatar_url: string;
+  website: string;
+  dsgvo_accepted_at: Date;
+  gtc_accepted_at: Date;
+}
