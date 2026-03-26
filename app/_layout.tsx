@@ -15,6 +15,7 @@ import { useTheme } from "@/src/contexts/use-theme-context";
 import { ThemeProvider } from "@/src/providers/theme-provder";
 
 import { useAuthContext } from "@/src/contexts/use-auth-context";
+import AuthGate from "@/src/controller/auth-gate";
 import { Stack } from "expo-router";
 import { View } from "react-native";
 
@@ -36,23 +37,27 @@ function ThemeWrapper({ children }: ThemeWrapperProps): JSX.Element {
 
 // Root Layout
 export default function RootLayout(): JSX.Element {
-  const { isLoggedIn, userId, session } = useAuthContext();
-  console.log(`rootlayout isLoggedIn: ${isLoggedIn}`);
-  console.log( userId );
-  console.log( session );
+  const { isLoggedIn, userId, session, isLoading } = useAuthContext();
+  console.log(`rootlayout= > isLoggedIn: ${isLoggedIn}`);
+  console.log(`rootlayout= > isLoading: ${isLoading}`);
+  console.log(`rootlayout= > userId: ${userId}`);
+  console.log(`rootlayout= > isLoggedIn: ${JSON.stringify(session)}`);
+
+  
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
-      <ThemeProvider>
-        <ThemeWrapper>
-          <GluestackUIProvider>
-            <AuthProvider>
+      <AuthProvider>
+        <AuthGate>
+        <ThemeProvider>
+          <ThemeWrapper>
+            <GluestackUIProvider>
               <SafeAreaProvider>
                 <AlertProvider>
                   <AuthFlowProvider>
                     <SplashScreenController />
                     {/* Expo Router */}
                     <Stack screenOptions={{ headerShown: false }}>
-                      
+
                       <Stack.Protected guard={isLoggedIn}>
                         <Stack.Screen name="(main)" />
                       </Stack.Protected>
@@ -65,10 +70,11 @@ export default function RootLayout(): JSX.Element {
                   </AuthFlowProvider>
                 </AlertProvider>
               </SafeAreaProvider>
-            </AuthProvider>
-          </GluestackUIProvider>
-        </ThemeWrapper>
-      </ThemeProvider>
+            </GluestackUIProvider>
+          </ThemeWrapper>
+        </ThemeProvider>
+        </AuthGate>
+      </AuthProvider>
     </GestureHandlerRootView>
   );
 }

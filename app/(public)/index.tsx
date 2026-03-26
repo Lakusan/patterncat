@@ -3,7 +3,7 @@ import { Text } from 'react-native';
 export default function PublicHome() {
   return (
     <>
-    <Text>PublicPatternList</Text>
+    <Text>(public)/index.tsx</Text>
     <PublicPatternList></PublicPatternList>
     </>
   );

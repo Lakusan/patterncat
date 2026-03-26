@@ -11,13 +11,14 @@ export default function AuthProvider({ children }: PropsWithChildren) {
   const [isProfileLoading, setIsProfileLoading] = useState(false);
 
   const isLoading = isSessionLoading || isProfileLoading;
-
+  console.log("!!!!!AuthProvider")
   useEffect(() => {
+    console.log("lade session")
     authService.getSession().then((s) => {
       setSession(s);
       setIsSessionLoading(false);
-      console.log("get Session")
-      console.log(s)
+      console.log("Auth-Provider => getting Session")
+      console.log(`Session is: ${JSON.stringify(s)}`)
     });
 
     const unsubscribe = authService.onAuthStateChanged((s) => {
