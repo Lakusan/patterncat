@@ -36,10 +36,6 @@ function ThemeWrapper({ children }: ThemeWrapperProps): JSX.Element {
 
 function AppRouter() {
   const { isLoggedIn, userId, session, isLoading } = useAuthContext();
-  console.log(`rootlayout= > isLoggedIn: ${isLoggedIn}`);
-  console.log(`rootlayout= > isLoading: ${isLoading}`);
-  console.log(`rootlayout= > userId: ${userId}`);
-  console.log(`rootlayout= > session: ${JSON.stringify(session)}`);
   return (
 
     <Stack screenOptions={{ headerShown: false }}>

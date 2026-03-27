@@ -1,40 +1,38 @@
+import ImageDummyPattern from "@/assets/images/patterncat_dummy_pattern_image.png";
 import { Image } from "@/components/ui/image";
 import { Text } from "@/components/ui/text";
 import SafeAreaContainer from "@/src/components/container/SafeAreaContainer";
+import { publicPatterns } from "@/src/constants/dummyPatterns";
 import { useAuthContext } from "@/src/contexts/use-auth-context";
-import { patternService } from "@/src/services/data";
 import { useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
 import { ScrollView } from "react-native";
 
 export default function PublicPatternDetailsScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
-  const { userId, session } = useAuthContext();
+  const { userId } = useAuthContext();
 
   const [pattern, setPattern] = useState<any>(null);
   const [loading, setLoading] = useState(true);
-  const [getImage, setImage] = useState("");
+  const [getImage, setImage] = useState<string | null | undefined>();
 
   useEffect(() => {
     async function load() {
-      // console.log("Lade Daten")
-      // console.log(`patternId: ${id} userId: ${userId}`)
-      // console.log(session)
-      if(!id || !userId)
-        {
-          setLoading(false);
-          return;
-        }
+      if (!id) {
+        setLoading(false);
+        return;
+      }
       setLoading(true);
-      console.log("Loading True")
 
-      const patternData = await patternService.getPatternById(id, userId);
-
+      const patternData = publicPatterns.find(obj => {
+        return obj.id === id;
+      });
+      if(patternData?.images.length != 0)  setImage(patternData?.images[0].dateiname)
       if (!patternData) {
         console.warn("Kein Pattern gefunden oder RLS blockiert");
         setPattern(null);
       } else {
-      // console.log("Set Pattern Data")
+        console.log("Set Pattern Data")
         setPattern(patternData);
       }
 
@@ -55,7 +53,6 @@ export default function PublicPatternDetailsScreen() {
 
   return (
     <SafeAreaContainer>
-      <Text>(public)/[id]</Text>
       {getImage ? (
         <Image
           source={{ uri: getImage }}
@@ -63,7 +60,11 @@ export default function PublicPatternDetailsScreen() {
           alt="image"
         />
       ) : (
-        <Text>Kein Bild</Text>
+        <Image
+          source={ImageDummyPattern}
+          className="h-[50%] w-full m-10"
+          alt="image"
+        />
       )}
 
       <ScrollView style={{ padding: 16 }}>

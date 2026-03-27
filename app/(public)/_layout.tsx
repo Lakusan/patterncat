@@ -20,8 +20,6 @@ export default function PublicLayout() {
   const isIOS = Platform.OS === "ios";
   const isDesktop = isWeb && width >= BREAKPOINTS.DESKTOP;
   const { colors, theme } = useTheme();
-  console.log(`public_layout => loaded`)
-  console.log(`public_layout => isLoggedIn ${isLoggedIn}`)
 
   // WEB / DESKTOP → Expo/React-Native Drawer mit JS
   if (isDesktop) {

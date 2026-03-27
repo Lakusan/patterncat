@@ -98,7 +98,7 @@ export interface Pattern {
     id: number;
     titel: string | null;
     beschreibung: string | null;
-    dateiname: string | undefined;
+    dateiname: string | null | undefined;
     content_type: string | null;
     ismainimage: boolean | null;
   }[];
