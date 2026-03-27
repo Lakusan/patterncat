@@ -29,7 +29,7 @@ export default function LoginForm() {
 
 
   const handleSubmit = () => {
-    console.log(`LoginForm Button Authentication triggered; isAuthenticated: ${isLoggedIn}`)
+    // console.log(`LoginForm Button Authentication triggered; isAuthenticated: ${isLoggedIn}`)
     router.replace("/(main)/home")
   };
 

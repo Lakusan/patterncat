@@ -52,6 +52,7 @@ export function AuthFlowProvider({ children }: { children: React.ReactNode }) {
                         await signIn(email, password)
                         
                         close()
+                        console.log(`Auth-Flow => router replace (main)/home`)
                         router.replace("/(main)/home")
                     } catch (err: any) {
                         if (err?.status === 400 && err?.message === "Invalid login credentials") {

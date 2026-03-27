@@ -34,45 +34,49 @@ function ThemeWrapper({ children }: ThemeWrapperProps): JSX.Element {
   );
 }
 
-
-// Root Layout
-export default function RootLayout(): JSX.Element {
+function AppRouter() {
   const { isLoggedIn, userId, session, isLoading } = useAuthContext();
   console.log(`rootlayout= > isLoggedIn: ${isLoggedIn}`);
   console.log(`rootlayout= > isLoading: ${isLoading}`);
   console.log(`rootlayout= > userId: ${userId}`);
-  console.log(`rootlayout= > isLoggedIn: ${JSON.stringify(session)}`);
+  console.log(`rootlayout= > session: ${JSON.stringify(session)}`);
+  return (
 
-  
+    <Stack screenOptions={{ headerShown: false }}>
+
+      <Stack.Protected guard={isLoggedIn}>
+        <Stack.Screen name="(main)" />
+      </Stack.Protected>
+      <Stack.Protected guard={!isLoggedIn}>
+        <Stack.Screen name="(public)" />
+      </Stack.Protected>
+
+    </Stack>
+  );
+}
+
+// Root Layout
+export default function RootLayout(): JSX.Element {
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <AuthProvider>
         <AuthGate>
-        <ThemeProvider>
-          <ThemeWrapper>
-            <GluestackUIProvider>
-              <SafeAreaProvider>
-                <AlertProvider>
-                  <AuthFlowProvider>
-                    <SplashScreenController />
-                    {/* Expo Router */}
-                    <Stack screenOptions={{ headerShown: false }}>
+          <ThemeProvider>
+            <ThemeWrapper>
+              <GluestackUIProvider>
+                <SafeAreaProvider>
+                  <AlertProvider>
+                    <AuthFlowProvider>
+                      <SplashScreenController />
 
-                      <Stack.Protected guard={isLoggedIn}>
-                        <Stack.Screen name="(main)" />
-                      </Stack.Protected>
-                      <Stack.Protected guard={!isLoggedIn}>
-                        <Stack.Screen name="(public)" />
-                      </Stack.Protected>
+                      <AppRouter />
 
-                    </Stack>
-
-                  </AuthFlowProvider>
-                </AlertProvider>
-              </SafeAreaProvider>
-            </GluestackUIProvider>
-          </ThemeWrapper>
-        </ThemeProvider>
+                    </AuthFlowProvider>
+                  </AlertProvider>
+                </SafeAreaProvider>
+              </GluestackUIProvider>
+            </ThemeWrapper>
+          </ThemeProvider>
         </AuthGate>
       </AuthProvider>
     </GestureHandlerRootView>

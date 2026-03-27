@@ -26,7 +26,7 @@ export default function LoginPage() {
                 <Button
                     onPress={() =>
                         alert.confirm("Willst du das wirklich tun?", () => {
-                            console.log("Bestätigt");
+                            // console.log("Bestätigt");
                         })
                     }
                 >

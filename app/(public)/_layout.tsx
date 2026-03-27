@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { BREAKPOINTS } from "@/src/constants/ui/breakpoints";
+import { useAuthContext } from "@/src/contexts/use-auth-context";
 import { useAuthFlow } from '@/src/contexts/use-auth-flow-context';
 import { useTheme } from "@/src/contexts/use-theme-context";
 import Feather from "@expo/vector-icons/Feather";
@@ -10,6 +11,7 @@ import { Platform, useWindowDimensions } from "react-native";
 
 export default function PublicLayout() {
   const authFlow = useAuthFlow();
+  const { isLoggedIn } = useAuthContext();
 
   const { width } = useWindowDimensions();
 
@@ -18,6 +20,8 @@ export default function PublicLayout() {
   const isIOS = Platform.OS === "ios";
   const isDesktop = isWeb && width >= BREAKPOINTS.DESKTOP;
   const { colors, theme } = useTheme();
+  console.log(`public_layout => loaded`)
+  console.log(`public_layout => isLoggedIn ${isLoggedIn}`)
 
   // WEB / DESKTOP → Expo/React-Native Drawer mit JS
   if (isDesktop) {

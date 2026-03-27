@@ -17,9 +17,9 @@ export default function PublicPatternDetailsScreen() {
 
   useEffect(() => {
     async function load() {
-      console.log("Lade Daten")
-      console.log(`patternId: ${id} userId: ${userId}`)
-      console.log(session)
+      // console.log("Lade Daten")
+      // console.log(`patternId: ${id} userId: ${userId}`)
+      // console.log(session)
       if(!id || !userId)
         {
           setLoading(false);
@@ -34,7 +34,7 @@ export default function PublicPatternDetailsScreen() {
         console.warn("Kein Pattern gefunden oder RLS blockiert");
         setPattern(null);
       } else {
-      console.log("Set Pattern Data")
+      // console.log("Set Pattern Data")
         setPattern(patternData);
       }
 
