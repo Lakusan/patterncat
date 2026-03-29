@@ -104,7 +104,6 @@ export interface Pattern {
   }[];
 }
 
-
 export const publicPatterns: Pattern[] = [
   {
     id: "1",
@@ -131,11 +130,11 @@ export const publicPatterns: Pattern[] = [
     user: { id: "u1", username: "anna" },
     pattern_materials: [
       { materials: { id: 1, material_name: "Baumwolle" } },
-      { materials: { id: 2, material_name: "Viskose" } }
+      { materials: { id: 2, material_name: "Viskose" } },
     ],
     pattern_tags: [
       { tags: { id: 1, tag_name: "Sommer" } },
-      { tags: { id: 2, tag_name: "Einfach" } }
+      { tags: { id: 2, tag_name: "Einfach" } },
     ],
     images: [
       {
@@ -144,9 +143,9 @@ export const publicPatterns: Pattern[] = [
         beschreibung: "Das fertige Kleid auf einer Schneiderpuppe.",
         dateiname: "https://picsum.photos/200?random=101",
         content_type: "image/jpeg",
-        ismainimage: true
-      }
-    ]
+        ismainimage: true,
+      },
+    ],
   },
 
   {
@@ -172,13 +171,18 @@ export const publicPatterns: Pattern[] = [
     schwierigkeitsgrad: { id: 3, value: "Fortgeschritten" },
     quelle_marke: { id: 2, name: "Simplicity", type: "Schnittmuster" },
     user: { id: "u2", username: "max" },
-    pattern_materials: [
-      { materials: { id: 3, material_name: "Sweatstoff" } }
+    pattern_materials: [{ materials: { id: 3, material_name: "Sweatstoff" } }],
+    pattern_tags: [{ tags: { id: 3, tag_name: "Casual" } }],
+    images: [
+      {
+        id: 1,
+        titel: "Hauptbild",
+        beschreibung: "Das fertige Kleid auf einer Schneiderpuppe.",
+        dateiname: "https://picsum.photos/200?random=102",
+        content_type: "image/jpeg",
+        ismainimage: true,
+      },
     ],
-    pattern_tags: [
-      { tags: { id: 3, tag_name: "Casual" } }
-    ],
-    images: []
   },
 
   {
@@ -204,13 +208,18 @@ export const publicPatterns: Pattern[] = [
     schwierigkeitsgrad: { id: 4, value: "Schwierig" },
     quelle_marke: { id: 3, name: "Vogue", type: "Designer" },
     user: { id: "u3", username: "clara" },
-    pattern_materials: [
-      { materials: { id: 4, material_name: "Wolle" } }
+    pattern_materials: [{ materials: { id: 4, material_name: "Wolle" } }],
+    pattern_tags: [{ tags: { id: 4, tag_name: "Winter" } }],
+    images: [
+      {
+        id: 1,
+        titel: "Hauptbild",
+        beschreibung: "Das fertige Kleid auf einer Schneiderpuppe.",
+        dateiname: "https://picsum.photos/200?random=103",
+        content_type: "image/jpeg",
+        ismainimage: true,
+      },
     ],
-    pattern_tags: [
-      { tags: { id: 4, tag_name: "Winter" } }
-    ],
-    images: []
   },
 
   {
@@ -236,13 +245,18 @@ export const publicPatterns: Pattern[] = [
     schwierigkeitsgrad: { id: 1, value: "Einfach" },
     quelle_marke: { id: 4, name: "Ottobre", type: "Magazin" },
     user: { id: "u4", username: "leo" },
-    pattern_materials: [
-      { materials: { id: 5, material_name: "Jersey" } }
+    pattern_materials: [{ materials: { id: 5, material_name: "Jersey" } }],
+    pattern_tags: [{ tags: { id: 5, tag_name: "Sport" } }],
+    images: [
+      {
+        id: 1,
+        titel: "Hauptbild",
+        beschreibung: "Das fertige Kleid auf einer Schneiderpuppe.",
+        dateiname: "https://picsum.photos/200?random=104",
+        content_type: "image/jpeg",
+        ismainimage: true,
+      },
     ],
-    pattern_tags: [
-      { tags: { id: 5, tag_name: "Sport" } }
-    ],
-    images: []
   },
 
   {
@@ -268,13 +282,18 @@ export const publicPatterns: Pattern[] = [
     schwierigkeitsgrad: { id: 2, value: "Mittel" },
     quelle_marke: { id: 5, name: "Schnittmuster Berlin", type: "Indie" },
     user: { id: "u5", username: "marie" },
-    pattern_materials: [
-      { materials: { id: 6, material_name: "Leinen" } }
+    pattern_materials: [{ materials: { id: 6, material_name: "Leinen" } }],
+    pattern_tags: [{ tags: { id: 6, tag_name: "Büro" } }],
+    images: [
+      {
+        id: 1,
+        titel: "Hauptbild",
+        beschreibung: "Das fertige Kleid auf einer Schneiderpuppe.",
+        dateiname: "https://picsum.photos/200?random=105",
+        content_type: "image/jpeg",
+        ismainimage: true,
+      },
     ],
-    pattern_tags: [
-      { tags: { id: 6, tag_name: "Büro" } }
-    ],
-    images: []
   },
 
   {
@@ -300,13 +319,18 @@ export const publicPatterns: Pattern[] = [
     schwierigkeitsgrad: { id: 1, value: "Einfach" },
     quelle_marke: { id: 6, name: "Ottobre Kids", type: "Magazin" },
     user: { id: "u6", username: "tom" },
-    pattern_materials: [
-      { materials: { id: 7, material_name: "Cord" } }
+    pattern_materials: [{ materials: { id: 7, material_name: "Cord" } }],
+    pattern_tags: [{ tags: { id: 7, tag_name: "Kinder" } }],
+    images: [
+      {
+        id: 1,
+        titel: "Hauptbild",
+        beschreibung: "Das fertige Kleid auf einer Schneiderpuppe.",
+        dateiname: "https://picsum.photos/200?random=106",
+        content_type: "image/jpeg",
+        ismainimage: true,
+      },
     ],
-    pattern_tags: [
-      { tags: { id: 7, tag_name: "Kinder" } }
-    ],
-    images: []
   },
 
   {
@@ -332,13 +356,18 @@ export const publicPatterns: Pattern[] = [
     schwierigkeitsgrad: { id: 1, value: "Einfach" },
     quelle_marke: { id: 7, name: "Burda Easy", type: "Magazin" },
     user: { id: "u7", username: "emilia" },
-    pattern_materials: [
-      { materials: { id: 8, material_name: "Popeline" } }
+    pattern_materials: [{ materials: { id: 8, material_name: "Popeline" } }],
+    pattern_tags: [{ tags: { id: 8, tag_name: "Rock" } }],
+    images: [
+      {
+        id: 1,
+        titel: "Hauptbild",
+        beschreibung: "Das fertige Kleid auf einer Schneiderpuppe.",
+        dateiname: "https://picsum.photos/200?random=10",
+        content_type: "image/jpeg",
+        ismainimage: true,
+      },
     ],
-    pattern_tags: [
-      { tags: { id: 8, tag_name: "Rock" } }
-    ],
-    images: []
   },
 
   {
@@ -364,13 +393,9 @@ export const publicPatterns: Pattern[] = [
     schwierigkeitsgrad: { id: 1, value: "Einfach" },
     quelle_marke: { id: 8, name: "Makerist", type: "PDF" },
     user: { id: "u8", username: "ben" },
-    pattern_materials: [
-      { materials: { id: 9, material_name: "Jersey" } }
-    ],
-    pattern_tags: [
-      { tags: { id: 9, tag_name: "Basic" } }
-    ],
-    images: []
+    pattern_materials: [{ materials: { id: 9, material_name: "Jersey" } }],
+    pattern_tags: [{ tags: { id: 9, tag_name: "Basic" } }],
+    images: [],
   },
 
   {
@@ -396,15 +421,9 @@ export const publicPatterns: Pattern[] = [
     schwierigkeitsgrad: { id: 4, value: "Schwierig" },
     quelle_marke: { id: 9, name: "McCall's", type: "Designer" },
     user: { id: "u9", username: "sophia" },
-    pattern_materials: [
-      { materials: { id: 10, material_name: "Satin" } }
-    ],
-    pattern_tags: [
-      { tags: { id: 10, tag_name: "Elegant" } }
-    ],
-    images: [
-
-    ]
+    pattern_materials: [{ materials: { id: 10, material_name: "Satin" } }],
+    pattern_tags: [{ tags: { id: 10, tag_name: "Elegant" } }],
+    images: [],
   },
 
   {
@@ -430,12 +449,8 @@ export const publicPatterns: Pattern[] = [
     schwierigkeitsgrad: { id: 4, value: "Schwierig" },
     quelle_marke: { id: 9, name: "McCall's", type: "Designer" },
     user: { id: "u9", username: "sophia" },
-    pattern_materials: [
-      { materials: { id: 10, material_name: "Satin" } }
-    ],
-    pattern_tags: [
-      { tags: { id: 10, tag_name: "Elegant" } }
-    ],
-    images: []
-  }
+    pattern_materials: [{ materials: { id: 10, material_name: "Satin" } }],
+    pattern_tags: [{ tags: { id: 10, tag_name: "Elegant" } }],
+    images: [],
+  },
 ];

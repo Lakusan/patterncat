@@ -5,33 +5,65 @@ import { PatternService } from "@/src/services/data/PatternService";
 import { Pattern, PatternListElement } from "@/src/types/patternTypes";
 
 export const supabasePatternService: PatternService = {
-
-  async getAllPatternListElements(userId: string): Promise<PatternListElement[]> {
+  async getAllPatternListElements(
+    userId: string,
+  ): Promise<PatternListElement[]> {
     const { data, error } = await supabase
       .from("patterns")
-      .select(`
+      .select(
+        `
+      id,
+      name,
+      beschreibung,
+      art:art(*),
+      datum,
+      images (
         id,
-        name,
-        beschreibung,
-        art,
-        datum,
-        images (
-          id,
-          path
-        )
-      `)
+        path
+      )
+    `,
+      )
       .eq("user_id", userId);
 
     if (error) throw error;
-        
-    return (data ?? []).map((raw) => ({
-      id: raw.id,
-      name: raw.name,
-      description: raw.beschreibung,
-      image: raw.images?.[0]?.path ?? null,
-      category: raw.art?.toString() ?? null,
-      updatedAt: raw.datum ? Date.parse(raw.datum) : null,
-    }));
+
+    const patterns = data ?? [];
+
+    // 1️⃣ Alle vorhandenen Image-Pfade sammeln
+    const imagePaths = patterns
+      .map((p) => p.images?.[0]?.path)
+      .filter((p): p is string => Boolean(p));
+
+    // 2️⃣ Batch Signed URLs erzeugen (1 Request!)
+    const { data: signedUrls, error: signedError } = await supabase.storage
+      .from("images")
+      .createSignedUrls(imagePaths, 60 * 60); // 1 Stunde gültig
+    if (signedError) throw signedError;
+
+    // 3️⃣ Map: path → signedUrl
+    const signedUrlMap = new Map<string, string>();
+    signedUrls?.forEach((entry) => {
+      if (entry?.path && entry?.signedUrl) {
+        signedUrlMap.set(entry.path, entry.signedUrl);
+      }
+    });
+
+    // 4️⃣ Patterns zurückgeben – mit signed URLs statt raw paths
+    return patterns.map((raw) => {
+      const imagePath = raw.images?.[0]?.path ?? null;
+      console.log(`Supabase categories: ${JSON.stringify(raw.art)}`);
+      const signedUrl = imagePath
+        ? (signedUrlMap.get(imagePath) ?? null)
+        : null;
+      return {
+        id: raw.id,
+        name: raw.name,
+        description: raw.beschreibung,
+        image: signedUrl,
+        category: raw.art?.toString() ?? null,
+        updatedAt: raw.datum ? Date.parse(raw.datum) : null,
+      };
+    });
   },
 
   async getAllPatterns(userId: string): Promise<Pattern[]> {
@@ -48,7 +80,8 @@ export const supabasePatternService: PatternService = {
   async getPatternById(id: string, userId: string): Promise<Pattern | null> {
     const { data, error } = await supabase
       .from("patterns")
-      .select(`
+      .select(
+        `
       *,
       format:format (*),
       groessenspektrum:groessen (*),
@@ -71,7 +104,8 @@ export const supabasePatternService: PatternService = {
       tags:pattern_tags (
         tag:tags (*)
       )
-    `)
+    `,
+      )
       .eq("id", id)
       .eq("user_id", userId)
       .single();
@@ -95,7 +129,7 @@ export const supabasePatternService: PatternService = {
           content_type: img.content_type,
           dateiname: img.dateiname,
         };
-      })
+      }),
     );
 
     // 🔥 Normalisiertes Pattern zurückgeben
@@ -136,18 +170,19 @@ export const supabasePatternService: PatternService = {
 
       images: signedImages,
 
-      materials: data.materials?.map((m: any) => m.material.material_name) ?? [],
-      tags: data.tags
-  ?.filter((t: any) => t.tag !== null)
-  .map((t: any) => t.tag.tag_name) ?? [],
-
+      materials:
+        data.materials?.map((m: any) => m.material.material_name) ?? [],
+      tags:
+        data.tags
+          ?.filter((t: any) => t.tag !== null)
+          .map((t: any) => t.tag.tag_name) ?? [],
     };
   },
 
   async updatePattern(
     id: string,
     data: Partial<Omit<Pattern, "id" | "user_id">>,
-    userId: string
+    userId: string,
   ): Promise<Pattern> {
     const { data: updated, error } = await supabase
       .from("patterns")
@@ -173,7 +208,7 @@ export const supabasePatternService: PatternService = {
   },
   async createPattern(
     data: Omit<Pattern, "id" | "user_id" | "images" | "materials" | "tags">,
-    userId: string
+    userId: string,
   ): Promise<Pattern> {
     const { data: inserted, error } = await supabase
       .from("patterns")
@@ -204,6 +239,5 @@ export const supabasePatternService: PatternService = {
       materials: [],
       tags: [],
     };
-  }
-
+  },
 };

@@ -56,30 +56,26 @@ export type Pattern = {
 };
 
 export type PatternImage = {
-    id: number;
-    path: string;
-    titel: string | null;
-    beschreibung: string | null;
-    dateiname: string | null;
-    content_type: string | null;
-    ismainimage: boolean | null;
-    ownerId: string | null;
-    pattern_id: number;
-    ["Erstellt am"]?: string;
-}
+  id: number;
+  path: string;
+  titel: string | null;
+  beschreibung: string | null;
+  dateiname: string | null;
+  content_type: string | null;
+  ismainimage: boolean | null;
+  ownerId: string | null;
+  pattern_id: number;
+  ["Erstellt am"]?: string;
+};
 
 // Pattern type PatternList -> reduced Information for PatterList
 // Data: patternID, title, description, mainImage, category
 
 export type PatternListElement = {
   id: string;
-
   name: string;
   description: string | null;
-
   image: string | null;
-
   category: string | null;
-
   updatedAt: number | null;
 };

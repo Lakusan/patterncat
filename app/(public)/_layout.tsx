@@ -205,7 +205,7 @@ export default function PublicLayout() {
         }}
       />
       <Tabs.Screen name="[id]" options={{
-        headerShown: true,
+        headerShown: false,
         title: "",
         tabBarButton: () => <Button></Button>, // Hides the tab bar button
         tabBarItemStyle: { display: 'none' }

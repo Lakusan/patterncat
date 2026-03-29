@@ -1,5 +1,4 @@
 import { Text } from "@/components/ui/text";
-import SafeAreaContainer from "@/src/components/container/SafeAreaContainer";
 import LoadingModal from "@/src/components/modals/LoadingModal";
 import PatternDetails from "@/src/components/screens/PatternDetails";
 import { useAuthContext } from "@/src/contexts/use-auth-context";
@@ -31,7 +30,7 @@ export default function PatternDetailsScreen() {
         setPattern(patternData);
       }
       await new Promise(resolve => setTimeout(resolve, 1000))
-      // setLoading(false);
+      setLoading(false);
     }
 
     load();
@@ -40,18 +39,19 @@ export default function PatternDetailsScreen() {
   if (loading) {
     return (
       <LoadingModal
-      isOpen={loading}
-      message="Lade Pattern"
+        isOpen={loading}
+        message="Lade Pattern"
       ></LoadingModal>
     );
   }
   return (
-    <SafeAreaContainer>
+    <>
+      <Text>Main ID</Text>
       {pattern ? (
         <PatternDetails pattern={pattern} />
       ) : (
         <Text>Keine Pattern gefunden</Text>
       )}
-    </SafeAreaContainer>
+    </>
   );
 }

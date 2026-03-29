@@ -14,10 +14,12 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 import { useTheme } from "@/src/contexts/use-theme-context";
 import { ThemeProvider } from "@/src/providers/theme-provder";
 
+import SafeAreaContainer from "@/src/components/container/SafeAreaContainer";
 import { useAuthContext } from "@/src/contexts/use-auth-context";
 import AuthGate from "@/src/controller/auth-gate";
 import { Stack } from "expo-router";
-import { View } from "react-native";
+
+import { ThemedStatusBar } from "@/src/components/statusbar/ThemedStatusBar";
 
 // Theme Wrapper
 interface ThemeWrapperProps {
@@ -26,16 +28,16 @@ interface ThemeWrapperProps {
 
 function ThemeWrapper({ children }: ThemeWrapperProps): JSX.Element {
   const { theme } = useTheme();
-
+  
   return (
-    <View className={theme === "dark" ? "dark h-full w-full" : "h-full w-full"}>
-      {children}
-    </View>
+    <SafeAreaContainer className={theme === "dark" ? "dark flex-1" : "flex-1"}>
+        {children}
+    </SafeAreaContainer>
   );
 }
 
 function AppRouter() {
-  const { isLoggedIn, userId, session, isLoading } = useAuthContext();
+  const { isLoggedIn } = useAuthContext();
   return (
 
     <Stack screenOptions={{ headerShown: false }}>
@@ -59,6 +61,7 @@ export default function RootLayout(): JSX.Element {
         <AuthGate>
           <ThemeProvider>
             <ThemeWrapper>
+              <ThemedStatusBar />
               <GluestackUIProvider>
                 <SafeAreaProvider>
                   <AlertProvider>
