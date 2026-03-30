@@ -1,64 +1,45 @@
-import ImageDummyPattern from "@/assets/images/patterncat_dummy_pattern_image.png";
-import { Text } from "@/components/ui/text";
+import LoadingModal from "@/src/components/modals/LoadingModal";
+import PatternDetails from "@/src/components/screens/PatternDetails";
 import { publicPatterns } from "@/src/constants/dummyPatterns";
+import { useAuthContext } from "@/src/contexts/use-auth-context";
 import { useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
-import { Image, ScrollView } from "react-native";
+import { Text } from "react-native";
 
 
 export default function PublicPatternDetailsScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const [pattern, setPattern] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
+  const { userId } = useAuthContext();
 
   useEffect(() => {
-    const patternData = publicPatterns.find((obj) => obj.id === id);
+    if (!id || userId) return;
+    const patternData = publicPatterns.find((obj) => obj.id.toString() === id);
     setPattern(patternData ?? null);
+    setLoading(false)
   }, [id]);
-
-  if (!pattern) {
-    return <Text>Kein Pattern mit dieser ID : ${id} gefunden</Text>;
-  }
 
   const imageUri = pattern?.images?.[0]?.dateiname;
 
+  if (loading) {
+    let message: string = "Suche Pattern mit der ID: " + id;
+    return (
+      <LoadingModal
+        isOpen={loading}
+        message={message}
+      ></LoadingModal>
+    );
+  }
+
   return (
-    <ScrollView className="flex-1">
-      <Text>Public ID: {id}</Text>
-
-      <Image
-        source={
-          imageUri
-            ? { uri: imageUri }
-            : ImageDummyPattern
-        }
-        resizeMode="cover"
-        style={{
-          width: "100%",
-          height: 400, // feste Höhe für Web
-          backgroundColor: "#ddd",
-        }}
-      />
-
-      <Text style={{ fontSize: 20, fontWeight: "bold", marginTop: 20 }}>
-        PatternName: {pattern.name}
-      </Text>
-
-      <Text style={{ marginTop: 20, fontWeight: "bold" }}>
-        Rohdaten aus der Datenbank:
-      </Text>
-
-      <Text
-        style={{
-          fontFamily: "monospace",
-          fontSize: 12,
-          marginTop: 10,
-          backgroundColor: "#eee",
-          padding: 10,
-          borderRadius: 8,
-        }}
-      >
-        {JSON.stringify(pattern, null, 2)}
-      </Text>
-    </ScrollView>
+    <>
+        <Text>(public)/[id]</Text>
+        {pattern ? (
+          <PatternDetails pattern={pattern} />
+        ) : (
+          <Text>Kein Pattern mit dieser ID : ${id} gefunden</Text>
+        )}
+    </>
   );
 }

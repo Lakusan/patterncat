@@ -11,15 +11,15 @@ import {
 import { Button, ButtonText } from "@/components/ui/button";
 import { Grid, GridItem } from "@/components/ui/grid";
 import { HStack } from "@/components/ui/hstack";
-import { AddIcon, RemoveIcon } from '@/components/ui/icon';
 import { Text } from "@/components/ui/text";
 import { VStack } from "@/components/ui/vstack";
-import ImageCarousel from "@/src/components/images/ImageCarousel";
 import { ExpandableText } from "@/src/components/text/ExpandableText";
 import { useTheme } from "@/src/contexts/use-theme-context";
 import type { Pattern } from "@/src/types/patternTypes";
+import { ChevronLeft, ChevronRight } from "lucide-react-native";
 import { View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
+import ImageCarousel from "../images/ImageCarousel";
 
 
 interface PatternDetailsProps {
@@ -30,7 +30,7 @@ export default function PatternDetails({ pattern }: PatternDetailsProps) {
   const { colors } = useTheme();
   return (
     // Container Formular
-    <View className="flex-1 xl:w-2/3 xl:self-center shadow-sm">
+    <View className="flex-1 xl:w-2/3 xl:self-center shadow-sm bg-background">
       <View className="flex-row h-[45%]">
         <ImageCarousel images={pattern.images}>
         </ImageCarousel>
@@ -69,20 +69,24 @@ export default function PatternDetails({ pattern }: PatternDetailsProps) {
             className="p-5"
             _extra={{ className: "col-span-2" }}>
             <Accordion className="bg-transparent">
+
               <AccordionItem value="item-1" className="bg-accent rounded-lg">
                 <AccordionHeader>
                   <AccordionTrigger>
                     {({ isExpanded }: { isExpanded: boolean }) => {
                       return (
                         <>
-                          {isExpanded ? (
-                            <AccordionIcon as={RemoveIcon} className="mr-3" />
-                          ) : (
-                            <AccordionIcon as={AddIcon} className="mr-3" />
-                          )}
                           <AccordionTitleText>
                             Kategorien
                           </AccordionTitleText>
+                          {isExpanded ? (
+                            <AccordionIcon as={ChevronLeft} className="ml-3" stroke={colors.primary}/>
+                          ) : (
+                            <>
+                              <Text className="text-primary">Details</Text>
+                              <AccordionIcon as={ChevronRight} className="ml-3" stroke={colors.primary}/>
+                            </>
+                          )}
                         </>
                       );
                     }}
@@ -90,27 +94,31 @@ export default function PatternDetails({ pattern }: PatternDetailsProps) {
                 </AccordionHeader>
                 <AccordionContent>
                   <AccordionContentText>
-                    <VStack>
+                    <View className="flex-row">
                       <Text>{pattern.kategorie_1}</Text>
                       <Text>{pattern.kategorie_2}</Text>
-                    </VStack>
+                    </View>
                   </AccordionContentText>
                 </AccordionContent>
               </AccordionItem>
+
               <AccordionItem value="item-2" className="mt-2 bg-accent rounded-lg">
                 <AccordionHeader>
                   <AccordionTrigger>
                     {({ isExpanded }: { isExpanded: boolean }) => {
                       return (
                         <>
-                          {isExpanded ? (
-                            <AccordionIcon as={RemoveIcon} className="mr-3" />
-                          ) : (
-                            <AccordionIcon as={AddIcon} className="mr-3" />
-                          )}
                           <AccordionTitleText>
                             Material
                           </AccordionTitleText>
+                          {isExpanded ? (
+                            <AccordionIcon as={ChevronLeft} className="ml-3" stroke={colors.primary}/>
+                          ) : (
+                            <>
+                              <Text className="text-primary">Details</Text>
+                              <AccordionIcon as={ChevronRight} className="ml-3" stroke={colors.primary}/>
+                            </>
+                          )}
                         </>
                       );
                     }}
@@ -118,24 +126,28 @@ export default function PatternDetails({ pattern }: PatternDetailsProps) {
                 </AccordionHeader>
                 <AccordionContent className="ml-9">
                   <AccordionContentText>
-                   {pattern.materials}
+                    {pattern.materials}
                   </AccordionContentText>
                 </AccordionContent>
               </AccordionItem>
+
               <AccordionItem value="item-3" className="mt-2 bg-accent rounded-lg">
                 <AccordionHeader>
                   <AccordionTrigger>
                     {({ isExpanded }: { isExpanded: boolean }) => {
                       return (
                         <>
-                          {isExpanded ? (
-                            <AccordionIcon as={RemoveIcon} className="mr-3" />
-                          ) : (
-                            <AccordionIcon as={AddIcon} className="mr-3" />
-                          )}
                           <AccordionTitleText>
                             Design
                           </AccordionTitleText>
+                          {isExpanded ? (
+                            <AccordionIcon as={ChevronLeft} className="ml-3"  stroke={colors.primary}/>
+                          ) : (
+                            <>
+                              <Text className="text-primary">Details</Text>
+                              <AccordionIcon as={ChevronRight} className="ml-3" stroke={colors.primary} />
+                            </>
+                          )}
                         </>
                       );
                     }}
@@ -145,10 +157,10 @@ export default function PatternDetails({ pattern }: PatternDetailsProps) {
                   <AccordionContentText>
                     <VStack>
                       <HStack>
-                        
-                      <Text>Verschluss:</Text>
-                      <Text className="">{pattern.verschluss}</Text>
-                       
+
+                        <Text>Verschluss:</Text>
+                        <Text className="">{pattern.verschluss}</Text>
+
                       </HStack>
                       <Text>Ärmel: {pattern.aermel}</Text>
                       <Text>Ausschnitt: {pattern.ausschnitt}</Text>
@@ -157,6 +169,7 @@ export default function PatternDetails({ pattern }: PatternDetailsProps) {
                   </AccordionContentText>
                 </AccordionContent>
               </AccordionItem>
+
             </Accordion>
           </GridItem>
           <GridItem
@@ -170,38 +183,39 @@ export default function PatternDetails({ pattern }: PatternDetailsProps) {
               // onContentSizeChange={(w) => setContentWidth(w)}
               className="flex-row px-2 py-3"
             >
-              <Button size="xs" className="m-1 bg-gray-400">
+              <Button size="xs" className="m-1 bg-secondary rounded-full">
                 <ButtonText style={{ color: colors.text_secondary }}>Tag_1</ButtonText>
               </Button>
-              <Button size="xs" className="m-1 bg-gray-400">
+              <Button size="xs" className="m-1 bg-secondary rounded-full">
                 <ButtonText style={{ color: colors.text_secondary }}>Tag_2</ButtonText>
               </Button>
-              <Button size="xs" className="m-1 bg-gray-400">
+              <Button size="xs" className="m-1 bg-secondary rounded-full">
                 <ButtonText style={{ color: colors.text_secondary }}>Tag_3</ButtonText>
               </Button>
-              <Button size="xs" className="m-1 bg-gray-400">
+              <Button size="xs" className="m-1 bg-secondary rounded-full">
                 <ButtonText style={{ color: colors.text_secondary }}>Tag_4</ButtonText>
               </Button>
-              <Button size="xs" className="m-1 bg-gray-400">
+              <Button size="xs" className="m-1 bg-secondary rounded-full">
                 <ButtonText style={{ color: colors.text_secondary }}>Tag_5</ButtonText>
               </Button>
-              <Button size="xs" className="m-1 bg-gray-400">
+              <Button size="xs" className="m-1 bg-secondary rounded-full">
                 <ButtonText style={{ color: colors.text_secondary }}>Tag_6</ButtonText>
               </Button>
-              <Button size="xs" className="m-1 bg-gray-400">
+              <Button size="xs" className="m-1 bg-secondary rounded-full">
                 <ButtonText style={{ color: colors.text_secondary }}>Tag_7</ButtonText>
               </Button>
             </ScrollView>
           </GridItem>
         </Grid>
+        {/* Footer */}
+        <View className="items-center">
+          <Button className="bg-primary w-60 h-10 m-2">
+            <ButtonText style={{ color: colors.text_secondary }}>
+              Edit
+            </ButtonText>
+          </Button>
+        </View>
       </ScrollView>
-      <View className="items-center">
-        <Button className="bg-primary w-60 h-10 m-2">
-          <ButtonText style={{ color: colors.text_secondary }}>
-            Edit
-          </ButtonText>
-        </Button>
-      </View>
     </View>
   );
 }

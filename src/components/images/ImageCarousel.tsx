@@ -29,10 +29,10 @@ export const ImageCarousel: React.FC<ImageCarouselProps> = ({ images = [] }) => 
   // Referenz auf den ScrollView, um programmatisch scrollen zu können
   const scrollRef = useRef<ScrollView | null>(null);
   
-  // Debug-Ausgabe beim ersten Render
-  useEffect(() => {
-    console.log(`ImageCarousel Images: ${JSON.stringify(images)}`)
-  }, []);
+  // // Debug-Ausgabe beim ersten Render
+  // useEffect(() => {
+  //   console.log(`ImageCarousel Images: ${JSON.stringify(images)}`)
+  // }, []);
 
   // Bereitet die Bildquellen für das Carousel auf
   const displayImages: ImageSource[] = useMemo(() => {
