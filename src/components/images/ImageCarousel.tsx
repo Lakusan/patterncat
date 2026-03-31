@@ -13,7 +13,7 @@ import { ImageCarouselFullscreenModal } from "@/src/components/images/ImageCarou
 type ImageSource = string | number;
 
 interface ImageCarouselProps {
-  images?: any[];
+  images?: any[] | undefined | null;
 }
 
 // Bildschirmbreite holen, um die Scroll-Position zu berechnen
@@ -29,7 +29,7 @@ export const ImageCarousel: React.FC<ImageCarouselProps> = ({ images = [] }) => 
   // Referenz auf den ScrollView, um programmatisch scrollen zu können
   const scrollRef = useRef<ScrollView | null>(null);
   
-  // // Debug-Ausgabe beim ersten Render
+  // Debug-Ausgabe beim ersten Render
   // useEffect(() => {
   //   console.log(`ImageCarousel Images: ${JSON.stringify(images)}`)
   // }, []);
@@ -37,7 +37,7 @@ export const ImageCarousel: React.FC<ImageCarouselProps> = ({ images = [] }) => 
   // Bereitet die Bildquellen für das Carousel auf
   const displayImages: ImageSource[] = useMemo(() => {
     // Wenn keine Bilder vorhanden sind → Fallback-Bild anzeigen
-    if (!images || images.length === 0) {
+    if (!images || images.length === 0 || images === null || images === undefined ) {
       return [FALLBACK_IMAGE];
     }
 
@@ -94,8 +94,7 @@ export const ImageCarousel: React.FC<ImageCarouselProps> = ({ images = [] }) => 
 
   return (
     <Box className="w-full">
-      {/* Debug-Ausgabe des ersten Bildpfads */}
-      <Text>{images[0].path}</Text>
+
 
       <Box className="w-full h-full overflow-hidden bg-gray-200">
         
