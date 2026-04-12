@@ -19,7 +19,7 @@ import type { Pattern } from "@/src/types/patternTypes";
 import { ChevronLeft, ChevronRight } from "lucide-react-native";
 import { View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
-import ImageCarousel from "../images/ImageCarousel";
+import { ImageCarousel } from "../images/ImageCarousel";
 
 
 interface PatternDetailsProps {
@@ -35,20 +35,22 @@ export default function PatternDetails({ pattern }: PatternDetailsProps) {
         <ImageCarousel images={pattern.images}>
         </ImageCarousel>
       </View>
-      {/* Pattern Profil Scollable */}
+      {/* Pattern Profile Scollable */}
       <ScrollView className="flex-1">
         <Grid
           _extra={{ className: "grid-cols-2" }}>
+          {/* Title */}
           <GridItem
-            className="p-1 shadow-sm"
+            className="p-1"
             _extra={{ className: "col-span-2" }}
           >
             <Text
               style={{ color: colors.text_primary }}
               className="text-4xl font-bold">{pattern.name}</Text>
           </GridItem>
+          {/* Source & Format */}
           <GridItem
-            className="p-1 shadow-sm"
+            className="p-1 shadow-sm shadow-secondary"
             _extra={{ className: "col-span-2" }}
           >
             <View className="flex-row items-center justify-between">
@@ -56,8 +58,9 @@ export default function PatternDetails({ pattern }: PatternDetailsProps) {
               <Text style={{ color: colors.text_primary }}>{pattern.format}</Text>
             </View>
           </GridItem>
+          {/* Description */}
           <GridItem
-            className="p-1 shadow-sm"
+            className="p-1 shadow-sm shadow-secondary"
             _extra={{ className: "col-span-2" }}
           >
             <Text style={{ color: colors.text_primary }} className="text-xs font-semibold">Beschreibung</Text>
@@ -65,10 +68,12 @@ export default function PatternDetails({ pattern }: PatternDetailsProps) {
               text={pattern.beschreibung}
             />
           </GridItem>
+          {/* Accordeon */}
           <GridItem
-            className="p-5"
+            className="shadow-sm shadow-secondary"
             _extra={{ className: "col-span-2" }}>
-            <Accordion className="bg-transparent">
+            <Text style={{ color: colors.text_primary }} className="text-xs font-semibold pt-1 pl-1 ">Eigenschaften</Text>
+            <Accordion className="bg-transparent py-3 px-2">
 
               <AccordionItem value="item-1" className="bg-accent rounded-lg">
                 <AccordionHeader>
@@ -80,11 +85,11 @@ export default function PatternDetails({ pattern }: PatternDetailsProps) {
                             Kategorien
                           </AccordionTitleText>
                           {isExpanded ? (
-                            <AccordionIcon as={ChevronLeft} className="ml-3" stroke={colors.primary}/>
+                            <AccordionIcon as={ChevronLeft} className="ml-3" stroke={colors.primary} />
                           ) : (
                             <>
                               <Text className="text-primary">Details</Text>
-                              <AccordionIcon as={ChevronRight} className="ml-3" stroke={colors.primary}/>
+                              <AccordionIcon as={ChevronRight} className="ml-3" stroke={colors.primary} />
                             </>
                           )}
                         </>
@@ -112,11 +117,11 @@ export default function PatternDetails({ pattern }: PatternDetailsProps) {
                             Material
                           </AccordionTitleText>
                           {isExpanded ? (
-                            <AccordionIcon as={ChevronLeft} className="ml-3" stroke={colors.primary}/>
+                            <AccordionIcon as={ChevronLeft} className="ml-3" stroke={colors.primary} />
                           ) : (
                             <>
                               <Text className="text-primary">Details</Text>
-                              <AccordionIcon as={ChevronRight} className="ml-3" stroke={colors.primary}/>
+                              <AccordionIcon as={ChevronRight} className="ml-3" stroke={colors.primary} />
                             </>
                           )}
                         </>
@@ -141,7 +146,7 @@ export default function PatternDetails({ pattern }: PatternDetailsProps) {
                             Design
                           </AccordionTitleText>
                           {isExpanded ? (
-                            <AccordionIcon as={ChevronLeft} className="ml-3"  stroke={colors.primary}/>
+                            <AccordionIcon as={ChevronLeft} className="ml-3" stroke={colors.primary} />
                           ) : (
                             <>
                               <Text className="text-primary">Details</Text>
@@ -172,16 +177,13 @@ export default function PatternDetails({ pattern }: PatternDetailsProps) {
 
             </Accordion>
           </GridItem>
+          {/* Tags */}
           <GridItem
-            className="h-10"
             _extra={{ className: "col-span-2" }}
           >
-            <ScrollView
-              horizontal
-              showsHorizontalScrollIndicator={false}
-              scrollEnabled={true}
-              // onContentSizeChange={(w) => setContentWidth(w)}
-              className="flex-row px-2 py-3"
+            <Text style={{ color: colors.text_primary }} className="text-xs font-semibold pt-1 pl-1">Tags</Text>
+            <View
+              className="flex-row flex-wrap px-2 py-1"
             >
               <Button size="xs" className="m-1 bg-secondary rounded-full">
                 <ButtonText style={{ color: colors.text_secondary }}>Tag_1</ButtonText>
@@ -199,22 +201,26 @@ export default function PatternDetails({ pattern }: PatternDetailsProps) {
                 <ButtonText style={{ color: colors.text_secondary }}>Tag_5</ButtonText>
               </Button>
               <Button size="xs" className="m-1 bg-secondary rounded-full">
-                <ButtonText style={{ color: colors.text_secondary }}>Tag_6</ButtonText>
+                <ButtonText style={{ color: colors.text_secondary }}>TAG_6890890103984geh</ButtonText>
               </Button>
               <Button size="xs" className="m-1 bg-secondary rounded-full">
                 <ButtonText style={{ color: colors.text_secondary }}>Tag_7</ButtonText>
               </Button>
-            </ScrollView>
+            </View>
+          </GridItem>
+          {/* Footer */}
+          <GridItem
+            _extra={{ className: "col-span-2" }}
+          >
+            <View className="h-20 bg-red-500 items-center justify-center">
+            <Button className="bg-primary w-[80%] h-[80%] rounded-lg mt-5 mb-2">
+              <ButtonText style={{ color: colors.text_secondary }}>
+                Edit
+              </ButtonText>
+            </Button>
+            </View>
           </GridItem>
         </Grid>
-        {/* Footer */}
-        <View className="items-center">
-          <Button className="bg-primary w-60 h-10 m-2">
-            <ButtonText style={{ color: colors.text_secondary }}>
-              Edit
-            </ButtonText>
-          </Button>
-        </View>
       </ScrollView>
     </View>
   );
