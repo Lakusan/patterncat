@@ -5,7 +5,7 @@ import { useAuthContext } from "@/src/contexts/use-auth-context";
 import { useTheme } from "@/src/contexts/use-theme-context";
 import { useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
-import { Appearance, Text } from "react-native";
+import { Text } from "react-native";
 
 
 
@@ -36,8 +36,6 @@ export default function PublicPatternDetailsScreen() {
   
   return (
     <>
-    <Text>ANDROID SYSTEM THEME:{Appearance.getColorScheme()};</Text>
-        <Text>(public)/[id] theme: {theme}</Text>
         {pattern ? (
           <PatternDetails pattern={pattern} />
         ) : (

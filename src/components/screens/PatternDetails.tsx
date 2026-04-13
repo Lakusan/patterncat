@@ -81,7 +81,7 @@ export default function PatternDetails({ pattern }: PatternDetailsProps) {
                     {({ isExpanded }: { isExpanded: boolean }) => {
                       return (
                         <>
-                          <AccordionTitleText>
+                          <AccordionTitleText className="font-normal">
                             Kategorien
                           </AccordionTitleText>
                           {isExpanded ? (
@@ -99,8 +99,8 @@ export default function PatternDetails({ pattern }: PatternDetailsProps) {
                 </AccordionHeader>
                 <AccordionContent>
                   <AccordionContentText>
-                    <View className="flex-row">
-                      <Text>{pattern.kategorie_1}</Text>
+                    <View className="flex-row bg-red-500">
+                      <Text className="">{pattern.kategorie_1}</Text>
                       <Text>{pattern.kategorie_2}</Text>
                     </View>
                   </AccordionContentText>
@@ -113,7 +113,7 @@ export default function PatternDetails({ pattern }: PatternDetailsProps) {
                     {({ isExpanded }: { isExpanded: boolean }) => {
                       return (
                         <>
-                          <AccordionTitleText>
+                          <AccordionTitleText className="font-normal">
                             Material
                           </AccordionTitleText>
                           {isExpanded ? (
@@ -142,7 +142,7 @@ export default function PatternDetails({ pattern }: PatternDetailsProps) {
                     {({ isExpanded }: { isExpanded: boolean }) => {
                       return (
                         <>
-                          <AccordionTitleText>
+                          <AccordionTitleText className="font-normal">
                             Design
                           </AccordionTitleText>
                           {isExpanded ? (
@@ -210,10 +210,10 @@ export default function PatternDetails({ pattern }: PatternDetailsProps) {
           </GridItem>
           {/* Footer */}
           <GridItem
-            _extra={{ className: "col-span-2" }}
+            _extra={{ className: "col-span-2"}}
           >
-            <View className="h-20 bg-red-500 items-center justify-center">
-            <Button className="bg-primary w-[80%] h-[80%] rounded-lg mt-5 mb-2">
+           <View className="items-center justify-center">
+            <Button className="bg-primary m-2 w-72">
               <ButtonText style={{ color: colors.text_secondary }}>
                 Edit
               </ButtonText>
