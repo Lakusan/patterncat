@@ -1,5 +1,5 @@
 import { HCategoryFilterBar } from '@/src/components/bars/HCategoryFilterBar';
-import PublicPatternList from '@/src/components/lists/PublicPatternList';
+import PublicPatternList from '@/src/components/Lists/PublicPatternList';
 import { publicListPatterns } from '@/src/constants/dummyListPattern';
 
 import { useMemo, useState } from 'react';
