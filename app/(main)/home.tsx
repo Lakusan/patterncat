@@ -30,10 +30,6 @@ export default function Home() {
                 setPattern([]);
             } else {
                 setPattern(patternData);
-                const uniqueCategories = patternData.map(
-                    p => console.log(`HOME cat: ${(p.category)}`) || p.category
-
-                );
                 // setCategories(  ["Alle", ...uniqueCategories]);
             }
             // Simuliere eine Ladezeit von 1 Sekunde, damit der Ladezustand sichtbar ist und 

@@ -10,9 +10,7 @@ import {
 } from "@/components/ui/accordion";
 import { Button, ButtonText } from "@/components/ui/button";
 import { Grid, GridItem } from "@/components/ui/grid";
-import { HStack } from "@/components/ui/hstack";
 import { Text } from "@/components/ui/text";
-import { VStack } from "@/components/ui/vstack";
 import { ExpandableText } from "@/src/components/text/ExpandableText";
 import { useTheme } from "@/src/contexts/use-theme-context";
 import type { Pattern } from "@/src/types/patternTypes";
@@ -99,8 +97,8 @@ export default function PatternDetails({ pattern }: PatternDetailsProps) {
                 </AccordionHeader>
                 <AccordionContent>
                   <AccordionContentText>
-                    <View className="flex-row bg-red-500">
-                      <Text className="">{pattern.kategorie_1}</Text>
+                    <View className="flex-row w-full justify-around">
+                      <Text>{pattern.kategorie_1}</Text>
                       <Text>{pattern.kategorie_2}</Text>
                     </View>
                   </AccordionContentText>
@@ -158,20 +156,25 @@ export default function PatternDetails({ pattern }: PatternDetailsProps) {
                     }}
                   </AccordionTrigger>
                 </AccordionHeader>
-                <AccordionContent className="ml-9">
-                  <AccordionContentText>
-                    <VStack>
-                      <HStack>
-
-                        <Text>Verschluss:</Text>
-                        <Text className="">{pattern.verschluss}</Text>
-
-                      </HStack>
-                      <Text>Ärmel: {pattern.aermel}</Text>
-                      <Text>Ausschnitt: {pattern.ausschnitt}</Text>
-                      <Text>Saumlänge: {pattern.saumlaenge}</Text>
-                    </VStack>
-                  </AccordionContentText>
+                <AccordionContent>
+                  <View className="">
+                    <View className="flex-row justify-around">
+                      <Text>Verschluss:</Text>
+                      <Text className="">{pattern.verschluss}</Text>
+                    </View>
+                    <View className="flex-row justify-around">
+                      <Text>Ärmel: </Text>
+                      <Text>{pattern.aermel}</Text>
+                    </View>
+                    <View className="flex-row justify-around">
+                      <Text>Ausschnitt: </Text>
+                      <Text>{pattern.ausschnitt}</Text>
+                    </View>
+                    <View className="flex-row justify-around">
+                      <Text>Saumlänge: </Text>
+                      <Text>{pattern.saumlaenge}</Text>
+                    </View>
+                  </View>
                 </AccordionContent>
               </AccordionItem>
 
