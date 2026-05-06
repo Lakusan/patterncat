@@ -1,5 +1,5 @@
 import { HCategoryFilterBar } from "@/src/components/bars/HCategoryFilterBar";
-import PublicPatternList from "@/src/components/lists/PatternList";
+import PublicPatternList from "@/src/components/Lists/PatternList";
 import LoadingModal from "@/src/components/modals/LoadingModal";
 import { useAuthContext } from "@/src/contexts/use-auth-context";
 import { patternService } from "@/src/services/data";
