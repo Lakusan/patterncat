@@ -11,13 +11,16 @@ import {
 import { Button, ButtonText } from "@/components/ui/button";
 import { Grid, GridItem } from "@/components/ui/grid";
 import { Text } from "@/components/ui/text";
+import { ProtectedAppButton } from "@/src/components/buttons/ProtectedAppButton";
+import { ImageCarousel } from "@/src/components/images/ImageCarousel";
 import { ExpandableText } from "@/src/components/text/ExpandableText";
+import { useAuthFlow } from '@/src/contexts/use-auth-flow-context';
 import { useTheme } from "@/src/contexts/use-theme-context";
 import type { Pattern } from "@/src/types/patternTypes";
+import { router } from "expo-router";
 import { ChevronLeft, ChevronRight } from "lucide-react-native";
 import { View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
-import { ImageCarousel } from "../images/ImageCarousel";
 
 
 interface PatternDetailsProps {
@@ -26,6 +29,7 @@ interface PatternDetailsProps {
 
 export default function PatternDetails({ pattern }: PatternDetailsProps) {
   const { colors } = useTheme();
+    const authFlow = useAuthFlow();
   return (
     // Container Formular
     <View className="flex-1 xl:w-2/3 xl:self-center shadow-sm bg-background">
@@ -216,11 +220,20 @@ export default function PatternDetails({ pattern }: PatternDetailsProps) {
             _extra={{ className: "col-span-2"}}
           >
            <View className="items-center justify-center">
-            <Button className="bg-primary m-2 w-72">
+            <ProtectedAppButton 
+            onAuthenticatedPress={() =>   router.navigate({
+            pathname: "/(main)/edit/[id]",
+            params: { id: pattern.id },
+          })}
+            onUnauthenticatedPress={() => authFlow.openAuth()}
+            buttonText="Edit"
+            >
+            </ProtectedAppButton>
+            {/* <Button className="bg-primary m-2 w-72">
               <ButtonText style={{ color: colors.text_secondary }}>
                 Edit
               </ButtonText>
-            </Button>
+            </Button> */}
             </View>
           </GridItem>
         </Grid>

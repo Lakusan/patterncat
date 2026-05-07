@@ -1,4 +1,3 @@
-import { Button } from "@/components/ui/button";
 import { BREAKPOINTS } from "@/src/constants/ui/breakpoints";
 import { useAuthFlow } from '@/src/contexts/use-auth-flow-context';
 import { useTheme } from "@/src/contexts/use-theme-context";
@@ -20,59 +19,59 @@ export default function MainLayout() {
   // WEB / DESKTOP → Expo/React-Native Drawer mit JS
   if (isDesktop) {
     return (
-      <Drawer 
-       screenOptions={{
-        /**
-         * HEADER-BEREICH (oben)
-         */
+      <Drawer
+        screenOptions={{
+          /**
+           * HEADER-BEREICH (oben)
+           */
 
-        // Hintergrundfarbe Headers
-        headerStyle: {
-          backgroundColor: colors.background,
-        },
+          // Hintergrundfarbe Headers
+          headerStyle: {
+            backgroundColor: colors.background,
+          },
 
-        // Farbe des Header-Titels und Icons
-        headerTintColor: colors.text_primary,
+          // Farbe des Header-Titels und Icons
+          headerTintColor: colors.text_primary,
 
-        /**
-         * DRAWER-HINTERGRUND
-         */
+          /**
+           * DRAWER-HINTERGRUND
+           */
 
-        // Hintergrund des gesamten Drawer-Menüs
-        drawerStyle: {
-          backgroundColor: colors.background,
-        },
+          // Hintergrund des gesamten Drawer-Menüs
+          drawerStyle: {
+            backgroundColor: colors.background,
+          },
 
-        // Hintergrund des Scrollbereichs im Drawer
-        drawerContentStyle: {
-          backgroundColor: colors.background,
-        },
+          // Hintergrund des Scrollbereichs im Drawer
+          drawerContentStyle: {
+            backgroundColor: colors.background,
+          },
 
-        /**
-         * DRAWER-TEXT & ICON-FARBEN
-         */
+          /**
+           * DRAWER-TEXT & ICON-FARBEN
+           */
 
-        // Text- und Iconfarbe für das aktive Menü-Item
-        drawerActiveTintColor: colors.text_secondary,
+          // Text- und Iconfarbe für das aktive Menü-Item
+          drawerActiveTintColor: colors.text_secondary,
 
-        // Text- und Iconfarbe für inaktive Menü-Items
-        drawerInactiveTintColor: colors.text_primary,
+          // Text- und Iconfarbe für inaktive Menü-Items
+          drawerInactiveTintColor: colors.text_primary,
 
-        /**
-         * DRAWER-AKTIV-STATUS
-         */
+          /**
+           * DRAWER-AKTIV-STATUS
+           */
 
-        // Hintergrundfarbe des aktiven Menü-Items
-        drawerActiveBackgroundColor: colors.primary,
+          // Hintergrundfarbe des aktiven Menü-Items
+          drawerActiveBackgroundColor: colors.primary,
 
-        // Hintergrundfarbe für inaktive Items
-        drawerInactiveBackgroundColor: "transparent",
+          // Hintergrundfarbe für inaktive Items
+          drawerInactiveBackgroundColor: "transparent",
 
-        sceneStyle: {
-          backgroundColor: colors.background
-        }
-      }}
-        >
+          sceneStyle: {
+            backgroundColor: colors.background
+          }
+        }}
+      >
         <Drawer.Screen
           name="home"
           options={{
@@ -106,12 +105,13 @@ export default function MainLayout() {
         />
 
         <Drawer.Screen
-          name='[id]'
-          options={{ 
-            drawerItemStyle: { display: 'none' },
-          }}
+          name='details/[id]'
+          options={{ drawerItemStyle: { display: 'none' } }}
         />
-
+        <Drawer.Screen
+          name='edit/[id]'
+          options={{ drawerItemStyle: { display: 'none' } }}
+        />
       </Drawer>
     );
   }
@@ -162,9 +162,10 @@ export default function MainLayout() {
           ),
         }}
       />
-      <Tabs.Screen name="[id]" options={{
-        headerShown: false,
-        tabBarButton: () => <Button></Button>, // Hides the tab bar button
+      <Tabs.Screen name="details/[id]" options={{
+        tabBarItemStyle: { display: 'none' }
+      }} />
+      <Tabs.Screen name="edit/[id]" options={{
         tabBarItemStyle: { display: 'none' }
       }} />
     </Tabs>

@@ -12,7 +12,7 @@ type Props = {
 
 export default function PatternCard({ pattern, width, height }: Props) {
   const { isLoggedIn } = useAuthContext();
-  const redirectLink = isLoggedIn ? "/(main)/[id]" : "/(public)/[id]";
+  const redirectLink = isLoggedIn ? "/(main)/details/[id]" : "/(public)/[id]";
   const hasImage = !!pattern?.image;
   return (
     <View
@@ -22,7 +22,7 @@ export default function PatternCard({ pattern, width, height }: Props) {
       <Pressable
         className="flex-1"
         onPress={() =>
-          router.push({
+          router.navigate({
             pathname: redirectLink,
             params: { id: pattern.id },
           })
